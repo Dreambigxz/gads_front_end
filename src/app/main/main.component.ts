@@ -7,12 +7,12 @@ import { SlidersComponent } from '../components/sliders/sliders.component';
 import { QuickNavService } from '../reuseables/services/quick-nav.service'; // ✅ adjust path as needed
 
 import { MobileMenuComponent } from "../components/mobile-menu/mobile-menu.component";
+import { UseGuideService } from "../use-guide/use-guide.service";
 
 @Component({
   selector: 'app-main',
   imports: [
     CommonModule,
-    // SpinnerComponent,
     MobileMenuComponent,
     NewsHeaderComponent,
     SlidersComponent,
@@ -24,8 +24,18 @@ import { MobileMenuComponent } from "../components/mobile-menu/mobile-menu.compo
 export class MainComponent {
 
   constructor(
-    public quickNav:QuickNavService
+    public quickNav:QuickNavService,
+    private useGuide: UseGuideService
   ){}
+
+    ngOnInit(){
+
+      const seenGuide = window.localStorage.getItem("useGuide")
+
+      if (!seenGuide) {
+        this.useGuide.open()
+      }
+    }
 
 
 }

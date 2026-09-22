@@ -8,6 +8,7 @@ import { SuccessCheckComponent } from '../app/reuseables/success-check/success-c
 import { SpinnerComponent } from '../app/reuseables/http-loader/spinner.component';
 // import { QuickNavService } from '../app/reuseables/services/quick-nav.service'; // ✅ adjust path as needed
 import { AuthService } from '../app/reuseables/auth/auth.service';
+import { UseGuideComponent } from "../app/use-guide/use-guide.component";
 
 import {
   RankingComponent,
@@ -28,7 +29,8 @@ import {
     QuickMessageComponent,
     MessageComponent,
     SuccessCheckComponent,
-    RankingComponent
+    RankingComponent,
+    UseGuideComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

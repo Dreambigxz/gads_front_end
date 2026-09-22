@@ -1,0 +1,702 @@
+@if (modal.isOpen()) {
+  <div
+    class="how-modal-backdrop"
+    role="presentation"
+    (click)="modal.close()"
+  >
+    <section
+      class="how-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="how-modal-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header class="how-modal__header">
+        <div class="how-modal__heading">
+          <span class="how-modal__icon">
+            <i class="bi bi-lightbulb-fill"></i>
+          </span>
+
+          <div>
+            <small>Platform guide</small>
+            <h2 id="how-modal-title">How It Works</h2>
+          </div>
+        </div>
+
+        <button
+          class="how-modal__close"
+          type="button"
+          aria-label="Close guide"
+          (click)="modal.close()"
+        >
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </header>
+
+      <div class="how-modal__body">
+        <main class="how-page">
+
+          <!-- Hero -->
+          <section class="how-hero">
+            <div class="how-hero__content">
+              <span class="eyebrow">
+                <i class="bi bi-stars"></i>
+                How it works
+              </span>
+
+              <h1>Engage, complete tasks and earn rewards</h1>
+
+              <p>
+                Our platform works with sponsoring organizations to fund
+                genuine content engagement and approved promotional tasks.
+                Participate consistently, follow the rules and earn rewards
+                when your activity is verified.
+              </p>
+
+              <div class="hero-actions">
+                <a class="primary-button" routerLink="/tasks">
+                  View Daily Tasks
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+
+                <a class="secondary-button" routerLink="/plans">
+                  Explore Plans
+                </a>
+              </div>
+            </div>
+
+            <div class="hero-summary">
+              <div class="summary-icon">
+                <i class="bi bi-bar-chart-line-fill"></i>
+              </div>
+
+              <span>Potential daily rewards</span>
+              <strong>$0.50 – $1.00</strong>
+              <small>Based on verified engagement</small>
+            </div>
+          </section>
+
+          <!-- Important notice -->
+          <aside class="truth-notice">
+            <span class="truth-notice__icon">
+              <i class="bi bi-shield-check"></i>
+            </span>
+
+            <div>
+              <strong>Real participation matters</strong>
+
+              <p>
+                Rewards are not given for random or repeated clicks.
+                Read the content, provide meaningful reactions and complete
+                only approved sponsor tasks. Invalid or automated activity
+                does not qualify.
+              </p>
+            </div>
+          </aside>
+
+          <!-- Two ways to earn -->
+          <section class="earning-section">
+            <div class="section-heading">
+              <span>Reward opportunities</span>
+              <h2>Two ways to participate</h2>
+
+              <p>
+                Choose daily community engagement, activate a plan for
+                sponsor tasks, or use both options.
+              </p>
+            </div>
+
+            <div class="earning-grid">
+
+              <!-- Daily engagement -->
+              <article class="earning-card earning-card--engagement">
+                <div class="earning-card__top">
+                  <span class="earning-card__icon">
+                    <i class="bi bi-chat-heart-fill"></i>
+                  </span>
+
+                  <span class="earning-card__badge">
+                    No random clicking
+                  </span>
+                </div>
+
+                <span class="earning-card__label">
+                  Daily engagement
+                </span>
+
+                <h3>Earn $0.50 – $1.00 daily</h3>
+
+                <p>
+                  Read selected posts and participate through genuine likes,
+                  comments and reading activity. Your engagement must meet
+                  the daily target before a reward can be approved.
+                </p>
+
+                <ul class="earning-requirements">
+                  <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Read the assigned daily posts
+                  </li>
+
+                  <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Leave relevant and meaningful comments
+                  </li>
+
+                  <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    React only to content you have reviewed
+                  </li>
+
+                  <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Complete the target before the day ends
+                  </li>
+                </ul>
+
+                <div class="earning-card__footer">
+                  <span>Reward range</span>
+                  <strong>$0.50 – $1.00/day</strong>
+                </div>
+              </article>
+
+              <!-- Plan tasks -->
+              <article class="earning-card earning-card--sponsor">
+                <div class="earning-card__top">
+                  <span class="earning-card__icon">
+                    <i class="bi bi-megaphone-fill"></i>
+                  </span>
+
+                  <span class="earning-card__badge">
+                    Plan required
+                  </span>
+                </div>
+
+                <span class="earning-card__label">
+                  Approved sponsor tasks
+                </span>
+
+                <h3>Earn up to $0.20 per valid task</h3>
+
+                <p>
+                  Activate an eligible plan to unlock sponsor-funded tasks.
+                  Rewards are recorded only after the required action is
+                  completed and successfully verified.
+                </p>
+
+                <ul class="earning-requirements">
+                  <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Activate an available plan
+                  </li>
+
+                  <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Open an approved sponsor task
+                  </li>
+
+                  <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Follow the task instructions carefully
+                  </li>
+
+                  <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Wait for activity verification
+                  </li>
+                </ul>
+
+                <div class="earning-card__footer">
+                  <span>Task reward</span>
+                  <strong>Up to $0.20/task</strong>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Steps -->
+          <section class="steps-section">
+            <div class="section-heading section-heading--light">
+              <span>Getting started</span>
+              <h2>Four simple steps</h2>
+            </div>
+
+            <div class="steps-grid">
+              <article class="step-card">
+                <span class="step-number">01</span>
+
+                <span class="step-icon">
+                  <i class="bi bi-person-check-fill"></i>
+                </span>
+
+                <h3>Create your account</h3>
+
+                <p>
+                  Register, complete your profile and review the platform
+                  participation rules.
+                </p>
+              </article>
+
+              <article class="step-card">
+                <span class="step-number">02</span>
+
+                <span class="step-icon">
+                  <i class="bi bi-ui-checks-grid"></i>
+                </span>
+
+                <h3>Choose an opportunity</h3>
+
+                <p>
+                  Start with daily engagement or activate a plan to unlock
+                  additional sponsor tasks.
+                </p>
+              </article>
+
+              <article class="step-card">
+                <span class="step-number">03</span>
+
+                <span class="step-icon">
+                  <i class="bi bi-chat-square-heart-fill"></i>
+                </span>
+
+                <h3>Participate genuinely</h3>
+
+                <p>
+                  Read, react and comment naturally. Follow every sponsor
+                  instruction without using automation.
+                </p>
+              </article>
+
+              <article class="step-card">
+                <span class="step-number">04</span>
+
+                <span class="step-icon">
+                  <i class="bi bi-wallet2"></i>
+                </span>
+
+                <h3>Receive verified rewards</h3>
+
+                <p>
+                  Qualified earnings appear in your balance after activity
+                  validation is completed.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <!-- Video tutorials -->
+          <section class="videos-section">
+            <div class="section-heading">
+              <span>Video guides</span>
+              <h2>Watch how everything works</h2>
+
+            </div>
+
+            <div class="video-grid">
+
+              <article class="video-card">
+                <div class="video-placeholder">
+                  <span class="video-number">01</span>
+
+                  <button
+                    type="button"
+                    class="play-button"
+                    aria-label="Play platform introduction"
+                    disabled
+                  >
+                    <i class="bi bi-play-fill"></i>
+                  </button>
+
+                  <span class="coming-soon">Video coming soon</span>
+                </div>
+
+                <div class="video-card__content">
+                  <span>Platform introduction</span>
+                  <h3>Understanding the reward system</h3>
+                  <p>
+                    Learn where platform rewards come from and how valid
+                    engagement is measured.
+                  </p>
+                </div>
+              </article>
+
+              <article class="video-card">
+                <div class="video-placeholder video-placeholder--red">
+                  <span class="video-number">02</span>
+
+                  <button
+                    type="button"
+                    class="play-button"
+                    aria-label="Play engagement tutorial"
+                    disabled
+                  >
+                    <i class="bi bi-play-fill"></i>
+                  </button>
+
+                  <span class="coming-soon">Video coming soon</span>
+                </div>
+
+                <div class="video-card__content">
+                  <span>Daily engagement</span>
+                  <h3>Completing your daily target</h3>
+                  <p>
+                    See how to read posts, comment meaningfully and track
+                    daily progress.
+                  </p>
+                </div>
+              </article>
+
+              <article class="video-card">
+                <div class="video-placeholder video-placeholder--gold">
+                  <span class="video-number">03</span>
+
+                  <button
+                    type="button"
+                    class="play-button"
+                    aria-label="Play plan tutorial"
+                    disabled
+                  >
+                    <i class="bi bi-play-fill"></i>
+                  </button>
+
+                  <span class="coming-soon">Video coming soon</span>
+                </div>
+
+                <div class="video-card__content">
+                  <span>Plans and tasks</span>
+                  <h3>Activating and using a plan</h3>
+                  <p>
+                    Learn how plans unlock approved sponsor tasks and how
+                    each task is verified.
+                  </p>
+                </div>
+              </article>
+
+              <article class="video-card">
+                <div class="video-placeholder video-placeholder--green">
+                  <span class="video-number">04</span>
+
+                  <button
+                    type="button"
+                    class="play-button"
+                    aria-label="Play rewards tutorial"
+                    disabled
+                  >
+                    <i class="bi bi-play-fill"></i>
+                  </button>
+
+                  <span class="coming-soon">Video coming soon</span>
+                </div>
+
+                <div class="video-card__content">
+                  <span>Earnings</span>
+                  <h3>Tracking rewards and withdrawals</h3>
+                  <p>
+                    Understand pending, approved and credited earnings before
+                    requesting a withdrawal.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- How revenue works -->
+          <section class="revenue-section">
+            <div class="revenue-section__content">
+              <span class="eyebrow eyebrow--light">
+                <i class="bi bi-pie-chart-fill"></i>
+                Why engagement matters
+              </span>
+
+              <h2>Your participation creates measurable value</h2>
+
+              <p>
+                Organizations sponsor campaigns to reach real audiences and
+                understand genuine content performance. Your qualified
+                participation helps produce useful engagement information,
+                and a portion of eligible campaign revenue funds user rewards.
+              </p>
+
+              <p>
+                This is why low-quality comments, automated actions, repeated
+                clicks and fake activity are prohibited—they reduce the
+                accuracy and value of the results.
+              </p>
+            </div>
+
+            <div class="value-flow">
+              <div class="value-flow__item">
+                <i class="bi bi-building"></i>
+
+                <div>
+                  <strong>Sponsors fund campaigns</strong>
+                  <span>Approved organizations create opportunities.</span>
+                </div>
+              </div>
+
+              <i class="bi bi-arrow-down value-flow__arrow"></i>
+
+              <div class="value-flow__item">
+                <i class="bi bi-people-fill"></i>
+
+                <div>
+                  <strong>Users participate</strong>
+                  <span>Members provide genuine engagement.</span>
+                </div>
+              </div>
+
+              <i class="bi bi-arrow-down value-flow__arrow"></i>
+
+              <div class="value-flow__item">
+                <i class="bi bi-shield-check"></i>
+
+                <div>
+                  <strong>Activity is verified</strong>
+                  <span>Invalid or automated activity is removed.</span>
+                </div>
+              </div>
+
+              <i class="bi bi-arrow-down value-flow__arrow"></i>
+
+              <div class="value-flow__item value-flow__item--reward">
+                <i class="bi bi-gift-fill"></i>
+
+                <div>
+                  <strong>Qualified users earn</strong>
+                  <span>Approved rewards are added to user balances.</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Rules -->
+          <section class="rules-section">
+            <div class="section-heading">
+              <span>Participation rules</span>
+              <h2>Keep your account in good standing</h2>
+            </div>
+
+            <div class="rules-grid">
+              <article class="rule-card rule-card--allowed">
+                <span class="rule-card__icon">
+                  <i class="bi bi-check-lg"></i>
+                </span>
+
+                <div>
+                  <h3>Activities that qualify</h3>
+
+                  <ul>
+                    <li>Reading assigned content carefully</li>
+                    <li>Writing relevant and original comments</li>
+                    <li>Completing approved sponsor instructions</li>
+                    <li>Using one genuine account per person</li>
+                  </ul>
+                </div>
+              </article>
+
+              <article class="rule-card rule-card--blocked">
+                <span class="rule-card__icon">
+                  <i class="bi bi-x-lg"></i>
+                </span>
+
+                <div>
+                  <h3>Activities that do not qualify</h3>
+
+                  <ul>
+                    <li>Automated bots, scripts or click tools</li>
+                    <li>Repeated, meaningless or copied comments</li>
+                    <li>Refreshing pages to create fake activity</li>
+                    <li>Multiple accounts or manipulated traffic</li>
+                  </ul>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- FAQ -->
+          <section class="faq-section">
+            <div class="section-heading">
+              <span>Common questions</span>
+              <h2>Frequently asked questions</h2>
+            </div>
+
+            <details class="faq-item">
+              <summary>
+                Where can I find Sponsored Tasks?
+                <i class="bi bi-plus-lg"></i>
+              </summary>
+
+              <div class="faq-answer">
+                <div class="sponsored-location">
+                  <span class="sponsored-location__icon">
+                    <i class="bi bi-megaphone-fill"></i>
+                  </span>
+
+                  <div>
+                    <strong>Look for the “Sponsored Ad” label</strong>
+
+                    <p>
+                      Sponsored Tasks are normally displayed on the first page of
+                      the Daily Posts section. They may also appear between posts
+                      or on other pages across the platform.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="sponsored-example">
+                  <span class="sponsored-example__tag">
+                    <i class="bi bi-patch-check-fill"></i>
+                    Sponsored Ad
+                  </span>
+
+                  <div>
+                    <strong>This is an approved sponsor task</strong>
+
+                    <small>
+                      Open it and follow the provided instructions to qualify for
+                      the displayed reward.
+                    </small>
+                  </div>
+                </div>
+
+                <!-- <p class="faq-note">
+                  <i class="bi bi-info-circle-fill"></i>
+
+                  Only tasks carrying the official
+                  <strong>Sponsored Ad</strong> label qualify. Regular posts,
+                  banners and external advertisements are not rewarded.
+                </p> -->
+              </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>
+                  What is the difference between Daily Engagement and Sponsored Tasks?
+                  <i class="bi bi-plus-lg"></i>
+                </summary>
+
+                <div class="faq-answer">
+                  <div class="faq-comparison">
+
+                    <article class="faq-comparison__item faq-comparison__item--free">
+                      <span class="faq-comparison__icon">
+                        <i class="bi bi-chat-heart-fill"></i>
+                      </span>
+
+                      <div>
+                        <strong>Daily Engagement</strong>
+                        <span class="faq-tag">Free participation</span>
+
+                        <p>
+                          Daily Engagement is available without activating a plan.
+                          Users are encouraged to read selected posts, react
+                          naturally and leave meaningful comments. This helps the
+                          platform maintain a genuine, active audience and produce
+                          reliable engagement data.
+                        </p>
+                      </div>
+                    </article>
+
+                    <article class="faq-comparison__item faq-comparison__item--sponsored">
+                      <span class="faq-comparison__icon">
+                        <i class="bi bi-megaphone-fill"></i>
+                      </span>
+
+                      <div>
+                        <strong>Sponsored Tasks</strong>
+                        <span class="faq-tag">Plan required</span>
+
+                        <p>
+                          Sponsored Tasks are campaigns provided by participating
+                          organizations. Eligible users can earn up to
+                          <b>$0.20 for each sponsor task clicked.</b>
+                        </p>
+                      </div>
+                    </article>
+                  </div>
+
+                  <p class="faq-note">
+                    <i class="bi bi-info-circle-fill"></i>
+
+                    All activity must be genuine. Automated clicks, repeated actions
+                    and meaningless engagement will not be rewarded.
+                  </p>
+                </div>
+              </details>
+
+            <details class="faq-item">
+              <summary>
+                Is the daily reward guaranteed?
+                <i class="bi bi-plus-lg"></i>
+              </summary>
+
+              <p>
+                No. The displayed amount is a potential reward range.
+                Eligibility depends on completing the daily requirements and
+                passing activity verification.
+              </p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                Why must I read and comment on posts?
+                <i class="bi bi-plus-lg"></i>
+              </summary>
+
+              <p>
+                Sponsors need genuine participation rather than empty clicks.
+                Meaningful engagement produces more reliable campaign results.
+              </p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                Do I need a plan for daily engagement?
+                <i class="bi bi-plus-lg"></i>
+              </summary>
+
+              <p>
+                Daily engagement and plan-based sponsor tasks are separate
+                opportunities. A plan is required only for tasks marked as
+                plan-exclusive.
+              </p>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                When will my reward appear?
+                <i class="bi bi-plus-lg"></i>
+              </summary>
+
+              <p>
+                A completed activity may first appear as pending. It is added
+                to your available balance after verification.
+              </p>
+            </details>
+          </section>
+
+          <!-- CTA -->
+          <section class="how-cta">
+            <span class="how-cta__icon">
+              <i class="bi bi-rocket-takeoff-fill"></i>
+            </span>
+
+            <div>
+              <span>Ready to participate?</span>
+              <h2>Start with today’s engagement tasks</h2>
+              <p>
+                Review the available opportunities and complete each action
+                naturally.
+              </p>
+            </div>
+
+            <a routerLink="/tasks" class="cta-button">
+              Get Started
+              <i class="bi bi-arrow-right"></i>
+            </a>
+          </section>
+        </main>
+      </div>
+    </section>
+  </div>
+}

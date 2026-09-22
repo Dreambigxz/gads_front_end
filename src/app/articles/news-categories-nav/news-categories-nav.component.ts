@@ -149,4 +149,9 @@ export class NewsCategoriesNavComponent {
       );
   }
 
+  openPromotion(){
+
+    alert("sponsored earning not active at the moment")
+  }
+
 }
