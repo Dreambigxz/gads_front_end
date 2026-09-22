@@ -1,0 +1,58 @@
+<div translate="no" class="lang-select no-translate" (click)="toggleLanguageDropdown($event)">
+
+  <!-- Selected language -->
+  <div class="lang-selected">
+
+    <ng-container *ngIf="selectedLanguage; else languagePlaceholder">
+
+      <img
+        [src]="'https://flagsapi.com/' + selectedLanguage[1] + '/flat/64.png'"
+        [alt]="selectedLanguage[0]"
+      >
+
+      <!-- <span>{{ langName }}</span> -->
+
+    </ng-container>
+
+    <ng-template #languagePlaceholder>
+      <span class="placeholder">Language</span>
+    </ng-template>
+
+    <i
+      class="bi"
+      [class.bi-chevron-down]="!languageDropdownOpen"
+      [class.bi-chevron-up]="languageDropdownOpen">
+    </i>
+
+  </div>
+
+
+  <!-- Dropdown -->
+  <div
+    class="lang-dropdown"
+    *ngIf="languageDropdownOpen"
+    (click)="$event.stopPropagation()">
+
+    <div
+      class="lang-option"
+      *ngFor="let lang of quickNav.langKeys"
+      (click)="selectLanguage(lang)"
+      [class.active]="selectedLanguage?.[0] === quickNav.availableLang[lang][0]">
+
+      <img
+        [src]="'https://flagsapi.com/' + quickNav.availableLang[lang][1] + '/flat/64.png'"
+        [alt]="quickNav.availableLang[lang][0]"
+      >
+
+      <span>{{ lang }}</span>
+
+      <i
+        *ngIf="selectedLanguage?.[0] === quickNav.availableLang[lang][0]"
+        class="bi bi-check2">
+      </i>
+
+    </div>
+
+  </div>
+
+</div>

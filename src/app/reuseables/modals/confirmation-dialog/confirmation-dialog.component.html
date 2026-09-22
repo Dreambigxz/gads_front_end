@@ -1,0 +1,52 @@
+<div
+class="confirm-overlay"
+
+*ngIf="confirm.visible()">
+
+<div class="confirm-box">
+
+    <div class="icon">
+
+        <i class="bi bi-question"></i>
+
+    </div>
+
+    <h2>
+
+        {{confirm.title()}}
+
+    </h2>
+
+    <p>
+
+        {{confirm.message()}}
+
+    </p>
+
+    <div class="actions">
+
+        <button
+
+        class="cancel"
+
+        (click)="confirm.cancel()">
+
+            {{confirm.cancelText()}}
+
+        </button>
+
+        <button
+
+        class="ok"
+
+        (click)="confirm.confirm()">
+
+            {{confirm.confirmText()}}
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>

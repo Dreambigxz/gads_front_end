@@ -1,0 +1,61 @@
+
+<div
+  class="quick-notification-backdrop"
+  *ngIf="msg.visible()">
+</div>
+
+<div
+  class="quick-notification"
+  *ngIf="msg.visible()">
+
+  <!-- your notification content -->
+
+</div>
+<div
+
+*ngIf="msg.visible()"
+
+class="toast"
+
+[class.success]="msg.type()=='success'"
+
+[class.error]="msg.type()=='error'"
+
+[class.warning]="msg.type()=='warning'"
+
+[class.info]="msg.type()=='info'">
+
+    <div class="icon">
+
+        <ng-container [ngSwitch]="msg.type()">
+
+            <span *ngSwitchCase="'success'">✓</span>
+
+            <span *ngSwitchCase="'error'">✕</span>
+
+            <span *ngSwitchCase="'warning'">!</span>
+
+            <span *ngSwitchDefault="">ℹ</span>
+
+        </ng-container>
+
+    </div>
+
+    <div
+        class="message"
+        [innerHTML]="msg.text()">
+    </div>
+
+    <button
+      type="button"
+      class="toast-close"
+      (click)="msg.visible.set(false)"
+      aria-label="Close">
+
+      <i class="bi bi-x"></i>
+
+    </button>
+
+    <div class="progress"></div>
+
+</div>

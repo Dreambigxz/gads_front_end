@@ -1,0 +1,124 @@
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-5 { margin-top: 1.25rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-8 { margin-top: 2rem; }
+.mt-10 { margin-top: 2.5rem; }
+.mt-12 { margin-top: 3rem; }
+.mt-16 { margin-top: 4rem; }
+.mt-20 { margin-top: 5rem; }
+.mt-30 { margin-top: 7rem; }
+.mt-40 { margin-top: 10rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-5 { margin-bottom: 1.25rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mb-10 { margin-bottom: 2.5rem; }
+.mb-12 { margin-bottom: 3rem; }
+.mb-16 { margin-bottom: 4rem; }
+.mb-20 { margin-bottom: 5rem; }
+.mb-30 { margin-bottom: 7rem; }
+.mb-40 { margin-bottom: 10rem; }
+
+/* text styles*/
+.text-white{
+  color: #fff !important;
+}
+
+.text-width-150{
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.text-primary {
+  color: var(--primary)
+}
+
+/*  */
+.custom-google-select .goog-te-combo {
+    background-color: #192430;
+    color: #ccc;
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: none;
+    /* 1px solid #ccc; */
+    border-radius: 6px;
+    appearance: none;
+    outline: none;
+    width: auto;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 2px 6px rgb(207 151 151 / 10%);
+  }
+
+
+  .VIpgJd-ZVi9od-ORHb-OEVmcd{
+    display: none !important;
+  }
+  .VIpgJd-yAWNEb-hvhgNd{
+    display: none !important;
+
+  }
+
+  /* Optional: hover/focus effect */
+  .custom-google-select .goog-te-combo:hover,
+  .custom-google-select .goog-te-combo:focus {
+  border-color: #007bff;
+  }
+
+  .goog-te-gadget-icon {
+      margin-left: 2px;
+      margin-right: 2px;
+      width: auto !important;
+      height: auto !important;
+      border: 0;
+      vertical-align: middle;
+  }
+
+  .custom-google-select {
+        display: flex;
+        /* justify-content: flex-end; */
+        padding: 10px;
+        margin-left: auto;
+    }
+
+    .VIpgJd-yAWNEb-L7lbkb {
+        color: #222;
+        background-color: transparent !important;
+        display: none !important;
+
+    }
+
+    .VIpgJd-ZVi9od-aZ2wEe-OiiCO-ti6hGc {
+      -webkit-transform: scale(.5);
+      transform: scale(.5);
+      opacity: 1;
+      display: none !important;
+  }
+
+  .goog-te-gadget > *:nth-child(2) {
+    display: none !important;
+  }
+
+  .goog-te-gadget {
+    font-size: 0 !important; /* hide text like "Powered by" */
+  }
+
+    .goog-te-combo {
+      font-size: 14px !important; /* restore font for dropdown */
+    }
+
+  /*  end of  gpoogle translator styling */
+
+body{
+  top: 0 !important
+}

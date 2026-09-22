@@ -1,0 +1,51 @@
+<header
+  class="summary-header"
+  [class.summary-header--scrolled]="isScrolled"
+>
+  <div class="summary-header__toolbar">
+    <button
+      class="icon-button"
+      type="button"
+      aria-label="Go back"
+      (click)="goBack()"
+    >
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <!-- Visible only while scrolling -->
+    <div class="compact-title">
+      <small>{{subtitle}}</small>
+      <strong>{{ title }}</strong>
+    </div>
+
+    <div class="summary-header__actions">
+      <div class="balance-card">
+        <span class="balance-card__icon">
+          <i class="bi bi-wallet2"></i>
+        </span>
+
+        <span class="balance-card__copy">
+          <!-- <small>Available balance</small> -->
+
+          <strong>
+            {{ wallet?.balance || 0 | currency:currency:'symbol':'1.2-2' }}
+          </strong>
+        </span>
+      </div>
+
+      <button
+        class="icon-menu"
+        type="button"
+        aria-label="Open menu"
+        (click)="menu.emit()"
+      >
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Normal title -->
+  <!-- <div class="summary-header__heading">
+    <h1>{{ title }}</h1>
+  </div> -->
+</header>

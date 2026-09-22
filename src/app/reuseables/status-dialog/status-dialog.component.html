@@ -1,0 +1,59 @@
+<div class="result-dialog">
+
+  <div class="result-card">
+
+    <!-- STATUS -->
+
+    <div
+      class="result-badge"
+      [ngClass]="data.status"
+    >
+
+      <i
+        class="fa-solid"
+        [ngClass]="
+          data.status === 'success'
+            ? 'fa-check'
+            : 'fa-check'
+        "
+      ></i>
+
+    </div>
+
+    <!-- TITLE -->
+
+    <h2 class="result-title">
+
+      {{ data.title }}
+
+    </h2>
+
+    <!-- MESSAGE -->
+
+    <p class="result-message">
+
+      {{ data.message }}
+
+    </p>
+
+    <!-- ACTIONS -->
+
+    <div class="result-actions">
+
+      <button
+        class="result-btn"
+        (click)="reloadPage()"
+      >
+
+        <!-- <i class="fa fa-reload">↻</i>
+       -->
+        ↻
+        Refresh Page
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

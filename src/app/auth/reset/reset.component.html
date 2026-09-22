@@ -1,0 +1,41 @@
+<!-- LOOGIN FORM -->
+
+<form
+  class="login-form"
+  [formGroup]="authService.formView.reset"
+  (ngSubmit)="authService.onSubmit(authService.formView.reset,'reset')">
+
+
+    <!-- EMAIL -->
+
+    <div class="input-group">
+
+        <i class="bi bi-envelope"></i>
+
+        <input
+            formControlName='email'
+            type="email"
+            placeholder="Email Address">
+
+    </div>
+
+
+
+    <!-- LOGIN  -->
+
+    <button
+        type="submit"
+        class="create-btn"
+        [disabled]="authService.formView.reset.invalid">
+
+        <span>
+            RESET
+        </span>
+
+        <i class="bi bi-arrow-right"></i>
+
+    </button>
+
+
+
+</form>

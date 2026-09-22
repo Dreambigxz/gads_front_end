@@ -1,0 +1,40 @@
+<!-- <app-spinner></app-spinner> -->
+
+<div class="auth-page">
+
+  <!-- <app-header
+    [quickNav]="quickNav">
+  </app-header> -->
+
+  <section class="home">
+    <div class="mobile-area home-page">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+          <!-- JoinComponent -->
+            <app-join
+              *ngIf='authService.mode=="register"'
+              [authService]="authService">
+              </app-join>
+              <!-- loginComponent -->
+              <app-login
+                *ngIf='authService.mode=="login"'
+                [authService]="authService">
+              </app-login>
+
+              <app-reset
+                *ngIf='authService.mode=="reset"'
+                [authService]="authService">
+              </app-reset>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- </div> -->

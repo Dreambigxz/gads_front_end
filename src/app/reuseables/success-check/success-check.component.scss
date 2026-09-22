@@ -1,0 +1,99 @@
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+
+  animation: overlay-fade 1.8s ease forwards;
+}
+
+.success-box {
+  width: 82px;
+  height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+
+  background: rgba(12, 20, 17, 0.9);
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  animation: success-pop 0.35s ease-out;
+}
+
+.success-box svg {
+  width: 54px;
+  height: 54px;
+}
+
+.success-circle {
+  fill: none;
+  stroke: #32d583;
+  stroke-width: 3;
+
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+
+  animation: draw-circle 0.45s ease forwards;
+}
+
+.success-check {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+
+  animation: draw-check 0.35s 0.35s ease forwards;
+}
+
+@keyframes success-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.65);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes draw-circle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes overlay-fade {
+  0%,
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

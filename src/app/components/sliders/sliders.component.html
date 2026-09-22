@@ -1,0 +1,54 @@
+<section
+  class="news-slider"
+  aria-label="Featured news"
+  (mouseenter)="pauseSlider()"
+  (mouseleave)="startSlider()"
+  (touchstart)="onTouchStart($event)"
+  (touchend)="onTouchEnd($event)"
+>
+  <div class="slides">
+    @for (slide of slides; track slide.id; let index = $index) {
+      <article
+        class="slide"
+        [class.active]="index === activeSlide"
+        [attr.aria-hidden]="index !== activeSlide"
+      >
+        <img
+          class="slide-image"
+          [src]="slide.image"
+          [alt]="slide.title"
+        />
+
+        <div class="slide-overlay"></div>
+
+        <div class="slide-content">
+          <span class="breaking-badge">
+            {{ slide.badge }}
+          </span>
+
+          <h2>{{ slide.title }}</h2>
+
+          <p>{{ slide.description }}</p>
+
+          <div class="slide-meta">
+            <span>{{ slide.time }}</span>
+            <span class="meta-divider"></span>
+            <span>{{ slide.category }}</span>
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+
+  <div class="slider-dots">
+    @for (slide of slides; track slide.id; let index = $index) {
+      <button
+        type="button"
+        class="slider-dot"
+        [class.active]="index === activeSlide"
+        [attr.aria-label]="'Show slide ' + (index + 1)"
+        (click)="goToSlide(index)"
+      ></button>
+    }
+  </div>
+</section>

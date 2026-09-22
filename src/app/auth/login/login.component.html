@@ -1,0 +1,85 @@
+<!-- LOOGIN FORM -->
+
+          <div class="main-page">
+            <div class="wrap">
+              <div class="logo">
+                <img src="assets/images/logo1.svg" class="light-mode-logo" alt="" title="">
+                <!-- <img src="assets/images/logo2.svg" class="dark-mode-logo" alt="" title=""> -->
+              </div>
+              <div class="main-area">
+                <h1>Log In</h1>
+                <form
+                  class="list"
+                  [formGroup]="authService.formView.login"
+                  (ngSubmit)="authService.onSubmit(authService.formView.login,'login')">
+
+                  <ul>
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-input-wrap">
+                          <input
+                         formControlName="identifier"
+                          type="text"
+                          placeholder="Username /  Email ">
+                          <i class="bi bi-person"></i>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li class="item-content item-input">
+                      <div class="item-inner">
+                        <div class="item-input-wrap">
+                          <input
+                            formControlName='password'
+                            [type]="authService.showPassword ? 'text' : 'password'"
+                            placeholder="Password"
+                            autocomplete='password'>
+                            <i
+                              class="bi"
+                              [ngClass]="authService.showPassword ? 'bi-eye-slash' : 'bi-eye'"
+                              (click)="authService.togglePassword()">
+                            </i>
+
+                        </div>
+                      </div>
+                    </li>
+
+                  </ul>
+                  <div class="signup">
+                    <span (click)="authService.mode='reset'" class="log-title" title="">Forgot Password?</span>
+                    <button
+                      type="submit"
+                      class="list-button"
+                      title=""
+                      [disabled]="authService.formView.login.invalid">
+
+                      Log In
+
+                    </button>
+                    <div class="signin-up or-text">or</div>
+                  </div>
+                  <div class="login-social">
+
+                    <!-- <span (click)="authService.loginWithGoogle()">
+                      <span class="icon-google"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>
+                    </span> -->
+
+                    <button type="button" class="google-login-btn" (click)="authService.loginWithGoogle()">
+                      <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+                        <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3A12 12 0 1 1 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7A19.9 19.9 0 1 0 44 24c0-1.2-.1-2.4-.4-3.5z"/>
+                        <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8A12 12 0 0 1 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7A20 20 0 0 0 6.3 14.7z"/>
+                        <path fill="#4CAF50" d="M24 44c5.2 0 10-2 13.5-5.2l-6.2-5.2A11.9 11.9 0 0 1 12.9 28.4l-6.5 5A20 20 0 0 0 24 44z"/>
+                        <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3a12 12 0 0 1-4 5.6l6.2 5.2C41.3 35.3 44 30.2 44 24c0-1.2-.1-2.4-.4-3.5z"/>
+                      </svg>
+
+                      <span>Continue with Google</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="login-footer" >
+                <p>Don’t have an account?</p>
+                <span class="log-title" (click)="authService.mode='register'" >Register Here</span>
+              </div>
+            </div>
+          </div>

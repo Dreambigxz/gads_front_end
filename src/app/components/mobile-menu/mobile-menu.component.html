@@ -1,0 +1,56 @@
+<nav class="mobile-menu" aria-label="Primary navigation">
+  <a
+    class="mobile-menu__item"
+    routerLink="/"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <span class="mobile-menu__icon">
+      <i class="bi bi-house-door"></i>
+    </span>
+
+    <span class="mobile-menu__label">Home</span>
+  </a>
+
+  <a
+    class="mobile-menu__item"
+    routerLink="/plan/activation"
+    routerLinkActive="active"
+  >
+    <span class="mobile-menu__icon">
+      <i class="bi bi-list-check"></i>
+    </span>
+
+    <span class="mobile-menu__label">Plan</span>
+
+    <!-- @if (pendingTasks > 0) {
+      <span class="mobile-menu__badge">
+        {{ pendingTasks > 9 ? '9+' : pendingTasks }}
+      </span>
+    } -->
+  </a>
+
+  <a
+    class="mobile-menu__item"
+    routerLink="/invites"
+    routerLinkActive="active"
+  >
+    <span class="mobile-menu__icon">
+      <i class="bi bi-people"></i>
+    </span>
+
+    <span class="mobile-menu__label">Invites</span>
+  </a>
+
+  <a
+    class="mobile-menu__item"
+    routerLink="/settings"
+    routerLinkActive="active"
+  >
+    <span class="mobile-menu__icon">
+      <i class="bi bi-gear"></i>
+    </span>
+
+    <span class="mobile-menu__label">Settings</span>
+  </a>
+</nav>

@@ -1,0 +1,319 @@
+<app-header
+  [wallet]="quickNav.storeData.store['wallet']"/>
+<app-plan-summary
+  [trade]="quickNav.storeData.store['plan_summary']"
+  [plan]="quickNav.storeData.store['plans']"
+  [hasPlan]="hasPlan"
+  />
+
+<main class="activation-page">
+
+  <aside class="sponsor-info" role="note">
+    <span class="sponsor-info__icon">
+      <i class="bi bi-megaphone-fill"></i>
+    </span>
+
+    <div class="sponsor-info__content">
+      <span class="sponsor-info__label">Sponsored rewards</span>
+
+      <h3>Earn up to $0.20 per click on sponsor task</h3>
+
+      <p *ngIf="!hasPlan">
+        Activate a plan to unlock eligible sponsored tasks.
+        <!-- Rewards are credited after each valid interaction is verified. -->
+      </p>
+    </div>
+
+    <!-- <button
+      class="sponsor-info__button"
+      type="button"
+      (click)="activatePlan()"
+    >
+      Activate Plan
+      <i class="bi bi-arrow-right"></i>
+    </button> -->
+  </aside>
+
+  <section class="unlock-notice">
+    <div class="notice-icon">
+      <i class="bi bi-unlock-fill"></i>
+    </div>
+
+    <div>
+      <h2>How plans unlock</h2>
+
+      <p>
+        VIP 1–3 are available immediately. Complete VIP 3
+        to unlock VIP 4. Every higher plan unlocks after
+        completing the plan directly before it.
+      </p>
+    </div>
+  </section>
+
+  @if (activationMessage) {
+    <div class="activation-alert">
+      <i class="bi bi-info-circle-fill"></i>
+      <span>{{ activationMessage }}</span>
+
+      <button
+        type="button"
+        aria-label="Close message"
+        (click)="activationMessage = ''"
+      >
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+  }
+
+  <section class="plans-section">
+    <div class="section-heading">
+      <div>
+        <span>Available packages</span>
+        <h2 *ngIf="!hasPlan">Select a plan</h2>
+        <h2 *ngIf="hasPlan">Change plan</h2>
+      </div>
+
+      <div class="duration-badge">
+        <i class="bi bi-calendar-check"></i>
+        70-day duration
+      </div>
+    </div>
+
+    <div class="plans-grid">
+      @for (plan of plans; track plan.key) {
+        <article
+          class="plan-card"
+          [class.locked]="isLocked(plan)"
+          [class.active]="isActive(plan)"
+          [class.completed]="isCompleted(plan)"
+          [class.popular]="plan.popular"
+        >
+          @if (plan.popular && !isLocked(plan)) {
+            <span class="popular-label">
+              Popular
+            </span>
+          }
+
+          <div class="plan-header">
+            <div class="plan-icon">
+              @if (isLocked(plan)) {
+                <i class="bi bi-lock-fill"></i>
+              } @else if (isCompleted(plan)) {
+                <i class="bi bi-check-lg"></i>
+              } @else {
+                <i class="bi bi-gem"></i>
+              }
+            </div>
+
+            <div class="plan-name">
+              <span>Package</span>
+              <h3>{{ plan.name }}</h3>
+            </div>
+
+            @if (isActive(plan)) {
+              <span class="active-status">
+                Active
+              </span>
+            } @else if (isCompleted(plan)) {
+              <span class="completed-status">
+                Completed
+              </span>
+            }
+          </div>
+
+          <div class="plan-price">
+            <span>Activation</span>
+
+            <strong>
+              {{ formatMoney(plan.price) }}
+            </strong>
+          </div>
+
+          <div class="plan-statistics">
+            <div class="statistic">
+              <div class="statistic-icon tasks">
+                <i class="bi bi-list-check"></i>
+              </div>
+
+              <div>
+                <span>Daily tasks</span>
+                <strong>{{ plan.dailyTasks }}</strong>
+              </div>
+            </div>
+
+            <div class="statistic">
+              <div class="statistic-icon reward">
+                <i class="bi bi-cash-coin"></i>
+              </div>
+
+              <div>
+                <span>Daily reward</span>
+                <strong>
+                  {{ formatMoney(plan.dailyReward) }}
+                </strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-details">
+            <div>
+              <span>Reward per task</span>
+              <strong>
+                {{ formatMoney(plan.rewardPerTask) }}
+              </strong>
+            </div>
+
+            <div>
+              <span>Plan duration</span>
+              <strong>
+                {{ plan.durationDays }} days
+              </strong>
+            </div>
+
+            <div>
+              <span>Maximum task rewards</span>
+              <strong>
+                {{ formatMoney(
+                  getMaximumPlanReward(plan)
+                ) }}
+              </strong>
+            </div>
+          </div>
+
+          @if (isLocked(plan)) {
+            <div class="locked-message">
+              <i class="bi bi-lock-fill"></i>
+
+              <span>
+                Complete
+                <strong>
+                  {{ getUnlockPlanName(plan) }}
+                </strong>
+                to unlock this package.
+              </span>
+            </div>
+          }
+
+          <button
+            type="button"
+            class="activate-button"
+            [disabled]="
+              isLocked(plan) ||
+              isActive(plan)
+            "
+            (click)="selectPlan(plan)"
+          >
+            @if (isLocked(plan)) {
+              <i class="bi bi-lock-fill"></i>
+              Locked
+            } @else if (isActive(plan)) {
+              <i class="bi bi-check-circle-fill"></i>
+              Plan Active
+            } @else if (isCompleted(plan)) {
+              <i class="bi bi-arrow-repeat"></i>
+              Activate Again
+            } @else {
+              {{getActivationtext(plan)}}
+              <i class="bi bi-arrow-right"></i>
+            }
+          </button>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="important-note">
+    <i class="bi bi-shield-check"></i>
+
+    <p>
+      Rewards are based on completed and verified tasks.
+      Activate only the package you can manage consistently.
+    </p>
+  </section>
+</main>
+
+<app-mobile-menu  />
+
+
+@if (selectedPlan) {
+  <div
+    class="confirmation-backdrop"
+    (click)="closeConfirmation()"
+  >
+    <section
+      class="confirmation-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirmation-title"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="close-modal"
+        aria-label="Close"
+        (click)="closeConfirmation()"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <div class="confirmation-icon">
+        <i class="bi bi-gem"></i>
+      </div>
+
+      <span class="confirmation-label">
+        Confirm activation
+      </span>
+
+      <h2 id="confirmation-title">
+        Activate {{ selectedPlan.name }}?
+      </h2>
+
+      <p>
+        The activation price is
+        <strong>
+          {{ formatMoney(selectedPlan.price) }}
+        </strong>.
+        You will receive
+        <strong>
+          {{ selectedPlan.dailyTasks }}
+          tasks daily
+        </strong>
+        for {{ selectedPlan.durationDays }} days.
+      </p>
+
+      <div class="confirmation-summary">
+        <div>
+          <span>Daily tasks</span>
+          <strong>
+            {{ selectedPlan.dailyTasks }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Daily reward</span>
+          <strong>
+            {{ formatMoney(
+              selectedPlan.dailyReward
+            ) }}
+          </strong>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="confirm-button"
+        (click)="confirmActivation()"
+      >
+        Confirm and Activate
+      </button>
+
+      <button
+        type="button"
+        class="cancel-button"
+        (click)="closeConfirmation()"
+      >
+        Cancel
+      </button>
+    </section>
+  </div>
+}

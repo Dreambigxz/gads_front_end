@@ -1,1 +1,408 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* You can add global styles to this file,
+   and also import other style files */
+
+   :root {
+     /* =========================================
+        BRAND COLORS
+     ========================================= */
+
+     --color-primary: #e91e24;
+     --color-primary: #e91e24;
+     --color-primary-rgb: 233, 30, 36;
+
+     --color-primary-light: #ff4d52;
+     --color-primary-soft: #fff0f1;
+     --color-primary-muted: #fbd7d9;
+     --color-primary-dark: #bd1117;
+     --color-primary-darker: #920b10;
+
+     --color-secondary: #14213d;
+     --color-secondary-rgb: 20, 33, 61;
+
+     --color-secondary-light: #263b68;
+     --color-secondary-soft: #eef2f9;
+     --color-secondary-muted: #cdd6e8;
+     --color-secondary-dark: #0c162d;
+
+     /* Accent */
+
+     --color-accent: #f5b942;
+     --color-accent-light: #ffcf70;
+     --color-accent-soft: #fff8e7;
+     --color-accent-dark: #c98a11;
+
+     /* =========================================
+        UI STATUS COLORS
+     ========================================= */
+
+     --color-success: #16a34a;
+     --color-success-light: #3dc76e;
+     --color-success-soft: #ecfdf3;
+     --color-success-border: #bbefce;
+     --color-success-dark: #087334;
+
+     --color-warning: #e59b19;
+     --color-warning-light: #f5b942;
+     --color-warning-soft: #fff8e8;
+     --color-warning-border: #f3dfac;
+     --color-warning-dark: #956009;
+
+     --color-danger: #dc2626;
+     --color-danger-light: #f05252;
+     --color-danger-soft: #fff1f1;
+     --color-danger-border: #fecaca;
+     --color-danger-dark: #a71616;
+
+     --color-info: #2563eb;
+     --color-info-light: #4d82ef;
+     --color-info-soft: #eff6ff;
+     --color-info-border: #cddfff;
+     --color-info-dark: #1849a9;
+
+     /* =========================================
+        BACKGROUNDS
+     ========================================= */
+
+     --background-page: #f6f7fb;
+     --background-surface: #ffffff;
+     --background-surface-soft: #fafbfc;
+     --background-muted: #f1f3f7;
+     --background-disabled: #e6e9ef;
+     --background-overlay: rgba(8, 15, 31, 0.72);
+
+     /* =========================================
+        TEXT COLORS
+     ========================================= */
+
+     --text-primary: #14213d;
+     --text-secondary: #48556e;
+     --text-muted: #7d889b;
+     --text-light: #9da6b5;
+     --text-disabled: #b4bbc7;
+     --text-on-primary: #ffffff;
+     --text-on-secondary: #ffffff;
+     --text-link: #e91e24;
+
+     /* =========================================
+        BORDERS
+     ========================================= */
+
+     --border-color: #e4e8ef;
+     --border-color-light: #eef0f4;
+     --border-color-dark: #cbd2de;
+     --border-primary: rgba(233, 30, 36, 0.28);
+     --border-secondary: rgba(20, 33, 61, 0.2);
+
+     --border-width: 1px;
+     --border-width-medium: 2px;
+
+     /* =========================================
+        GRADIENTS
+     ========================================= */
+
+     --gradient-primary: linear-gradient(
+       135deg,
+       #ff3d43 0%,
+       #e91e24 55%,
+       #bd1117 100%
+     );
+
+     --gradient-secondary: linear-gradient(
+       135deg,
+       #14213d 0%,
+       #263b68 100%
+     );
+
+     --gradient-brand: linear-gradient(
+       135deg,
+       #14213d 0%,
+       #273e6d 55%,
+       #e91e24 140%
+     );
+
+     --gradient-premium: linear-gradient(
+       135deg,
+       #14213d 0%,
+       #263b68 65%,
+       #354f82 100%
+     );
+
+     --gradient-gold: linear-gradient(
+       135deg,
+       #ffd977 0%,
+       #f5b942 55%,
+       #d99417 100%
+     );
+
+     --gradient-page: linear-gradient(
+       180deg,
+       #ffffff 0%,
+       #f6f7fb 100%
+     );
+
+     /* =========================================
+        SHADOWS
+     ========================================= */
+
+     --shadow-xs:
+       0 2px 6px rgba(20, 33, 61, 0.04);
+
+     --shadow-sm:
+       0 5px 15px rgba(20, 33, 61, 0.06);
+
+     --shadow-md:
+       0 10px 28px rgba(20, 33, 61, 0.1);
+
+     --shadow-lg:
+       0 20px 48px rgba(20, 33, 61, 0.15);
+
+     --shadow-xl:
+       0 30px 75px rgba(8, 15, 31, 0.25);
+
+     --shadow-primary:
+       0 10px 25px rgba(233, 30, 36, 0.25);
+
+     --shadow-secondary:
+       0 12px 30px rgba(20, 33, 61, 0.2);
+
+     --shadow-success:
+       0 10px 25px rgba(22, 163, 74, 0.18);
+
+     /* =========================================
+        BORDER RADIUS
+     ========================================= */
+
+     --radius-xs: 6px;
+     --radius-sm: 9px;
+     --radius-md: 12px;
+     --radius-lg: 16px;
+     --radius-xl: 21px;
+     --radius-2xl: 27px;
+     --radius-round: 50%;
+     --radius-pill: 999px;
+
+     /* =========================================
+        SPACING
+     ========================================= */
+
+     --space-1: 4px;
+     --space-2: 8px;
+     --space-3: 12px;
+     --space-4: 16px;
+     --space-5: 20px;
+     --space-6: 24px;
+     --space-7: 28px;
+     --space-8: 32px;
+     --space-10: 40px;
+     --space-12: 48px;
+     --space-16: 64px;
+
+     /* =========================================
+        TYPOGRAPHY
+     ========================================= */
+
+     --font-family:
+       Inter,
+       -apple-system,
+       BlinkMacSystemFont,
+       "Segoe UI",
+       sans-serif;
+
+     --font-family-heading:
+       Inter,
+       -apple-system,
+       BlinkMacSystemFont,
+       "Segoe UI",
+       sans-serif;
+
+     --font-size-xs: 8px;
+     --font-size-sm: 10px;
+     --font-size-md: 12px;
+     --font-size-base: 14px;
+     --font-size-lg: 16px;
+     --font-size-xl: 20px;
+     --font-size-2xl: 25px;
+     --font-size-3xl: 32px;
+     --font-size-4xl: 42px;
+
+     --font-weight-regular: 400;
+     --font-weight-medium: 500;
+     --font-weight-semibold: 600;
+     --font-weight-bold: 700;
+     --font-weight-extra-bold: 800;
+
+     --line-height-tight: 1.15;
+     --line-height-normal: 1.5;
+     --line-height-relaxed: 1.7;
+
+     /* =========================================
+        COMPONENT SIZES
+     ========================================= */
+
+     --header-height: 68px;
+     --button-height-sm: 34px;
+     --button-height-md: 42px;
+     --button-height-lg: 50px;
+     --input-height: 48px;
+     --container-width: 1120px;
+     --mobile-gutter: 12px;
+     --desktop-gutter: 24px;
+
+     /* =========================================
+        TRANSITIONS
+     ========================================= */
+
+     --transition-fast: 150ms ease;
+     --transition-normal: 250ms ease;
+     --transition-slow: 400ms ease;
+
+     /* =========================================
+        Z-INDEX
+     ========================================= */
+
+     --z-dropdown: 100;
+     --z-header: 500;
+     --z-sidebar: 800;
+     --z-modal-backdrop: 1900;
+     --z-modal: 2000;
+     --z-toast: 3000;
+
+     /* =========================================
+        PLAN-SPECIFIC COLORS
+     ========================================= */
+
+     --plan-card-background: #ffffff;
+     --plan-card-border: #e3e8f0;
+
+     --plan-active: #16a34a;
+     --plan-active-background: #ecfdf3;
+     --plan-active-border: #afe8c3;
+
+     --plan-completed: #2563eb;
+     --plan-completed-background: #eff6ff;
+     --plan-completed-border: #cddfff;
+
+     --plan-locked: #818a9a;
+     --plan-locked-background: #f1f3f6;
+     --plan-locked-border: #dce0e7;
+
+     --plan-popular: #e91e24;
+     --plan-popular-background: #fff0f1;
+  }
+
+
+  *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--text-primary);
+  background: var(--background-page);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: var(--text-link);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  color: #ffffff;
+  background: var(--color-primary);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(
+    var(--color-primary-rgb),
+    0.22
+  );
+  outline-offset: 2px;
+}
+
+// app max-width
+.app-container {
+  width: 100%;
+  max-width: 760px; /* tablet width */
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+
+// custom styles
+.item-input-wrap {
+
+    display:flex;
+
+    align-items:center;
+
+    height:50px;
+
+    margin-bottom:15px;
+
+    padding: 0px 16px;
+
+    border-radius:8px;
+
+    background: #E7EBF6;
+    //
+    // border:1px solid rgba(255,255,255,.10);
+
+    transition:.25s;
+
+}
+
+.item-input-wrap:focus-within {
+
+    border-color:
+        rgba(163,230,53,.45);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(163,230,53,.06);
+
+}
+
+.item-input-wrap input::placeholder {
+
+    color:#64748B !important;
+
+}
+
+.item-input-wrap > i {
+
+    flex-shrink:0;
+
+    color:var(--primary);
+
+    font-size:19px;
+}

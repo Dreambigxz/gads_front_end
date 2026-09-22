@@ -1,0 +1,296 @@
+<main *ngIf="trade?.active_capital" class="trade-summary" aria-label="Trade summary">
+
+  <div class="summary-decoration summary-decoration--one"></div>
+  <div class="summary-decoration summary-decoration--two"></div>
+
+  <!-- Plan -->
+  <!-- <section class="plan-card">
+    <div class="plan-details">
+      <span class="metric-icon metric-icon--primary">
+        <i class="bi bi-graph-up-arrow"></i>
+      </span>
+
+      <div class="plan-copy">
+        <small>Investment plan</small>
+        <strong>{{ trade?.planName }}</strong>
+        <span>{{ trade?.planDescription }}</span>
+      </div>
+    </div>
+
+    <span
+      class="status-pill"
+      [class.status-pill--inactive]="trade?.status !== 'Active'"
+    >
+      <span class="status-dot"></span>
+      {{ trade?.status }}
+    </span>
+  </section> -->
+
+  <!-- Main statistics -->
+  <section class="primary-statistics">
+    <article class="primary-stat">
+      <span class="metric-icon metric-icon--light">
+        <i class="bi bi-wallet2"></i>
+      </span>
+
+      <div>
+        <span class="stat-label">Capital invested</span>
+
+        <strong class="primary-value">
+          {{ (trade?.active_capital || 0)
+            | currency:(trade?.currency || 'USD'):'symbol':'1.0-0'
+          }}
+        </strong>
+
+        <small>Initial investment</small>
+      </div>
+    </article>
+
+    <span class="stat-divider"></span>
+
+    <article class="primary-stat">
+      <span class="metric-icon metric-icon--light">
+        <i class="bi bi-arrow-down"></i>
+      </span>
+
+      <div>
+        <span class="stat-label">Return rate</span>
+
+        <div class="daily-return-box">
+
+          <strong class="primary-value">
+            {{ (trade?.total_daily_percent || 0)
+              | currency:(trade?.currency || 'USD'):'symbol':'1.0-0'
+            }}
+          </strong>
+
+          <!-- <span class="daily-return">
+            <i class="bi bi-arrow-down"></i>
+            {{ (plan[hasPlan?.[0]?.id].dailyReward || 0)
+              | currency:(trade?.currency || 'USD'):'symbol':'1.0-2'
+            }}
+          </span> -->
+        </div>
+
+
+
+        <small>Daily return</small>
+      </div>
+    </article>
+  </section>
+
+  <!-- Profit statistics -->
+  <section class="profit-grid">
+    <article class="profit-card profit-card--today">
+      <div class="profit-card__header">
+        <span class="metric-icon metric-icon--green">
+          <i class="bi bi-bar-chart-fill"></i>
+        </span>
+
+        <span class="profit-badge">
+          <i class="bi bi-arrow-down"></i>
+          <!-- {{ (trade?.todayProfitRate || 0) | number:'1.1-2' }}% -->
+        </span>
+      </div>
+
+      <span class="stat-label">Today's Profit</span>
+
+      <strong class="profit-value profit-value--green">
+        {{ (trade?.todays_earning || 0)
+          | currency:(trade?.currency || 'USD'):'symbol':'1.0-2'
+        }}
+      </strong>
+
+      <div class="task-info">
+            <div class="task-info__text">
+              <span>Daily tasks</span>
+
+              <small>
+                Complete tasks to earn today's profit
+              </small>
+            </div>
+
+            <div class="task-info__count">
+              <strong>{{ 0 || 0 }}</strong>
+              <span>/ {{ plan?.[hasPlan?.[0]?.id]?.dailyTasks || 0 }}</span>
+            </div>
+          </div>
+      <!-- <small>Compared with yesterday</small> -->
+    </article>
+
+    <!-- <article class="profit-card profit-card--total">
+      <div class="profit-card__header">
+        <span class="metric-icon metric-icon--blue">
+          <i class="bi bi-graph-up-arrow"></i>
+        </span>
+
+        <span class="profit-badge danger">
+          <i class="bi bi-arrow-up"></i>
+          {{ (trade?.total_earned || 0)
+            | currency:(trade?.currency || 'USD'):'symbol':'1.0-2'
+          }}
+        </span>
+      </div>
+
+      <span class="stat-label">Total Profit</span>
+
+      <div class="profit-box">
+        <strong class="profit-value">
+          {{ (trade?.total_profit || 0)
+            | currency:(trade?.currency || 'USD'):'symbol':'1.0-2'
+          }}
+        </strong>
+        <span class="profit-badge">
+          <i class="bi bi-arrow-down"></i>
+          {{ (trade?.total_profit_left || 0)
+            | currency:(trade?.currency || 'USD'):'symbol':'1.0-2'
+          }}
+        </span>
+
+
+      </div>
+
+
+      <small>Total /  Left  </small>
+    </article> -->
+
+    <article class="profit-card profit-card--total">
+      <div class="profit-card__header">
+        <span class="metric-icon metric-icon--blue">
+          <i class="bi bi-graph-up-arrow"></i>
+        </span>
+
+        <span class="earning-status">
+          <i class="bi bi-check-circle-fill"></i>
+          Active
+        </span>
+      </div>
+
+      <span class="stat-label">Profit Summary</span>
+
+      <!-- Total possible profit -->
+      <strong class="profit-value">
+        {{ (trade?.total_profit || 0)
+          | currency:(trade?.currency || 'USD'):'symbol':'1.0-2'
+        }}
+      </strong>
+
+      <small class="profit-description">
+        Total profit available from this plan
+      </small>
+
+      <div class="profit-breakdown">
+        <!-- Already earned -->
+        <div class="profit-breakdown__item profit-breakdown__item--earned">
+          <span>
+            <i class="bi bi-arrow-up-right"></i>
+            Earned
+          </span>
+
+          <strong>
+            {{ (trade?.total_earned || 0)
+              | currency:(trade?.currency || 'USD'):'symbol':'1.0-2'
+            }}
+          </strong>
+        </div>
+
+        <!-- Remaining profit -->
+        <div class="profit-breakdown__divider"></div>
+
+        <div class="profit-breakdown__item profit-breakdown__item--remaining">
+          <span>
+            <i class="bi bi-hourglass-split"></i>
+            Remaining
+          </span>
+
+          <strong>
+            {{ (trade?.total_profit_left || 0)
+              | currency:(trade?.currency || 'USD'):'symbol':'1.0-2'
+            }}
+          </strong>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- Duration -->
+  @if (trade?.runningDays) {
+    <section class="duration-card">
+      <div class="duration-card__header">
+        <div class="duration-title">
+          <span class="metric-icon metric-icon--soft">
+            <i class="bi bi-calendar3"></i>
+          </span>
+
+          <div>
+            <small>Investment timeline</small>
+            <strong>Trade Duration</strong>
+          </div>
+        </div>
+
+        <span class="running-badge">
+          {{ trade?.runningDays }} days running
+        </span>
+      </div>
+
+      <div
+        class="progress"
+        role="progressbar"
+        [attr.aria-valuenow]="progress"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <span [style.width.%]="progress"></span>
+      </div>
+
+      <div class="progress-caption">
+        <span>{{ remainingDays }} days remaining</span>
+        <strong>{{ progress | number:'1.0-0' }}%</strong>
+        <span>{{ trade?.totalDays }} days total</span>
+      </div>
+
+      <div class="date-grid">
+        <div class="date-item">
+          <span class="date-icon">
+            <i class="bi bi-play-circle"></i>
+          </span>
+
+          <div>
+            <small>Opened</small>
+            <strong>{{ trade?.openedAt | date:'MMM d, y' }}</strong>
+          </div>
+        </div>
+
+        <i class="bi bi-arrow-right date-arrow"></i>
+
+        <div class="date-item">
+          <span class="date-icon">
+            <i class="bi bi-flag"></i>
+          </span>
+
+          <div>
+            <small>Ending</small>
+            <strong>{{ trade?.endsAt | date:'MMM d, y' }}</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+
+  <button
+    class="details-button"
+    type="button"
+    (click)="viewDetails.emit()"
+  >
+    <span class="details-button__icon">
+      <i class="bi bi-graph-up-arrow"></i>
+    </span>
+
+    <span class="details-button__copy">
+      <strong>View Earning History</strong>
+      <small>See transactions and daily returns</small>
+    </span>
+
+    <i class="bi bi-chevron-right"></i>
+  </button>
+</main>

@@ -1,0 +1,83 @@
+<!-- Message Modal -->
+<div
+  class="message-modal-backdrop"
+  *ngIf="showMessageModal"
+  (click)="closeMessageModal()"
+>
+  <div
+    class="message-modal"
+    [ngClass]="'status-' + messageModalStatus"
+    (click)="$event.stopPropagation()"
+  >
+
+    <!-- Icon -->
+    <div class="message-modal-icon">
+      <i
+        class="bi"
+        [ngClass]="{
+          'bi-check-lg': messageModalStatus === 'success',
+          'bi-info-lg': messageModalStatus === 'info',
+          'bi-exclamation-lg': messageModalStatus === 'error'
+        }"
+      ></i>
+    </div>
+
+    <!-- Content -->
+    <div class="message-modal-content">
+      <h3>{{ messageModalTitle }}</h3>
+
+      <p [innerHTML]="messageModal"></p>
+    </div>
+
+    <!-- Button -->
+    <button
+      type="button"
+      class="message-modal-btn"
+      (click)="closeMessageModal()"
+    >
+      OK
+    </button>
+
+  </div>
+</div><!-- Message Modal -->
+<div
+  class="message-modal-backdrop"
+  *ngIf="showMessageModal"
+  (click)="closeMessageModal()"
+>
+  <div
+    class="message-modal"
+    [ngClass]="'status-' + messageModalStatus"
+    (click)="$event.stopPropagation()"
+  >
+
+    <!-- Icon -->
+    <div class="message-modal-icon">
+      <i
+        class="bi"
+        [ngClass]="{
+          'bi-check-lg': messageModalStatus === 'success',
+          'bi-info-lg': messageModalStatus === 'info',
+          'bi-exclamation-lg': messageModalStatus === 'error'
+        }"
+      ></i>
+    </div>
+
+    <!-- Content -->
+    <div class="message-modal-content">
+      <h3>{{ messageModalTitle }}</h3>
+
+      <p [innerHTML]="messageModal"></p>
+    </div>
+
+    <!-- Button -->
+    <button
+      type="button"
+      class="message-modal-btn"
+      (click)="closeMessageModal()"
+    >
+      OK
+    </button>
+
+  </div>
+</div>
