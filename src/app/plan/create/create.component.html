@@ -69,8 +69,8 @@
     <div class="section-heading">
       <div>
         <span>Available packages</span>
-        <h2 *ngIf="!hasPlan">Select a plan</h2>
-        <h2 *ngIf="hasPlan">Change plan</h2>
+        <h2 *ngIf="!hasPlan.length">Select a plan</h2>
+        <h2 *ngIf="hasPlan.length">Change plan</h2>
       </div>
 
       <div class="duration-badge">
