@@ -18,7 +18,6 @@ import { filter, startWith } from 'rxjs/operators';
     CommonModule,
     JoinComponent,
     LoginComponent,
-    SpinnerComponent,
     ResetComponent
 
   ],
