@@ -330,7 +330,7 @@ export class AuthService {
   // social Auth
   loginWithGoogle() {
     const googleClientId = '944570288109-vn0fc41qlu672r3qrhg6988kqgd9lbtn.apps.googleusercontent.com';
-    const redirectUri = encodeURIComponent('http://localhost:4200/auth?callback=google');
+    const redirectUri = encodeURIComponent('https://gadsfrontend-production.up.railway.app/auth?callback=google');
     const scope = encodeURIComponent('email profile');
 
     window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${googleClientId}&redirect_uri=${redirectUri}&scope=${scope}`;
