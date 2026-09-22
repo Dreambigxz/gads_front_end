@@ -4,7 +4,7 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const app = express();
 
-const distPath = path.join(__dirname, "dist", "d-ads", "browser");
+const distPath = path.join(__dirname, "dist", "g-ads", "browser");
 
 // 1. Proxy /api requests to your remote backend
 app.use(
