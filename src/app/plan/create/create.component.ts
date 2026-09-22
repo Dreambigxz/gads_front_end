@@ -43,6 +43,8 @@ export class CreatePlanComponent {
 
   ngOnInit(){
 
+    this.plans = this.quickNav.storeData.get("plans")
+    
     if (!this.quickNav.storeData.get("plans")) {
       this.quickNav.reqServerData.get("plans/")
       .subscribe((res:any)=>{
