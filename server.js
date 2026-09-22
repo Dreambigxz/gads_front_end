@@ -7,14 +7,14 @@ const app = express();
 const distPath = path.join(__dirname, "dist", "d-ads", "browser");
 
 // 1. Proxy /api requests to your remote backend
-// app.use(
-//   "/api",
-//   createProxyMiddleware({
-//     target: "https://web-production-64af5.up.railway.app/api",
-//     changeOrigin: true,
-//     secure: true,
-//   })
-// );
+app.use(
+  "/api",
+  createProxyMiddleware({
+    target: "https://web-production-64af5.up.railway.app/api",
+    changeOrigin: true,
+    secure: true,
+  })
+);
 
 // 2. Serve static Angular frontend files
 app.use(express.static(distPath));
