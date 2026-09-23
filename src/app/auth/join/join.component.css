@@ -29,7 +29,7 @@
     border-radius: 7px;
 
     background:
-        var(--bg-muted);
+        var(--color-danger-soft);
 
     color:
         var(--text-danger);
@@ -42,6 +42,8 @@
 .password-requirements i {
 
     font-size: 8px;
+    margin-top: 2px;
+
 
 }
 

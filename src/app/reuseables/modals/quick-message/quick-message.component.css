@@ -29,8 +29,8 @@
     background:
         linear-gradient(
             135deg,
-            var(--surface),
-            var(--surface-2)
+            var(--background-surface),
+            var(--color-surface)
         );
 
     border: 1px solid var(--border);

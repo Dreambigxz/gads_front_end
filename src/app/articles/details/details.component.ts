@@ -42,111 +42,6 @@ export class DetailsComponent implements OnInit {
   isSubmittingComment = false;
 
   article: any
-  // {
-  //   id: 1,
-  //   title:
-  //     'World leaders unite for a cleaner, greener future',
-  //   excerpt:
-  //     'Global summit sets ambitious climate targets designed to accelerate meaningful environmental change.',
-  //   content: `
-  //     <p>
-  //       World leaders gathered this week to discuss a new set
-  //       of environmental policies aimed at creating a cleaner
-  //       and more sustainable future.
-  //     </p>
-  //
-  //     <p>
-  //       The summit focused on renewable energy, sustainable
-  //       cities, climate financing and reducing global carbon
-  //       emissions over the next decade.
-  //     </p>
-  //
-  //     <h2>A shared global responsibility</h2>
-  //
-  //     <p>
-  //       Representatives agreed that protecting the environment
-  //       requires cooperation between governments, businesses
-  //       and local communities. Several countries announced new
-  //       investments in clean energy and sustainable transport.
-  //     </p>
-  //
-  //     <blockquote>
-  //       Climate action is no longer a future responsibility.
-  //       It is something that must begin today.
-  //     </blockquote>
-  //
-  //     <p>
-  //       The agreement also encourages governments to support
-  //       communities that are already experiencing the effects
-  //       of extreme weather and changing environmental conditions.
-  //     </p>
-  //
-  //     <h2>What happens next?</h2>
-  //
-  //     <p>
-  //       Participating countries will submit progress reports
-  //       and updated climate plans. Independent organizations
-  //       will monitor the targets and publish annual reports.
-  //     </p>
-  //   `,
-  //   image:
-  //     'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=90',
-  //   category: 'World',
-  //   category_color: '#ef2d2d',
-  //   author: {
-  //     id: 4,
-  //     name: 'Sarah Williams',
-  //     avatar: null
-  //   },
-  //   published_at: '2026-09-17T19:18:39.933829Z',
-  //   reading_time: 5,
-  //   views: 12450,
-  //   likes: 1250,
-  //   comments_count: 3,
-  //   liked_by_user: false,
-  //   user_has_commented: false,
-  //   comments: [
-  //     {
-  //       id: 1,
-  //       user: {
-  //         id: 12,
-  //         name: 'David Johnson',
-  //         avatar: null
-  //       },
-  //       content:
-  //         'This is an important step. Hopefully every country follows through with the agreement.',
-  //       created_at: '2026-09-17T19:40:00Z',
-  //       likes: 18,
-  //       liked_by_user: false
-  //     },
-  //     {
-  //       id: 2,
-  //       user: {
-  //         id: 25,
-  //         name: 'Maria Collins',
-  //         avatar: null
-  //       },
-  //       content:
-  //         'Investment in renewable energy will create jobs and protect the environment at the same time.',
-  //       created_at: '2026-09-17T20:15:00Z',
-  //       likes: 9,
-  //       liked_by_user: true
-  //     },
-  //     {
-  //       id: 3,
-  //       user: {
-  //         id: 31,
-  //         name: 'Kelvin James',
-  //         avatar: null
-  //       },
-  //       content:
-  //         'I would like to see clear progress reports so the promises can be properly monitored.',
-  //       created_at: '2026-09-17T21:04:00Z',
-  //       likes: 4,
-  //       liked_by_user: false
-  //     }
-  //   ]
-  // };
 
   constructor(
     public quickNav: QuickNavService,
@@ -221,19 +116,15 @@ export class DetailsComponent implements OnInit {
     this.article.likes +=
       this.article.liked_by_user ? 1 : -1;
 
-      this.quickNav.reqServerData.post(`articles/${this.articleId}/like/`,{ })
+      this.quickNav.reqServerData.post(`articles/${this.articleId}/like/`,{ action:"like" })
+      // this.quickNav.reqServerData.get(`articles/${this.articleId}/`)
+
       .subscribe((res:any)=>{
         if (res.article){
           this.article=res.article;
         }
-
-        this.engagementService.recordReaction()
-
-        // if (res.liked) {
-        //
-        // }
-
         this.isSubmittingComment = false
+        this.clickProgressButton();
 
       })
 
@@ -263,7 +154,7 @@ export class DetailsComponent implements OnInit {
     .subscribe((res:any)=>{
       if (res.article){
         this.article=res.article;
-        this.engagementService.recordComment()
+        this.clickProgressButton();
       }
 
       this.isSubmittingComment = false
@@ -290,6 +181,14 @@ export class DetailsComponent implements OnInit {
     }
 
     return value.toString();
+  }
+
+  clickProgressButton(): void {
+    const button = document.querySelector<HTMLButtonElement>(
+      '.progress-side-button'
+    );
+
+    button?.click();
   }
 
 }
