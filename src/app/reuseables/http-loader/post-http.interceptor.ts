@@ -25,7 +25,8 @@ import { AuthService } from '../auth/auth.service';
 import { ConfirmationDialogService } from '../modals/confirmation-dialog/confirmation-dialog.service';
 import { SuccessStatusService } from '../success-check/service';
 
-// l
+import { SponsoredAdsModalService } from "../../sponsored-ads/sponsored-ads.service";
+
 export type MessageType =
   | 'success'
   | 'error'
@@ -92,6 +93,8 @@ export const PostHttpInterceptor: HttpInterceptorFn = (
   const authService = inject(AuthService);
   const modalMessageService = inject(MessageService);
   const noMessageToast = inject(SuccessStatusService);
+
+  const adsService = inject(SponsoredAdsModalService)
 
   let clientTimezone = getClientTimezone();
 
@@ -242,6 +245,10 @@ export const PostHttpInterceptor: HttpInterceptorFn = (
               }
             );
           }
+        };
+
+        if (isGet&&storeData.get("ads")?.sponsors.length||adsService.isOpen()) {
+          adsService.open(storeData.get("ads"))
         }
       }
     }),

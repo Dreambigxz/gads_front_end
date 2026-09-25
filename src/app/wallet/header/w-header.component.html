@@ -1,0 +1,140 @@
+<div class="wallet-header">
+
+
+
+    <!-- Tabs -->
+
+    <div id="payWith"  [class.hide]="wallet.hidePayWith" class="tabs">
+
+        <div
+            class="slider"
+            [class.local]="selectedTab=='local'">
+        </div>
+
+        <button
+
+            (click)="changeTab('crypto')"
+
+            [class.active]="selectedTab=='crypto'">
+
+            <i class="bi bi-currency-bitcoin"></i>
+
+            Crypto
+
+        </button>
+
+        <button
+
+            (click)="changeTab('local')"
+
+            [class.active]="selectedTab=='local'">
+
+            <i class="bi bi-bank"></i>
+
+            Local
+
+        </button>
+
+    </div>
+
+    <!-- Payment Method -->
+
+    <div
+        class="payment-card"
+        (click)="wallet.openSelector()">
+
+        <div class="payment-icon">
+
+            <div *ngIf="selectedTab=='crypto'">
+              <img
+                  *ngIf="payment"
+                  [src]="payment?.img"
+                  [alt]="payment?.name">
+                  <span *ngIf="!payment">
+                    <i class="bi bi-currency-bitcoin"></i>
+                  </span>
+            </div>
+
+            <div *ngIf="selectedTab=='local' ">
+
+              <span>
+                  {{payment?.flag}}
+              </span>
+
+
+              <span *ngIf="!payment">
+                <i class="bi bi-wallet"></i>
+              </span>
+
+            </div>
+
+
+
+
+        </div>
+
+        <div class="payment-info">
+
+            <span class="label" *ngIf="selectedTab=='crypto'">
+
+              <span *ngIf="payment; else noPaymentHeader">Crypto Network</span>
+              <ng-template #noPaymentHeader>
+                  <h3>Select Network</h3>
+                </ng-template>
+
+            </span>
+
+
+            <span class="label" *ngIf="selectedTab=='local'">
+                <span *ngIf="payment; else noLocalPaymentHeader">Payment Method</span>
+                <ng-template #noLocalPaymentHeader>
+                    <h3>Select Payment Country</h3>
+                  </ng-template>
+            </span>
+
+            <h3>
+
+                {{payment?.name}}
+
+            </h3>
+
+          <div class="header-info">
+            <small class="subtitle" *ngIf="payment.subtitle">
+                {{payment?.subtitle}}
+            </small>
+
+
+            <small *ngIf="payment" class="minimum-deposit">Minimum {{wallet.Page |titlecase}}: {{wallet.paymentMethod?.symbol}}{{wallet.minimumPayment|number}}</small>
+
+          </div>
+        </div>
+
+        <i class="bi bi-chevron-down"></i>
+
+    </div>
+
+</div>
+
+<div
+  class="middle-circle"
+  (click)="wallet.openSelector()">
+
+
+    <div>
+
+        <i
+            *ngIf="!payment"
+            class="bi bi-arrow-down-circle-fill"></i>
+
+        <i
+            *ngIf="payment"
+            class="bi bi-arrow-up-circle-fill"></i>
+
+    </div>
+
+</div>
+
+
+<app-payment-sheet
+    *ngIf="wallet.paymentSheet$ | async">
+</app-payment-sheet>

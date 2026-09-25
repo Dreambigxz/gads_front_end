@@ -5,6 +5,7 @@ import { SummaryComponent } from "../summary/summary.component";
 import { HeaderComponent } from "../../components/header/header.component";
 
 import { MobileMenuComponent } from "../../components/mobile-menu/mobile-menu.component";
+import { SponsoredAdsModalService } from "../../sponsored-ads/sponsored-ads.service";
 
 @Component({
   selector: 'app-create',
@@ -20,7 +21,8 @@ import { MobileMenuComponent } from "../../components/mobile-menu/mobile-menu.co
 export class CreatePlanComponent {
 
   constructor(
-    public quickNav:QuickNavService
+    public quickNav:QuickNavService,
+    public adsService: SponsoredAdsModalService
   ){}
 
   readonly rewardPerTask = 0.20;
@@ -44,13 +46,23 @@ export class CreatePlanComponent {
   ngOnInit(){
 
     this.plans = this.quickNav.storeData.get("plans")
-    
+
     if (!this.quickNav.storeData.get("plans")) {
       this.quickNav.reqServerData.get("plans/")
       .subscribe((res:any)=>{
         this.plans = this.quickNav.storeData.get("plans")
         this.completedPlanKeys =  this.quickNav.storeData.get("completed_planKeys") || []
+        this.loadSponsorAds()
       })
+    }else{
+      this.loadSponsorAds()
+    }
+  }
+
+  loadSponsorAds(){
+
+    if (this.quickNav.storeData.get("ads")?.sponsors) {
+      this.adsService.open(this.quickNav.storeData.get("ads"))
     }
   }
 
@@ -144,34 +156,43 @@ export class CreatePlanComponent {
      }
      this.quickNav.reqServerData.post('plans/', {plan_id:plan.id, processor})
      .subscribe((res:any)=>{
-
        this.closeConfirmation();
+       if (res.status === 'success') {
+         this.scrollToTop()
+       }
      })
 
   }
 
-    formatMoney(amount: number): string {
+  formatMoney(amount: number): string {
 
-    if (!amount) {
-      amount=0
+  if (!amount) {
+    amount=0
+  }
+  return amount.toLocaleString(
+    'en-US',
+    {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2
     }
-    return amount.toLocaleString(
-      'en-US',
-      {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2
-      }
-    );
+  );
   }
 
-    getActivationtext(plan:any){
+  getActivationtext(plan:any){
 
     let text = `Activate ${plan.name}`
     if (this.hasPlan.length) text = `Change to ${plan.name}`;
 
     return text;
 
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 
 

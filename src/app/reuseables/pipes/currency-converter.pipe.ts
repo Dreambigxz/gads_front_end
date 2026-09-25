@@ -36,9 +36,12 @@ export class CurrencyConverterPipe implements PipeTransform {
     const symbol = this.init_currency?.symbol || '';
     let converted;
 
+    // console.log({symbol});
 
     if (symbol?.toLowerCase()==='trx') {
       converted = amount / rate;
+      // console.log({converted, amount}, "TRX");
+
     }else{
       converted = amount * rate;
     }

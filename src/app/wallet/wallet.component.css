@@ -1,0 +1,377 @@
+:host {
+
+    display: block;
+
+    background:
+        var(--bg);
+
+    min-height: 10vh;
+
+    color:
+        var(--text);
+
+}
+
+
+/*============================
+        PAGE
+=============================*/
+
+.wallet-page {
+
+    /* min-height: 100vh; */
+
+    /* background:
+        var(--bg);
+      padding-bottom: var(--bottom-space); */
+
+      width: 100%;
+      max-width: 760px; /* tablet width */
+      /* min-height: 100vh; */
+      margin: 0 auto;
+      /* background: #fff; */
+      overflow-x: hidden;
+
+}
+
+
+.wallet-body {
+
+    padding: 16px;
+
+}
+
+
+/*============================
+      PAYMENT RECEIPT
+=============================*/
+
+.receipt-card {
+
+    background:
+        var(--surface-2);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-xl);
+
+    padding: 22px;
+
+    color:
+        var(--text);
+
+    box-shadow:
+        var(--shadow-card);
+
+    margin-bottom: 12px;
+
+}
+
+
+/*============================
+      RECEIPT STATUS
+=============================*/
+
+.receipt-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 18px;
+
+    border-radius:
+        var(--radius-lg);
+
+    margin-bottom: 22px;
+
+    border:
+        1px solid var(--border);
+
+}
+
+
+.receipt-status h3 {
+
+    margin: 0;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color:
+        var(--text);
+
+}
+
+
+.receipt-status span {
+
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    color:
+        var(--text-secondary);
+
+    line-height: 1.5;
+
+}
+
+
+/*============================
+        PENDING
+=============================*/
+
+.receipt-status.pending {
+
+    background:
+        var(--info-soft);
+
+    border-color:
+        var(--info-border);
+
+}
+
+
+.pending .status-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    border-radius:
+        var(--radius-md);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color:
+        var(--info);
+
+    font-size: 22px;
+
+}
+
+
+/*============================
+      CONFIRMATION
+=============================*/
+
+.receipt-status.confirmation {
+
+    background:
+        var(--warning-soft);
+
+    border-color:
+        var(--warning-border);
+
+}
+
+
+.confirmation .status-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    border-radius:
+        var(--radius-md);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color:
+        var(--warning);
+
+    font-size: 22px;
+
+}
+
+
+/*============================
+      DIVIDER
+=============================*/
+
+.receipt-divider {
+
+    height: 1px;
+
+    background:
+        var(--border);
+
+    margin: 18px 0;
+
+}
+
+
+/*============================
+      RECEIPT ITEM
+=============================*/
+
+.receipt-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 14px 0;
+
+    border-bottom:
+        1px dashed var(--border);
+
+}
+
+
+.receipt-item:last-of-type {
+
+    border: none;
+
+}
+
+
+.receipt-item span {
+
+    color:
+        var(--text-secondary);
+
+    font-size: 13px;
+
+}
+
+
+.receipt-item strong {
+
+    color:
+        var(--text);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+/*============================
+        SUCCESS
+=============================*/
+
+.success {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color:
+        var(--primary) !important;
+
+}
+
+
+/*============================
+      RECEIPT FOOTER
+=============================*/
+
+.receipt-footer {
+
+    margin-top: 22px;
+
+    padding: 16px;
+
+    border-radius:
+        var(--radius-md);
+
+    background:
+        var(--surface);
+
+    display: flex;
+
+    gap: 10px;
+
+    color:
+        var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+/*============================
+        DELETE BUTTON
+=============================*/
+
+.delete-btn {
+
+    width: 100%;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    border:
+        1px solid var(--danger-border);
+
+    border-radius:
+        var(--radius-md);
+
+    background:
+        var(--danger-soft);
+
+    color:
+        var(--danger);
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .25s ease;
+
+}
+
+
+.delete-btn:hover {
+
+    background:
+        var(--danger);
+
+    color:
+        #FFFFFF;
+
+    box-shadow:
+        0 8px 22px var(--danger-glow);
+
+}
+
+
+.delete-btn:active {
+
+    transform:
+        scale(.98);
+
+}

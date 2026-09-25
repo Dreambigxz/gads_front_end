@@ -1,0 +1,359 @@
+<ng-container
+  *ngIf="
+    walletService().savedAdd?.length;
+    else emptyMethod
+  "
+>
+  <!-- Saved withdrawal wallet -->
+
+  <section class="withdrawal-method">
+    <div class="method-heading">
+      <div class="method-title">
+        <span class="method-icon">
+          <i
+            class="bi bi-wallet2"
+            aria-hidden="true"
+          ></i>
+        </span>
+
+        <div>
+          <small>Withdrawal destination</small>
+          <h2>Saved Wallet</h2>
+        </div>
+      </div>
+
+      <button
+        class="edit-method"
+        type="button"
+        (click)="editMethod()"
+      >
+        <i
+          class="bi bi-pencil-square"
+          aria-hidden="true"
+        ></i>
+
+        <span>Edit</span>
+      </button>
+    </div>
+
+    <div class="method-information">
+      <div class="wallet-address">
+        <span>Receive address</span>
+
+        <strong>
+          {{
+            walletService()
+              .savedAdd?.[0]
+              .account_number
+              | truncateCenter:20
+          }}
+        </strong>
+      </div>
+
+      <span
+        class="method-divider"
+        aria-hidden="true"
+      ></span>
+
+      <div class="wallet-network">
+        <span>Account holder</span>
+
+        <strong>
+          {{
+            walletService()
+              .savedAdd?.[0]
+              .account_holder
+          }}
+        </strong>
+      </div>
+
+      <span class="verified-badge">
+        <i
+          class="bi bi-shield-check"
+          aria-hidden="true"
+        ></i>
+
+        Verified
+      </span>
+    </div>
+  </section>
+
+  <!-- Withdrawal amount -->
+
+  <section class="amount-card">
+    <header class="amount-card__header">
+      <div>
+        <small>Withdrawal details</small>
+        <h2>Enter Amount</h2>
+      </div>
+
+      <div class="available-balance">
+        <span>Available balance</span>
+
+        <strong>
+          {{
+            walletService()
+              .quickNav
+              .storeData
+              .store['wallet']
+              ?.balance
+              | currencyConverter:
+                true:
+                walletService()
+                  .paymentMethod
+                  .code
+          }}
+        </strong>
+      </div>
+    </header>
+
+    <!-- Amount input -->
+
+    <div class="amount-field">
+      <label for="withdrawal-amount">
+        Amount to withdraw
+      </label>
+
+      <div
+        class="amount-input"
+        [class.invalid]="
+          amount &&
+          amount <
+            walletService().minimumPayment
+        "
+      >
+        <span class="currency-symbol">
+          {{
+            walletService()
+              .paymentMethod
+              .symbol
+          }}
+        </span>
+
+        <input
+          id="withdrawal-amount"
+          type="number"
+          [(ngModel)]="amount"
+          placeholder="0.00"
+          min="0"
+          inputmode="decimal"
+          readonly
+        >
+
+        <!-- <button
+          type="button"
+          (click)="max()"
+        >
+          MAX
+        </button> -->
+      </div>
+
+      <div class="amount-information">
+        <span>
+          Minimum:
+          <strong>
+            {{walletService()
+              .paymentMethod
+              .symbol}}{{
+              walletService()
+                .minimumPayment
+
+            }}
+          </strong>
+        </span>
+
+        @if (
+          amount &&
+          amount < walletService().minimumPayment
+        ) {
+          <small class="amount-error">
+            Amount is below the minimum withdrawal.
+          </small>
+        }
+      </div>
+    </div>
+
+    <!-- Quick amounts -->
+
+    <div class="quick-amount">
+      <span class="quick-title">
+        Withdrawal Box
+      </span>
+
+      <div class="quick-grid">
+        <button
+          *ngFor="let item of quickAmounts"
+          type="button"
+          [class.active]="amount === item"
+          (click)="setAmount(item)"
+        >
+          {{
+            item
+              | currencyConverter:
+                false:
+                walletService()
+                  .paymentMethod
+                  .code
+              | number
+          }}
+        </button>
+
+        <!-- <button
+          class="max"
+          type="button"
+          (click)="max()"
+        >
+          MAX
+        </button> -->
+      </div>
+    </div>
+
+    <!-- Withdrawal summary -->
+
+    <section class="withdrawal-summary">
+      <header>
+        <h3>Withdrawal Summary</h3>
+
+        <span class="summary-currency">
+          {{
+            walletService()
+              .paymentMethod
+              .code
+          }}
+        </span>
+      </header>
+
+      <div class="summary-row">
+        <span>Withdrawal amount</span>
+
+        <strong>
+          {{
+            amount || 0
+              | currencyConverter:
+                true:
+                walletService()
+                  .paymentMethod
+                  .code
+          }}
+        </strong>
+      </div>
+
+      <div class="summary-row">
+        <span>
+          Processing fee
+
+          <i
+            class="bi bi-info-circle"
+            aria-hidden="true"
+          ></i>
+        </span>
+
+        <strong>
+          {{ walletService().withdraw_fee }}%
+        </strong>
+      </div>
+
+      <span
+        class="summary-divider"
+        aria-hidden="true"
+      ></span>
+
+      <div class="summary-row summary-total">
+        <span>You receive</span>
+
+        <strong>
+          {{
+            walletService()
+              .paymentMethod
+              .symbol
+          }}{{ receive | number:'1.2-8' }}
+        </strong>
+      </div>
+    </section>
+
+    <div class="withdrawal-security">
+      <i
+        class="bi bi-shield-check"
+        aria-hidden="true"
+      ></i>
+
+      <p>
+        Verify the wallet address carefully.
+        Crypto withdrawals cannot be reversed
+        after processing.
+      </p>
+    </div>
+
+    <button
+      class="withdraw-button"
+      type="submit"
+      [disabled]="
+        !amount ||
+        amount <
+          walletService().minimumPayment
+        ||!quickAmounts.includes(walletService().convertToUsd(amount))
+      "
+      (click)="withdraw()"
+    >
+      <span>Withdraw Funds</span>
+
+      <i
+        class="bi bi-arrow-right"
+        aria-hidden="true"
+      ></i>
+    </button>
+  </section>
+</ng-container>
+
+
+<!-- No saved withdrawal method -->
+
+<ng-template #emptyMethod>
+  <section class="empty-method">
+    <span class="empty-method__icon">
+      <i
+        class="bi bi-wallet2"
+        aria-hidden="true"
+      ></i>
+    </span>
+
+    <span class="empty-method__label">
+      Withdrawal setup
+    </span>
+
+    <h2>No Withdrawal Method</h2>
+
+    <p>
+      Add your preferred crypto wallet to
+      receive secure withdrawals from your
+      account.
+    </p>
+
+    <button
+      class="add-method-button"
+      type="button"
+      (click)="addMethod()"
+    >
+      <i
+        class="bi bi-plus-circle"
+        aria-hidden="true"
+      ></i>
+
+      <span>Add Payment Method</span>
+
+      <i
+        class="bi bi-chevron-right"
+        aria-hidden="true"
+      ></i>
+    </button>
+  </section>
+</ng-template>
+
+
+<app-wp-sheet
+  *ngIf="
+    walletService().withdrawalSheet$
+      | async
+  "
+  [editMode]="hasMethod"
+></app-wp-sheet>

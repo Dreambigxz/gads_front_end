@@ -1,0 +1,462 @@
+<!-- <app-header></app-header> -->
+<app-spinner></app-spinner>
+
+
+<main class="transactions-page">
+  <header class="transactions-header">
+    <button
+      class="header-button"
+      type="button"
+      aria-label="Go back"
+      onclick="history.back()"
+    >
+      <i
+        class="bi bi-chevron-left"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <h1>Transactions</h1>
+
+    <button
+      class="header-button filter-button"
+      type="button"
+      aria-label="Transaction filters"
+    >
+      <i
+        class="bi bi-funnel"
+        aria-hidden="true"
+      ></i>
+    </button>
+  </header>
+
+  <div class="transactions-container">
+    <!-- Summary -->
+
+    <section class="activity-card">
+      <span class="activity-label">
+        Total Activity
+      </span>
+
+      <strong class="activity-total">
+        {{
+          totalActivity()
+            | currency:'USD':'symbol':'1.2-2'
+        }}
+      </strong>
+
+      <div class="activity-breakdown">
+        <div>
+          <span class="activity-icon deposit">
+            <i
+              class="bi bi-arrow-down-left"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <div>
+            <small>Deposited</small>
+
+            <strong>
+              {{
+                totalDeposited()
+                  | currency:
+                    'USD':
+                    'symbol':
+                    '1.2-2'
+              }}
+            </strong>
+          </div>
+        </div>
+
+        <span
+          class="activity-divider"
+          aria-hidden="true"
+        ></span>
+
+        <div>
+          <span class="activity-icon withdraw">
+            <i
+              class="bi bi-arrow-up-right"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <div>
+            <small>Withdrawn</small>
+
+            <strong>
+              {{
+                totalWithdrawn()
+                  | currency:
+                    'USD':
+                    'symbol':
+                    '1.2-2'
+              }}
+            </strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Type filter -->
+
+    <nav
+      class="type-filter"
+      aria-label="Transaction type"
+    >
+      <button
+        type="button"
+        [class.active]="
+          selectedType() === 'all'
+        "
+        (click)="setTypeFilter('all')"
+      >
+        All
+      </button>
+
+      <button
+        type="button"
+        [class.active]="
+          selectedType() === 'deposit'
+        "
+        (click)="setTypeFilter('deposit')"
+      >
+        Deposits
+      </button>
+
+      <button
+        type="button"
+        [class.active]="
+          selectedType() === 'withdraw'
+        "
+        (click)="setTypeFilter('withdraw')"
+      >
+        Withdrawals
+      </button>
+    </nav>
+
+    <!-- Asset filter -->
+
+    <nav
+      class="asset-filter"
+      aria-label="Cryptocurrency"
+    >
+      <button
+        type="button"
+        [class.active]="
+          selectedAsset() === 'all'
+        "
+        (click)="setAssetFilter('all')"
+      >
+        All assets
+      </button>
+
+      @for (
+        asset of ['USD', 'BNB', 'TRX'];
+        track asset
+      ) {
+        <button
+          type="button"
+          [class.active]="
+            selectedAsset() === asset
+          "
+          (click)="
+            setAssetFilter($any(asset))
+          "
+        >
+          <span
+            class="filter-asset-icon"
+            [style.--asset-color]="
+              assetColor(asset)
+            "
+          >
+            {{ assetIcon(asset) }}
+          </span>
+
+          {{ asset }}
+        </button>
+      }
+    </nav>
+
+    <!-- Transaction list -->
+
+    <section class="transaction-section">
+      <header class="section-header">
+        <div>
+          <span>Wallet activity</span>
+          <h2>Recent Transactions</h2>
+        </div>
+
+        <small>
+          {{ filteredTransactions().length }}
+          results
+        </small>
+      </header>
+
+      @if (loading()) {
+        <div class="transaction-loading">
+          <span class="loader"></span>
+          <p>Loading transactions...</p>
+        </div>
+      } @else if (
+        filteredTransactions().length
+      ) {
+        <div class="transaction-list">
+          @for (
+            transaction of
+              filteredTransactions();
+            track transaction.id
+          ) {
+            <button
+              class="transaction-item"
+              type="button"
+              (click)="
+                openTransaction(transaction)
+              "
+            >
+              <span
+                class="transaction-asset-icon"
+                [style.--asset-color]="
+                  assetColor(
+                    transaction.method
+                  )
+                "
+              >
+                {{
+                  assetIcon(
+                    transaction.method
+                  )
+                }}
+              </span>
+
+              <span class="transaction-main">
+                <strong>
+                  {{ transaction.method }}
+
+                  {{
+                    transaction.type ===
+                    'deposit'
+                      ? 'Deposit'
+                      : 'Withdrawal'
+                  }}
+                </strong>
+
+                <small>
+                  {{
+                    transaction.extraField
+                      .network || 'Network'
+                  }}
+                  <span>•</span>
+                  {{
+                    shortHash(
+                      transaction.transactionID
+                    )
+                  }}
+                </small>
+
+                <small>
+                  {{
+                    transaction.timestamp
+                      | date:
+                        'MMM d, y · h:mm a'
+                  }}
+                </small>
+              </span>
+
+              <span class="transaction-result">
+                <strong
+                  [class.deposit]="
+                    transaction.type ===
+                    'deposit'
+                  "
+                  [class.withdraw]="
+                    transaction.type ===
+                    'withdraw'
+                  "
+                >
+                  {{
+                    transaction.type ===
+                    'deposit'
+                      ? '+'
+                      : '-'
+                  }}${{
+                    transaction.amount
+                      | number:'1.2-2'
+                  }}
+                </strong>
+
+                <small
+                  class="status-badge"
+                  [class]="
+                    'status-badge ' +
+                    statusClass(transaction)
+                  "
+                >
+                  {{
+                    displayStatus(transaction)
+                  }}
+                </small>
+              </span>
+
+              <i
+                class="bi bi-chevron-right"
+                aria-hidden="true"
+              ></i>
+            </button>
+          }
+        </div>
+      } @else {
+        <div class="empty-transactions">
+          <span>
+            <i
+              class="bi bi-receipt"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <h3>No transactions found</h3>
+
+          <p>
+            Try changing the selected transaction
+            or asset filter.
+          </p>
+        </div>
+      }
+    </section>
+  </div>
+</main>
+
+<!-- Transaction detail -->
+
+@if (selectedTransaction(); as transaction) {
+  <div
+    class="detail-backdrop"
+    role="presentation"
+    (click)="closeTransaction()"
+  >
+    <section
+      class="transaction-detail"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="transaction-detail-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header>
+        <div>
+          <small>Transaction details</small>
+
+          <h2 id="transaction-detail-title">
+            {{ transaction.method }}
+
+            {{
+              transaction.type === 'deposit'
+                ? 'Deposit'
+                : 'Withdrawal'
+            }}
+          </h2>
+        </div>
+
+        <button
+          type="button"
+          aria-label="Close details"
+          (click)="closeTransaction()"
+        >
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </header>
+
+      <div class="detail-status">
+        <span
+          class="transaction-asset-icon"
+          [style.--asset-color]="
+            assetColor(transaction.method)
+          "
+        >
+          {{ assetIcon(transaction.method) }}
+        </span>
+
+        <strong>
+          {{
+            transaction.type === 'deposit'
+              ? '+'
+              : '-'
+          }}${{
+            transaction.amount
+              | number:'1.2-2'
+          }}
+        </strong>
+
+        <span
+          class="status-badge"
+          [class]="
+            'status-badge ' +
+            statusClass(transaction)
+          "
+        >
+          {{ displayStatus(transaction) }}
+        </span>
+      </div>
+
+      <div class="detail-list">
+        <div>
+          <span>Transaction reference</span>
+          <strong>#{{ transaction.txref }}</strong>
+        </div>
+
+        <div>
+          <span>Session ID</span>
+          <strong>
+            {{ transaction.sessionID }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Network</span>
+          <strong>
+            {{
+              transaction.extraField.network ||
+              'Not provided'
+            }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Processing fee</span>
+          <strong>
+            ${{
+              transaction.processFee
+                | number:'1.2-2'
+            }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Date</span>
+          <strong>
+            {{
+              transaction.timestamp
+                | date:
+                  'MMM d, y · h:mm a'
+            }}
+          </strong>
+        </div>
+
+        <div class="hash-row">
+          <span>Transaction hash</span>
+          <strong>
+            {{ transaction.transactionID }}
+          </strong>
+        </div>
+      </div>
+
+      <button
+        class="detail-close-button"
+        type="button"
+        (click)="closeTransaction()"
+      >
+        Done
+      </button>
+    </section>
+  </div>
+}

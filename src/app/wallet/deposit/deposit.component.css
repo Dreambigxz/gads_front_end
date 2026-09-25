@@ -1,0 +1,540 @@
+/* =========================================
+   NETWORK SECTION
+========================================= */
+
+.deposit-section {
+  margin-top: var(--space-6);
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+
+  margin-bottom: var(--space-3);
+}
+
+.section-heading > div {
+  display: grid;
+  gap: 3px;
+}
+
+.section-heading div > span {
+  color: var(--color-primary);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-extra-bold);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: var(--text-primary);
+
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-extra-bold);
+  line-height: var(--line-height-tight);
+}
+
+.section-heading small {
+  color: var(--text-muted);
+
+  font-size: var(--font-size-xs);
+  text-align: right;
+}
+
+/* Network selector */
+
+.network-select {
+  position: relative;
+
+  display: grid;
+  grid-template-columns:
+    38px
+    minmax(0, 1fr)
+    18px;
+  align-items: center;
+  gap: var(--space-2);
+
+  min-height: var(--input-height);
+  padding:
+    var(--space-2)
+    var(--space-3);
+
+  border: var(--border-width)
+    solid var(--border-color);
+  border-radius: var(--radius-md);
+
+  background: var(--background-surface);
+
+  box-shadow: var(--shadow-xs);
+
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.network-select:focus-within {
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      var(--color-primary-rgb),
+      0.08
+    );
+}
+
+.network-icon {
+  display: grid;
+  place-items: center;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: var(--radius-round);
+
+  color: var(--text-on-primary);
+  background: var(--gradient-primary);
+
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-extra-bold);
+
+  box-shadow: var(--shadow-primary);
+}
+
+.network-select select {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  padding: 0;
+
+  border: 0;
+  outline: 0;
+
+  color: var(--text-primary);
+  background: transparent;
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+
+  cursor: pointer;
+}
+
+.network-select > i {
+  color: var(--text-muted);
+
+  font-size: var(--font-size-sm);
+
+  pointer-events: none;
+}
+
+
+/* =========================================
+   DEPOSIT ADDRESS CARD
+========================================= */
+
+.address-card {
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+
+  border: var(--border-width)
+    solid var(--border-color);
+  border-radius: var(--radius-xl);
+
+  background: var(--background-surface);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.address-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.address-card__header > div {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.address-card__header > div > span {
+  color: var(--text-muted);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.address-card__header strong {
+  overflow: hidden;
+
+  color: var(--text-primary);
+
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-extra-bold);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.secure-badge {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 5px;
+
+  padding: 6px 9px;
+
+  border: var(--border-width)
+    solid var(--color-success-border);
+  border-radius: var(--radius-pill);
+
+  color: var(--color-success-dark);
+  background: var(--color-success-soft);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+.secure-badge i {
+  color: var(--color-success);
+  font-size: var(--font-size-sm);
+}
+
+
+/* =========================================
+   QR CODE
+========================================= */
+
+.qr-code,
+.qr-placeholder {
+  display: grid;
+  place-items: center;
+
+  width: 180px;
+  height: 180px;
+
+  margin:
+    var(--space-5)
+    auto;
+
+  overflow: hidden;
+
+  border: var(--border-width)
+    solid var(--border-color);
+  border-radius: var(--radius-lg);
+
+  background: var(--background-surface);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.qr-code img,
+.qr-placeholder img {
+  display: block;
+
+  width: 150px;
+  height: 150px;
+
+  padding: 5px;
+
+  object-fit: contain;
+
+  border-radius: var(--radius-xs);
+  background: #ffffff;
+}
+
+
+/* =========================================
+   WALLET ADDRESS
+========================================= */
+
+.wallet-address {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+
+  padding: var(--space-3);
+
+  border: var(--border-width)
+    solid var(--border-color);
+  border-radius: var(--radius-md);
+
+  background: var(--background-surface-soft);
+}
+
+.wallet-address > div {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.wallet-address > div > span {
+  color: var(--text-muted);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.wallet-address strong {
+  display: block;
+  overflow: hidden;
+
+  color: var(--text-primary);
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+
+  letter-spacing: 0.15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wallet-address button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 5px;
+
+  min-height: var(--button-height-sm);
+  padding:
+    0
+    var(--space-3);
+
+  border: 0;
+  border-radius: var(--radius-sm);
+
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.wallet-address button:hover {
+  color: var(--text-on-primary);
+  background: var(--color-primary);
+}
+
+.wallet-address button:active {
+  transform: scale(0.96);
+}
+
+.wallet-address button.copied {
+  color: var(--color-success-dark);
+  background: var(--color-success-soft);
+}
+
+.wallet-address button.copied:hover {
+  color: var(--text-on-primary);
+  background: var(--color-success);
+}
+
+
+/* =========================================
+   DEPOSIT WARNING
+========================================= */
+
+.deposit-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+
+  border: var(--border-width)
+    solid var(--color-danger-border);
+  border-radius: var(--radius-md);
+
+  color: var(--color-danger-dark);
+  background: var(--color-danger-soft);
+}
+
+.deposit-warning > i {
+  flex: 0 0 auto;
+
+  margin-top: 2px;
+
+  color: var(--color-danger);
+
+  font-size: var(--font-size-base);
+}
+
+.deposit-warning > div {
+  min-width: 0;
+}
+
+.deposit-warning strong {
+  display: block;
+
+  color: var(--color-danger-dark);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-extra-bold);
+}
+
+.deposit-warning p {
+  margin:
+    var(--space-1)
+    0;
+
+  color: var(--color-danger-dark);
+
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+.deposit-warning small {
+  display: block;
+
+  color: var(--text-secondary);
+
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-normal);
+  font-weight: 900;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 430px) {
+  .deposit-section {
+    margin-top: var(--space-5);
+  }
+
+  .section-heading {
+    align-items: flex-start;
+  }
+
+  .section-heading small {
+    max-width: 145px;
+  }
+
+  .address-card {
+    padding: var(--space-4);
+
+    border-radius: var(--radius-lg);
+  }
+
+  .qr-code,
+  .qr-placeholder {
+    width: 160px;
+    height: 160px;
+
+    margin:
+      var(--space-4)
+      auto;
+  }
+
+  .qr-code img,
+  .qr-placeholder img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .wallet-address {
+    padding: 10px;
+  }
+
+  .wallet-address button {
+    width: 36px;
+    padding: 0;
+  }
+
+  .wallet-address button span {
+    display: none;
+  }
+
+  .deposit-warning {
+    gap: var(--space-2);
+    padding: 10px;
+  }
+}
+
+@media (max-width: 350px) {
+  .section-heading small {
+    display: none;
+  }
+
+  .address-card__header {
+    align-items: flex-start;
+  }
+
+  .secure-badge {
+    padding: 5px 7px;
+  }
+
+  .qr-code,
+  .qr-placeholder {
+    width: 145px;
+    height: 145px;
+  }
+
+  .qr-code img,
+  .qr-placeholder img {
+    width: 128px;
+    height: 128px;
+  }
+}
+
+/* check payment */
+.check-payment-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  width: 100%;
+  min-height: var(--button-height-md);
+  margin: 10px auto var(--space-5);
+  padding: 0 var(--space-4);
+
+  border: 0;
+  border-radius: var(--radius-md);
+
+  color: var(--text-on-primary);
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-primary);
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.check-payment-btn:active {
+  transform: scale(0.98);
+}

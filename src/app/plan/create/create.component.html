@@ -1,9 +1,12 @@
 <app-header
   [wallet]="quickNav.storeData.store['wallet']"/>
+
 <app-plan-summary
   [trade]="quickNav.storeData.store['plan_summary']"
+  [ads]="quickNav.storeData.store['ads']"
   [plan]="quickNav.storeData.store['plans']"
   [hasPlan]="hasPlan"
+  [adsService]="adsService"
   />
 
 <main class="activation-page">

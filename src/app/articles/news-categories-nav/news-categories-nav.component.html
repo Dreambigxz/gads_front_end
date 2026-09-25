@@ -33,45 +33,5 @@
       [section]="section"
     ></app-news-list>
 
-    <!-- Advertisement after the first category -->
-    @if (index === 0) {
-
-      <aside
-        class="promotion"
-        aria-label="Advertisement"
-      >
-        <div class="promotion-label">
-          Advertisement
-        </div>
-
-        <div class="promotion-content">
-          <div class="promotion-icon">
-            <i class="bi bi-megaphone-fill"></i>
-          </div>
-
-          <div class="promotion-copy">
-            <span class="sponsored-label">
-              Sponsored
-            </span>
-
-            <h3>Grow your business online</h3>
-
-            <p>
-              Reach more customers with fast and
-              affordable digital advertising.
-            </p>
-          </div>
-
-          <span
-            class="promotion-button"
-            (click)="openPromotion()"
-            rel="noopener noreferrer"
-          >
-            Learn More
-            <i class="bi bi-arrow-up-right"></i>
-          </span>
-        </div>
-      </aside>
-    }
   }
 </div>

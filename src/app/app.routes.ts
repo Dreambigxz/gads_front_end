@@ -7,6 +7,12 @@ import { DetailsComponent } from "./articles/details/details.component";
 
 import { CreatePlanComponent } from "./plan/create/create.component";
 
+import {  SponsoredAdsComponent } from "./sponsored-ads/sponsored-ads.component";
+
+import { DepositComponent } from "./wallet/deposit/deposit.component";
+import { WithdrawComponent } from "./wallet/withdraw/withdraw.component";
+import { TransactionsComponent } from "./wallet/transactions/transactions.component";
+
 export const routes: Routes = [
 
   // auth
@@ -36,12 +42,41 @@ export const routes: Routes = [
 
   //activate plan
   {
-    path:"plan/activation",
+    path:"plan/task",
     component: CreatePlanComponent,
     title:"Activate plan",
     canActivate: [authGuard]
 
-  }
+  },
+
+
+  {
+    path:"ads",
+    component: SponsoredAdsComponent,
+    canActivate: [authGuard]
+
+  },
+
+  // wallet routes
+  {
+    path:"wallet/deposit",
+    component: DepositComponent,
+    canActivate: [authGuard]
+
+  },
+  {
+    path:"wallet/withdraw",
+    component: WithdrawComponent,
+    canActivate: [authGuard]
+
+  },
+  {
+    path:"wallet/transactions",
+    component:  TransactionsComponent,
+    title: "Transaction",
+    canActivate: [authGuard]
+
+  },
 
 
 ];

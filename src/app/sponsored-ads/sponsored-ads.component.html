@@ -1,0 +1,397 @@
+@if (modal.isOpen()) {
+  <div
+    class="ads-modal-backdrop"
+    role="presentation"
+    (click)="closeFromBackdrop($event)"
+  >
+    <section
+      class="ads-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ads-modal-title"
+    >
+      <header class="ads-modal__header">
+        <div class="modal-heading">
+          <span class="modal-heading__icon">
+            <i
+              class="bi bi-stars"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <div>
+            <span class="modal-eyebrow">
+              Sponsored opportunities
+            </span>
+
+            <h2 id="ads-modal-title">
+              Today's Sponsored Tasks
+            </h2>
+          </div>
+        </div>
+
+        <button
+          class="modal-close"
+          type="button"
+          aria-label="Close sponsored tasks"
+          (click)="modal.close()"
+        >
+          <i
+            class="bi bi-x-lg"
+            aria-hidden="true"
+          ></i>
+        </button>
+      </header>
+
+      @if (modal.ads(); as adsData) {
+        <div *ngIf="!modal.ads().sponsors.length" class="task-summary">
+          <div class="task-summary__item available">
+            <span class="task-summary__icon">
+              <i class="bi bi-megaphone-fill"></i>
+            </span>
+
+            <div class="task-summary__content">
+              <span>Available</span>
+
+              <strong>
+                {{ adsData.sponsors?.length || 0 }}
+              </strong>
+            </div>
+          </div>
+
+          <div class="task-summary__item completed">
+            <span class="task-summary__icon">
+              <i class="bi bi-check2-circle"></i>
+            </span>
+
+            <div class="task-summary__content">
+              <span>Completed</span>
+
+              <strong>
+                {{ adsData.completed_today || 0 }}
+              </strong>
+            </div>
+          </div>
+
+          <div class="task-summary__item target">
+            <span class="task-summary__icon">
+              <i class="bi bi-bullseye"></i>
+            </span>
+
+            <div class="task-summary__content">
+              <span>Daily target</span>
+
+              <strong>
+                {{ adsData.daily_limit || 0 }}
+              </strong>
+            </div>
+          </div>
+
+          <div class="task-summary__progress">
+            <div class="task-summary__progress-header">
+              <span>Daily progress</span>
+
+              <strong>
+                {{ adsData.completed_today || 0 }}
+                /
+                {{ adsData.daily_limit || 0 }}
+              </strong>
+            </div>
+
+            <div
+              class="task-summary__track"
+              role="progressbar"
+              [attr.aria-valuenow]="
+                getDailyProgress(adsData)
+              "
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <span
+                [style.width.%]="
+                  getDailyProgress(adsData)
+                "
+              ></span>
+            </div>
+          </div>
+
+          @if (
+            adsData.schedule?.locked_count > 0 &&
+            adsData.schedule?.next_release_at
+          ) {
+            <div class="task-summary__release">
+              <i
+                class="bi bi-clock-history"
+                aria-hidden="true"
+              ></i>
+
+              <span>
+                {{ adsData.schedule.locked_count }}
+                {{
+                  adsData.schedule.locked_count === 1
+                    ? 'task'
+                    : 'tasks'
+                }}
+                unlock at
+                <strong>
+                  {{
+                    adsData.schedule.next_release_at
+                      | date:'h:mm a'
+                  }}
+                </strong>
+              </span>
+            </div>
+          }
+        </div>
+
+        <div class="ads-modal__body">
+          @if (loading) {
+            <div class="promotion-loading">
+              <span class="loader"></span>
+
+              <p>Loading sponsored tasks...</p>
+            </div>
+          }
+
+          @else if (adsData.sponsors?.length) {
+            <div class="promotions">
+              @for (
+                ad of adsData.sponsors;
+                track ad.id;
+                let index = $index
+              ) {
+                <article class="promotion">
+                  <span class="promotion-label">
+                    Advertisement
+                  </span>
+
+                  <div class="promotion-banner">
+                    <div class="promotion-main">
+                      <div class="promotion-image">
+                        @if (ad.image) {
+                          <img
+                            [src]="ad.image"
+                            [alt]="ad.advertiser"
+                            loading="lazy"
+                            (error)="handleImageError($event)"
+                          >
+                        } @else {
+                          <span>
+                            {{
+                              ad.advertiser
+                                .charAt(0)
+                                .toUpperCase()
+                            }}
+                          </span>
+                        }
+                      </div>
+
+                      <div class="promotion-copy">
+                        <span class="sponsored-label">
+                          <i
+                            class="bi bi-patch-check-fill"
+                            aria-hidden="true"
+                          ></i>
+
+                          Sponsored
+                        </span>
+
+                        <h3>{{ ad.title }}</h3>
+
+                        <p>{{ ad.description }}</p>
+
+                        <div class="promotion-meta">
+                          <span>
+                            {{ ad.minimum_view_seconds }}
+                            sec task
+                          </span>
+
+                          <span aria-hidden="true">
+                            •
+                          </span>
+
+                          <strong>
+                            Earn ${{ ad.reward_amount }}
+                          </strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      class="promotion-button"
+                      type="button"
+                      [disabled]="
+                        processingAdId === ad.id
+                      "
+                      (click)="trackAdOpen(ad)"
+                    >
+                      @if (
+                        processingAdId === ad.id
+                      ) {
+                        <span>Opening...</span>
+
+                        <span
+                          class="button-loader"
+                          aria-hidden="true"
+                        ></span>
+                      } @else {
+                        <span>
+                          {{ ad.button_text }}
+                        </span>
+
+                        <i
+                          class="bi bi-arrow-up-right"
+                          aria-hidden="true"
+                        ></i>
+                      }
+                    </button>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+
+          <!-- No ads now, but another release is coming -->
+          @else if (
+            !adsData.daily_completed &&
+            adsData.completed_today <
+              adsData.daily_limit &&
+            adsData.schedule?.next_release_at
+          ) {
+            <div class="next-release-state">
+              <span class="next-release-state__icon">
+                <i
+                  class="bi bi-clock-history"
+                  aria-hidden="true"
+                ></i>
+              </span>
+
+              <span class="next-release-state__label">
+                More tasks are coming
+              </span>
+
+              <h3>Check back soon</h3>
+
+              <p>
+                You have completed all tasks currently
+                available. Your next sponsored tasks
+                will unlock at
+              </p>
+
+              <strong class="next-release-time">
+                {{
+                  adsData.schedule.next_release_at
+                    | date:'h:mm a'
+                }}
+              </strong>
+
+              <div class="countdown">
+                <i
+                  class="bi bi-alarm"
+                  aria-hidden="true"
+                ></i>
+
+                <span>
+                  {{ countdownText() }}
+                </span>
+              </div>
+
+              <!-- <div class="release-progress">
+                <div class="release-progress__top">
+                  <span>Today's progress</span>
+
+                  <strong>
+                    {{
+                      adsData.completed_today
+                    }}/{{ adsData.daily_limit }}
+                  </strong>
+                </div>
+
+                <div class="release-progress__track">
+                  <span
+                    [style.width.%]="
+                      getDailyProgress(adsData)
+                    "
+                  ></span>
+                </div>
+              </div> -->
+            </div>
+          }
+
+          <!-- Daily target completed -->
+          @else if (
+            adsData.daily_completed ||
+            (
+              adsData.daily_limit > 0 &&
+              adsData.completed_today >=
+                adsData.daily_limit
+            )
+          ) {
+            <div class="promotion-empty completed">
+              <span class="promotion-empty__icon">
+                <i
+                  class="bi bi-check2-circle"
+                  aria-hidden="true"
+                ></i>
+              </span>
+
+              <h3>Today's tasks completed</h3>
+
+              <p>
+                You have completed all sponsored tasks
+                available today. New tasks will become
+                available tomorrow.
+              </p>
+
+              <strong>
+                {{ adsData.completed_today }}
+                of
+                {{ adsData.daily_limit }}
+                completed
+              </strong>
+            </div>
+          }
+
+          <!-- No active adverts and no known release -->
+          @else {
+            <div class="promotion-empty unavailable">
+              <span class="promotion-empty__icon">
+                <i
+                  class="bi bi-megaphone"
+                  aria-hidden="true"
+                ></i>
+              </span>
+
+              <h3>No sponsored tasks available</h3>
+
+              <p>
+                There are no active sponsored tasks
+                available right now. Please check
+                again later.
+              </p>
+
+              @if (adsData.schedule?.check_back_at) {
+                <small>
+                  Check again around
+                  {{
+                    adsData.schedule.check_back_at
+                      | date:'MMM d, h:mm a'
+                  }}
+                </small>
+              }
+            </div>
+          }
+        </div>
+
+        <footer class="ads-modal__footer">
+          <i
+            class="bi bi-shield-check"
+            aria-hidden="true"
+          ></i>
+
+          Rewards are credited after task verification.
+        </footer>
+      }
+    </section>
+  </div>
+}

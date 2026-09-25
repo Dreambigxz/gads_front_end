@@ -1,0 +1,232 @@
+<!-- <app-header></app-header> -->
+<app-spinner></app-spinner>
+
+<div class="wallet-page">
+
+    <!-- HEADER -->
+
+    <app-crypto-header
+      [assets]=walletService.assets()
+      [walletService]="walletService"
+      [balance]="walletService.quickNav.storeData.store['wallet']?.balance"
+    />
+
+    <!-- BODY -->
+    <div class="wallet-body">
+
+      <div *ngIf="walletService.payment">
+        <app-withdraw-method
+           [walletService]="walletService"
+           *ngIf="!walletService.quickNav.storeData.store['withdraw']?.length; else PendingWithdrawal">
+        </app-withdraw-method>
+
+        <ng-template #PendingWithdrawal>
+            <ng-container
+              *ngIf="
+                walletService.quickNav.storeData
+                  .store['withdraw']?.[0]
+                  as payment
+              "
+            >
+              <section class="pending-withdrawal">
+                <!-- Status header -->
+
+                <header class="pending-withdrawal__header">
+                  <span class="pending-status-icon">
+                    <i
+                      class="bi bi-hourglass-split"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+
+                  <div class="pending-status-copy">
+                    <span class="pending-label">
+                      Withdrawal pending
+                    </span>
+
+                    <h2>Awaiting Withdrawal</h2>
+
+                    <p>
+                      Your request is under review and will
+                      be processed shortly.
+                    </p>
+                  </div>
+
+                  <span class="pending-badge">
+                    <span></span>
+                    Pending
+                  </span>
+                </header>
+
+                <!-- Amount -->
+
+                <div class="withdrawal-amount">
+                  <span>Amount requested</span>
+
+                  <strong>
+                    {{
+                      payment.amount
+                        | currencyConverter:
+                          false:
+                          payment.method
+                        | number
+                    }}
+                    {{ payment.method }}
+                  </strong>
+
+                  <small>
+                    Processing through
+                    {{ payment.method }}
+                  </small>
+                </div>
+
+                <!-- Processing indicator -->
+
+                <div class="processing-status">
+                  <div class="processing-status__header">
+                    <span>Processing request</span>
+                    <strong>In review</strong>
+                  </div>
+
+                  <div class="processing-track">
+                    <span></span>
+                  </div>
+
+                  <div class="processing-steps">
+                    <span class="completed">
+                      <i class="bi bi-check2"></i>
+                      Submitted
+                    </span>
+
+                    <span class="active">
+                      <i class="bi bi-three-dots"></i>
+                      Reviewing
+                    </span>
+
+                    <span>
+                      <i class="bi bi-wallet2"></i>
+                      Released
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Receipt information -->
+
+                <div class="receipt-details">
+                  <div class="receipt-item">
+                    <span class="receipt-item__icon">
+                      <i
+                        class="bi bi-hash"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+
+                    <div>
+                      <small>Transaction ID</small>
+
+                      <strong>
+                        #{{ payment.sessionID }}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class="receipt-item">
+                    <span class="receipt-item__icon">
+                      <i
+                        class="bi bi-calendar3"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+
+                    <div>
+                      <small>Requested on</small>
+
+                      <strong>
+                        {{
+                          payment.timestamp
+                            | timeFormat:'day'
+                        }}
+                        •
+                        {{
+                          payment.timestamp
+                            | timeFormat:'time'
+                        }}
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Countdown -->
+
+                <section class="release-countdown">
+                  <div class="release-countdown__icon">
+                    <i
+                      class="bi bi-clock-history"
+                      aria-hidden="true"
+                    ></i>
+                  </div>
+
+                  <div>
+                    <span>Estimated release</span>
+
+                    <strong>
+                      {{
+                        payment.timestamp
+                          | countdown:48
+                          | async
+                      }}
+                    </strong>
+
+                    <small>
+                      Your withdrawal may arrive before
+                      this timer ends.
+                    </small>
+                  </div>
+                </section>
+
+                <!-- Information -->
+
+                <div class="receipt-notice">
+                  <i
+                    class="bi bi-info-circle-fill"
+                    aria-hidden="true"
+                  ></i>
+
+                  <p>
+                    Your withdrawal will be credited
+                    automatically once approved. You do not
+                    need to submit another request.
+                  </p>
+                </div>
+              </section>
+
+              <!-- Cancel action -->
+
+              <button
+                class="cancel-withdrawal-button"
+                type="button"
+                (click)="
+                  walletService.cancelPayment(
+                    'withdraw'
+                  )
+                "
+              >
+                <i
+                  class="bi bi-x-circle"
+                  aria-hidden="true"
+                ></i>
+
+                <span>Cancel Withdrawal</span>
+              </button>
+
+              <p class="cancel-description">
+                You can cancel only while the withdrawal
+                remains under review.
+              </p>
+            </ng-container>
+          </ng-template>
+      </div>
+
+    </div>
+
+</div>

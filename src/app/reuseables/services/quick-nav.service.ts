@@ -60,7 +60,7 @@ export class QuickNavService {
 
   helpLinks = {
 
-    'tech': "https://t.me/techdepartment_PHO"
+    'tech': ""
   }
 
    go(url: string,  queryParams?: any, fragment?: string,): void {

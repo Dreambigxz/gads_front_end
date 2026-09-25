@@ -1,0 +1,144 @@
+<!-- <app-header></app-header> -->
+<app-spinner></app-spinner>
+
+<div class="deposit-page app-container">
+
+    <!-- HEADER -->
+
+    <!-- <app-wallet-header>
+      </app-wallet-header> -->
+
+      <app-crypto-header
+        [assets]=walletService.assets()
+        [walletService]="walletService"
+        [balance]="walletService.quickNav.storeData.store['wallet']?.balance"
+      />
+
+    <!-- BODY -->
+    <div class="deposit-body">
+
+        <!-- CRYPTO -->
+
+
+        <ng-container *ngIf="walletService.selectedTab=='crypto'&&walletService.selectedCrypto">
+          @if (walletService.activeNetwork; as network) {
+            <section class="address-card">
+              <div class="address-card__header">
+                <div>
+                  <span>Deposit address</span>
+
+                  <strong>
+                    {{ network.symbol }}
+                    ·
+                    {{ network.display_name }}
+                  </strong>
+                </div>
+
+                <span class="secure-badge">
+                  <i
+                    class="bi bi-shield-check"
+                    aria-hidden="true"
+                  ></i>
+                  Secure
+                </span>
+              </div>
+
+              @if (network.qr_code_url) {
+                <div class="qr-code">
+                  <img
+                    [src]="network.qr_code_url"
+                    [alt]="
+                      network.symbol +
+                      ' deposit QR code'
+                    "
+                  >
+                </div>
+              } @else {
+                <div class="qr-placeholder">
+                  <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data={{network.address}}" />
+                </div>
+              }
+
+
+
+              <div class="wallet-address">
+                <div>
+                  <span>Wallet address</span>
+
+                  <strong>
+                    {{ network.address }}
+                  </strong>
+                </div>
+
+                <button
+                  type="button"
+                  [class.copied]="addressCopied()"
+                  (click)="copyAddress()"
+                >
+                  <i
+                    class="bi"
+                    [class.bi-copy]="
+                      !addressCopied()
+                    "
+                    [class.bi-check2]="
+                      addressCopied()
+                    "
+                  ></i>
+
+                  <span>
+                    {{
+                      addressCopied()
+                        ? 'Copied'
+                        : 'Copy'
+                    }}
+                  </span>
+                </button>
+              </div>
+
+              <button
+                  class="check-payment-btn"
+                  type="button"
+                  (click)="checkPaymentStatus()"
+                >
+                  <i class="bi bi-arrow-repeat"></i>
+                  Check Payment Status
+                </button>
+
+              <div class="deposit-warning">
+                <i
+                  class="bi bi-exclamation-circle-fill"
+                  aria-hidden="true"
+                ></i>
+
+                <div>
+                  <strong>
+                    Important deposit notice
+                  </strong>
+
+                  <p>{{ network.warning }}</p>
+
+                  <small>
+                    Minimum deposit:
+                    {{ walletService.minimumPayment }}
+                    {{ network.symbol }}.
+                    Requires
+                    {{ network.confirmations }}
+                    network confirmation(s).
+                  </small>
+                </div>
+              </div>
+            </section>
+          }
+        </ng-container>
+
+        <ng-container *ngIf="walletService.selectedTab=='local'">
+
+          <app-local
+            [hidden]="walletService.selectedTab!=='local'"
+            [walletService]="walletService"
+            [selectedAccount]="selectedAccount">
+          </app-local>
+          </ng-container>
+
+      </div>
+</div>

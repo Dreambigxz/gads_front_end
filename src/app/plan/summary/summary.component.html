@@ -1,5 +1,25 @@
 <main *ngIf="trade?.active_capital" class="trade-summary" aria-label="Trade summary">
 
+  <button
+    class="do-task-button"
+    type="button"
+    (click)="adsService.open(ads)"
+  >
+    <i
+      class="bi bi-lightning-charge-fill"
+      aria-hidden="true"
+    ></i>
+
+    <span>Do Task</span>
+
+    @if (ads?.sponsors?.length) {
+      <small>
+        {{ ads.sponsors.length }}
+      </small>
+    }
+  </button>
+
+
   <div class="summary-decoration summary-decoration--one"></div>
   <div class="summary-decoration summary-decoration--two"></div>
 
@@ -111,8 +131,8 @@
             </div>
 
             <div class="task-info__count">
-              <strong>{{ 0 || 0 }}</strong>
-              <span>/ {{ plan?.[hasPlan?.[0]?.id]?.dailyTasks || 0 }}</span>
+              <strong>{{ ads?.completed_today }}</strong>
+              <span>/ {{ plan[hasPlan[0].plan_id -1].dailyTasks || 0 }}</span>
             </div>
           </div>
       <!-- <small>Compared with yesterday</small> -->
@@ -214,8 +234,8 @@
   </section>
 
   <!-- Duration -->
-  @if (trade?.runningDays) {
-    <section class="duration-card">
+  @if (hasPlan) {
+    <section class="duration-card" *ngIf="hasPlan?.length">
       <div class="duration-card__header">
         <div class="duration-title">
           <span class="metric-icon metric-icon--soft">
@@ -228,9 +248,9 @@
           </div>
         </div>
 
-        <span class="running-badge">
-          {{ trade?.runningDays }} days running
-        </span>
+        <!-- <span class="running-badge">
+          {{ runningDays }} days running
+        </span> -->
       </div>
 
       <div
@@ -245,8 +265,12 @@
 
       <div class="progress-caption">
         <span>{{ remainingDays }} days remaining</span>
-        <strong>{{ progress | number:'1.0-0' }}%</strong>
-        <span>{{ trade?.totalDays }} days total</span>
+
+        <strong>
+          {{ progress | number:'1.0-0' }}%
+        </strong>
+
+        <span>{{ durationDays }} days total</span>
       </div>
 
       <div class="date-grid">
@@ -257,7 +281,9 @@
 
           <div>
             <small>Opened</small>
-            <strong>{{ trade?.openedAt | date:'MMM d, y' }}</strong>
+            <strong>
+              {{ hasPlan[0].created_at | date:'MMM d, y' }}
+            </strong>
           </div>
         </div>
 
@@ -270,7 +296,7 @@
 
           <div>
             <small>Ending</small>
-            <strong>{{ trade?.endsAt | date:'MMM d, y' }}</strong>
+            <strong>{{ endingDate | date:'MMM d, y' }}</strong>
           </div>
         </div>
       </div>

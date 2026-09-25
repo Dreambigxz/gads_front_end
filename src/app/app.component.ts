@@ -9,6 +9,7 @@ import { SpinnerComponent } from '../app/reuseables/http-loader/spinner.componen
 // import { QuickNavService } from '../app/reuseables/services/quick-nav.service'; // ✅ adjust path as needed
 import { AuthService } from '../app/reuseables/auth/auth.service';
 import { UseGuideComponent } from "../app/use-guide/use-guide.component";
+import { SponsoredAdsComponent } from "../app/sponsored-ads/sponsored-ads.component";
 
 import {
   RankingComponent,
@@ -30,7 +31,8 @@ import {
     MessageComponent,
     SuccessCheckComponent,
     RankingComponent,
-    UseGuideComponent
+    UseGuideComponent,
+    SponsoredAdsComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -48,29 +50,29 @@ export class AppComponent {
     private platformId: object
   ){}
 
-  ngOnInit(){
-      if (!isPlatformBrowser(this.platformId)) return;
-      if (!this.authService.checkLogin()){//||['/plan/activation', "/auth"].includes(window.location.pathname)) {
-        this.fadeOut('.se-pre-con');
-      }
-  }
-
-  private fadeOut(
-    selector: string,
-    duration = 600
-  ): void {
-    const elements =
-      this.document.querySelectorAll<HTMLElement>(
-        selector
-      );
-
-    elements.forEach((element) => {
-      element.style.transition =
-        `opacity ${duration}ms ease`;
-      element.style.opacity = '0';
-      window.setTimeout(() => {
-        element.style.display = 'none';
-      }, duration);
-    });
-  }
+  // ngOnInit(){
+  //     if (!isPlatformBrowser(this.platformId)) return;
+  //     if (!this.authService.checkLogin()){//||['/plan/activation', "/auth"].includes(window.location.pathname)) {
+  //       this.fadeOut('.se-pre-con');
+  //     }
+  // }
+  //
+  // private fadeOut(
+  //   selector: string,
+  //   duration = 600
+  // ): void {
+  //   const elements =
+  //     this.document.querySelectorAll<HTMLElement>(
+  //       selector
+  //     );
+  //
+  //   elements.forEach((element) => {
+  //     element.style.transition =
+  //       `opacity ${duration}ms ease`;
+  //     element.style.opacity = '0';
+  //     window.setTimeout(() => {
+  //       element.style.display = 'none';
+  //     }, duration);
+  //   });
+  // }
 }

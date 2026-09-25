@@ -1,0 +1,516 @@
+<div
+  class="sheet-backdrop"
+  role="presentation"
+  (click)="
+    wallet.closeSelector(
+      wallet.withdrawalSheet$
+    )
+  "
+></div>
+
+<section
+  class="payment-sheet"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="withdrawal-method-title"
+>
+  <!-- Header -->
+
+  <header class="sheet-header">
+    <div class="sheet-title">
+      <span class="sheet-title__icon">
+        <i
+          class="bi bi-wallet2"
+          aria-hidden="true"
+        ></i>
+      </span>
+
+      <div>
+        <span class="sheet-eyebrow">
+          Withdrawal destination
+        </span>
+
+        <h2 id="withdrawal-method-title">
+          {{
+            editMode()
+              ? 'Update Withdrawal Method'
+              : 'Add Withdrawal Method'
+          }}
+        </h2>
+
+        <p>
+          Securely save where you want to
+          receive your withdrawals.
+        </p>
+      </div>
+    </div>
+
+    <button
+      class="sheet-close"
+      type="button"
+      aria-label="Close withdrawal method"
+      (click)="
+        wallet.closeSelector(
+          wallet.withdrawalSheet$
+        )
+      "
+    >
+      <i
+        class="bi bi-x-lg"
+        aria-hidden="true"
+      ></i>
+    </button>
+  </header>
+
+  <!-- Payment type -->
+
+  <!-- <nav
+    class="method-tabs"
+    aria-label="Withdrawal method type"
+  >
+    <button
+      type="button"
+      [class.active]="wallet.selectedTab === 'crypto'"
+      (click)="wallet.changeTab('crypto')"
+    >
+      <i
+        class="bi bi-currency-bitcoin"
+        aria-hidden="true"
+      ></i>
+
+      Crypto Wallet
+    </button>
+
+    <button
+      type="button"
+      [class.active]="
+        wallet.selectedTab === 'local'
+      "
+      (click)="
+        wallet.changeTab('local')
+      "
+    >
+      <i
+        class="bi bi-bank"
+        aria-hidden="true"
+      ></i>
+
+      Bank Account
+    </button>
+  </nav> -->
+
+  <div class="sheet-content">
+    <!-- Crypto form -->
+
+    <form
+      *ngIf="wallet.selectedTab === 'crypto'"
+      class="method-form"
+      [formGroup]="cryptoForm"
+      (ngSubmit)="save()"
+    >
+      <div class="form-section-heading">
+        <span class="section-number">1</span>
+
+        <div>
+          <h3>Wallet Information</h3>
+
+          <p>
+            Enter the receiving crypto wallet
+            address.
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="crypto-wallet-address">
+          Wallet Address
+        </label>
+
+        <div
+          class="textarea-wrapper"
+          [class.invalid]="
+            cryptoForm.controls
+              .account_number.touched &&
+            cryptoForm.controls
+              .account_number.invalid
+          "
+        >
+          <textarea
+            id="crypto-wallet-address"
+            rows="3"
+            formControlName="account_number"
+            placeholder="Paste your receiving wallet address"
+          ></textarea>
+
+          <i
+            class="bi bi-wallet2"
+            aria-hidden="true"
+          ></i>
+        </div>
+
+        <div class="field-help">
+          <i
+            class="bi bi-info-circle"
+            aria-hidden="true"
+          ></i>
+
+          <span>
+            Confirm that the address supports
+            your selected cryptocurrency and
+            network.
+          </span>
+        </div>
+
+        <small
+          class="field-error"
+          *ngIf="
+            cryptoForm.controls
+              .account_number.touched &&
+            cryptoForm.controls
+              .account_number.invalid
+          "
+        >
+          Enter a valid wallet address.
+        </small>
+      </div>
+
+      <div class="form-section-heading security-heading">
+        <span class="section-number">2</span>
+
+        <div>
+          <h3>Security Verification</h3>
+
+          <p>
+            Enter your four-digit transaction PIN.
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group pin-group">
+        <div class="label-row">
+          <label for="crypto-secret-pin">
+            Secret PIN
+          </label>
+
+          <button
+            class="forgot-pin"
+            type="button"
+            (click)="
+              wallet.quickNav.openTab(
+                wallet.quickNav
+                  .helpLinks.tech
+              )
+            "
+          >
+            Forgot PIN?
+          </button>
+        </div>
+
+        <div
+          class="pin-input"
+          [class.invalid]="
+            cryptoForm.controls.pin.touched &&
+            cryptoForm.controls.pin.invalid
+          "
+        >
+          <i
+            class="bi bi-shield-lock"
+            aria-hidden="true"
+          ></i>
+
+          <input
+            id="crypto-secret-pin"
+            type="password"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            maxlength="4"
+            formControlName="pin"
+            placeholder="••••"
+            autocomplete="off"
+          >
+
+          <span>4 digits</span>
+        </div>
+
+        <small
+          class="field-error"
+          *ngIf="
+            cryptoForm.controls.pin.touched &&
+            cryptoForm.controls.pin.invalid
+          "
+        >
+          Enter your valid four-digit PIN.
+        </small>
+      </div>
+    </form>
+
+    <!-- Bank form -->
+
+    <form
+      *ngIf="wallet.selectedTab === 'local'"
+      class="method-form"
+      [formGroup]="localForm"
+      (ngSubmit)="save()"
+    >
+      <div class="form-section-heading">
+        <span class="section-number">1</span>
+
+        <div>
+          <h3>Bank Information</h3>
+
+          <p>
+            Enter the bank account that will
+            receive your withdrawal.
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="bank-name">
+          Bank Name
+        </label>
+
+        <div
+          class="input-wrapper"
+          [class.invalid]="
+            localForm.controls.bank.touched &&
+            localForm.controls.bank.invalid
+          "
+        >
+          <i
+            class="bi bi-bank"
+            aria-hidden="true"
+          ></i>
+
+          <input
+            id="bank-name"
+            type="text"
+            maxlength="100"
+            formControlName="bank"
+            placeholder="Enter your bank name"
+            autocomplete="off"
+          >
+        </div>
+
+        <small
+          class="field-error"
+          *ngIf="
+            localForm.controls.bank.touched &&
+            localForm.controls.bank.invalid
+          "
+        >
+          Enter your bank name.
+        </small>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="account-number">
+            Account Number
+          </label>
+
+          <div
+            class="input-wrapper"
+            [class.invalid]="
+              localForm.controls
+                .account_number.touched &&
+              localForm.controls
+                .account_number.invalid
+            "
+          >
+            <i
+              class="bi bi-credit-card-2-front"
+              aria-hidden="true"
+            ></i>
+
+            <input
+              id="account-number"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              maxlength="20"
+              formControlName="account_number"
+              placeholder="0123456789"
+              autocomplete="off"
+            >
+          </div>
+
+          <small
+            class="field-error"
+            *ngIf="
+              localForm.controls
+                .account_number.touched &&
+              localForm.controls
+                .account_number.invalid
+            "
+          >
+            Enter a valid account number.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="account-holder">
+            Account Name
+          </label>
+
+          <div
+            class="input-wrapper"
+            [class.invalid]="
+              localForm.controls
+                .account_holder.touched &&
+              localForm.controls
+                .account_holder.invalid
+            "
+          >
+            <i
+              class="bi bi-person"
+              aria-hidden="true"
+            ></i>
+
+            <input
+              id="account-holder"
+              type="text"
+              formControlName="account_holder"
+              placeholder="Account holder name"
+              autocomplete="off"
+            >
+          </div>
+
+          <small
+            class="field-error"
+            *ngIf="
+              localForm.controls
+                .account_holder.touched &&
+              localForm.controls
+                .account_holder.invalid
+            "
+          >
+            Enter the account holder’s name.
+          </small>
+        </div>
+      </div>
+
+      <div class="form-section-heading security-heading">
+        <span class="section-number">2</span>
+
+        <div>
+          <h3>Security Verification</h3>
+
+          <p>
+            Confirm this change with your
+            transaction PIN.
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group pin-group">
+        <div class="label-row">
+          <label for="local-secret-pin">
+            Secret PIN
+          </label>
+
+          <button
+            class="forgot-pin"
+            type="button"
+            (click)="
+              wallet.quickNav.openTab(
+                wallet.quickNav
+                  .helpLinks.tech
+              )
+            "
+          >
+            Forgot PIN?
+          </button>
+        </div>
+
+        <div
+          class="pin-input"
+          [class.invalid]="
+            localForm.controls.pin.touched &&
+            localForm.controls.pin.invalid
+          "
+        >
+          <i
+            class="bi bi-shield-lock"
+            aria-hidden="true"
+          ></i>
+
+          <input
+            id="local-secret-pin"
+            type="password"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            maxlength="4"
+            formControlName="pin"
+            placeholder="••••"
+            autocomplete="off"
+          >
+
+          <span>4 digits</span>
+        </div>
+
+        <small
+          class="field-error"
+          *ngIf="
+            localForm.controls.pin.touched &&
+            localForm.controls.pin.invalid
+          "
+        >
+          Enter your valid four-digit PIN.
+        </small>
+      </div>
+    </form>
+
+    <div class="security-notice">
+      <i
+        class="bi bi-shield-check"
+        aria-hidden="true"
+      ></i>
+
+      <p>
+        Your withdrawal information is protected.
+        Always verify the details before saving.
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+
+  <footer class="sheet-actions">
+    <button
+      class="cancel-button"
+      type="button"
+      (click)="
+        wallet.closeSelector(
+          wallet.withdrawalSheet$
+        )
+      "
+    >
+      Cancel
+    </button>
+
+    <button
+      class="save-button"
+      type="button"
+      [disabled]="!activeForm.valid"
+      (click)="save()"
+    >
+      <i
+        class="bi"
+        [class.bi-check2-circle]="
+          !editMode()
+        "
+        [class.bi-arrow-repeat]="
+          editMode()
+        "
+        aria-hidden="true"
+      ></i>
+
+      {{
+        editMode()
+          ? 'Update Method'
+          : 'Save Method'
+      }}
+    </button>
+  </footer>
+</section>

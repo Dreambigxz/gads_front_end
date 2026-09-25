@@ -1,0 +1,573 @@
+<div *ngIf="walletService()?.quickNav.storeData?.store['wallet'] as walletDir" class="local-page">
+
+  <div *ngIf="!walletService()?.quickNav.storeData.store['deposit']?.length; else pendingDeposits">
+    <!-- Amount Card -->
+
+    <div *ngIf="walletService().selectedLocal">
+      <div class="amount-card">
+
+          <h3>
+
+              Deposit Amount
+
+          </h3>
+
+          <div class="amount-box">
+
+              <span>{{walletService()?.selectedLocal?.symbol}}</span>
+
+              <input
+                  [(ngModel)]="amount"
+                  placeholder="0">
+
+          </div>
+
+          <div  class="quick">
+
+              <button
+                  *ngFor="let item of quickAmounts"
+                  (click)="amount=walletService().convertAmount(item)">
+
+                  {{item|currencyConverter:false:walletService()?.selectedLocal?.code|number}}
+
+              </button>
+
+          </div>
+
+      </div>
+
+      <!-- Generate -->
+
+      <button
+          type="submit"
+
+          [disabled]=" amount < walletService()?.minimumPayment"
+          (click)="generateAccount()">
+
+            <span>
+              Generate Deposit Accounts
+
+            </span>
+          <i class="bi bi-arrow-right"></i>
+
+
+      </button>
+    </div>
+
+
+    </div>
+
+    <!-- Accounts -->
+    <ng-template #pendingDeposits>
+
+      <div *ngIf="walletService()?.quickNav.storeData.store['deposit']?.[0] as deposit" class="receipt-card">
+
+        <div  *ngIf='deposit.status==="awaiting"; else pendingPaymentStatus' class="receipt-status confirmation">
+
+            <div class="status-icon">
+
+                <i class="bi bi-hourglass-split"></i>
+
+            </div>
+
+            <div>
+
+                <h3>Awaiting Confirmation</h3>
+
+                <span>Your payment is under review</span>
+
+            </div>
+
+        </div>
+
+        <ng-template #pendingPaymentStatus>
+
+            <div class="receipt-status pending">
+
+                <div class="status-icon">
+
+                    <i class="bi bi-wallet2"></i>
+
+                </div>
+
+                <div>
+
+                    <h3>Awaiting Payment</h3>
+
+                    <span>
+                        Complete your transfer using the generated account details below.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </ng-template>
+
+        <div class="receipt-divider"></div>
+
+        <div id="payToAccount"  class="receipt-item">
+
+            <span>Deposit Amount</span>
+
+            <strong>{{deposit?.method}} {{deposit?.amount|currencyConverter:false:deposit.method|number}}</strong>
+
+        </div>
+
+        <div class="receipt-item">
+
+            <span>Transaction ID</span>
+
+            <strong>#{{deposit.sessionID}}</strong>
+
+        </div>
+
+        <div class="receipt-item">
+
+            <span>Timestamp</span>
+
+            <strong>{{deposit.timestamp|timeFormat:'day'}} • {{deposit.timestamp|timeFormat:'time'}}</strong>
+
+        </div>
+
+        <div  *ngIf="deposit.status==='awaiting'">
+          <div  class="receipt-item">
+
+              <span>Estimated Review</span>
+
+              <strong>5 - 30 Minutes</strong>
+
+          </div>
+
+          <div class="receipt-footer">
+
+              <i class="bi bi-info-circle"></i>
+
+              <span>
+
+                  Your deposit will be credited automatically once verified.
+
+              </span>
+
+          </div>
+        </div>
+
+
+        <button *ngIf='deposit.status==="awaiting"' (click)="checkDepositLocal()" type="submit">
+
+            Check Deposit
+            <i class="bi bi-arrow-right"></i>
+
+
+        </button>
+
+
+      </div>
+
+      <div *ngIf="walletService()?.quickNav.storeData.store['deposit']?.[0]?.status!=='awaiting'">
+        <section *ngIf="walletService()?.quickNav.storeData.store['local_banks'] as local_banks">
+          <div *ngIf="local_banks.length>1"  class="accounts">
+
+              <h3>
+
+                  Choose Payment Account
+
+              </h3>
+
+              <div
+
+                  class="bank-card"
+
+                  *ngFor="let bank of local_banks"
+
+                  [class.active]="selectedAccount==bank"
+
+                  (click)="chooseAccount(bank)">
+
+                  <div class="bank-logo">
+                      <i class="bi bi-bank"></i>
+                  </div>
+
+                  <div class="bank-body">
+
+                      <h4>
+
+                          {{bank.bank}}
+
+                      </h4>
+
+                      <span>
+
+                          {{bank.account_holder}}
+
+                      </span>
+
+                  </div>
+
+                  <i
+
+                      class="bi"
+
+                      [class.bi-check-circle-fill]="selectedAccount==bank"
+
+                      [class.bi-circle]="selectedAccount!=bank">
+
+                  </i>
+
+              </div>
+
+          </div>
+        </section>
+
+
+        <!-- Selected -->
+        <div
+            class="details"
+
+            *ngIf="selectedAccount ">
+
+            <!-- ALERT / MESSAGE -->
+
+          <div  class="menu-alert">
+
+            <div class="alert-icon">
+              <i class="bi bi-megaphone-fill"></i>
+            </div>
+
+            <div class="alert-content">
+
+              <strong>Important Notice</strong>
+
+              <span>
+                Use your username as payment remark when making this payment.
+              </span>
+
+            </div>
+
+            <button
+              type="button"
+              class="alert-close">
+
+              <i class="bi bi-x"></i>
+
+            </button>
+
+          </div>
+
+            <h3>
+
+                Payment Details
+
+            </h3>
+
+            <div class="field">
+
+                <small>
+
+                    Bank
+
+                </small>
+
+                <strong>
+
+                    {{selectedAccount.bank}}
+
+                </strong>
+
+            </div>
+
+            <div class="field">
+
+                <small>
+
+                    Account Number
+
+                </small>
+
+                <div class="copy">
+
+                    <strong>
+
+                        {{selectedAccount.account_number}}
+
+                    </strong>
+
+                    <button
+                     (click)="walletService().quickNav.copy(selectedAccount.account_number, 'Account copied!')">
+
+                        <i class="bi bi-copy"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+            <div *ngIf="selectedAccount.automatic" class="field">
+
+                <small>
+
+                    Payment Remark
+
+                </small>
+
+                <div class="copy">
+
+                    <strong>
+
+                        {{walletService().quickNav.storeData.get("username")}}
+
+                    </strong>
+
+                    <button
+                     (click)="walletService().quickNav.copy(walletService().quickNav.storeData.get('username'), 'Username copied!')">
+
+                        <i class="bi bi-copy"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="field">
+
+                <small>
+
+                    Account Name
+
+                </small>
+
+                <strong>
+
+                    {{selectedAccount.account_holder}}
+
+                </strong>
+
+            </div>
+
+            <section *ngIf="selectedAccount.automatic">
+              <button (click)='showPaymentRemarkModal=true'  type="submit">
+
+                  I have paid
+                  <i class="bi bi-arrow-right"></i>
+
+
+              </button>
+            </section>
+
+
+            <section *ngIf="!selectedAccount.automatic">
+              <div class="field">
+
+                  <small>
+
+                      Sender Name
+
+                  </small>
+
+                  <input
+                      placeholder="Name used for transfer"
+                      [(ngModel)]="senderName">
+
+              </div>
+
+              <div *ngIf="!selectedAccount.automatic" class="upload" (click)="receiptInput.click()">
+
+                <input
+                    #receiptInput
+                    hidden
+                    type="file"
+                    accept="image/*"
+                    (change)="receiptChanged($event)">
+
+                <ng-container *ngIf="receipt === null; else uploaded">
+
+                    <i class="bi bi-cloud-arrow-up-fill"></i>
+
+                    <h4>Upload Payment Receipt</h4>
+
+                    <span>PNG • JPG • PDF</span>
+
+                </ng-container>
+
+                <ng-template #uploaded>
+
+                    <i class="bi bi-file-earmark-image-fill"></i>
+
+                    <h4>{{ receipt?.name }}</h4>
+
+                    <span>Tap to change</span>
+
+                </ng-template>
+
+              </div>
+
+              <button [disabled]='!senderName||!receipt && !selectedAccount.automatic' (click)="submit()" type="submit">
+
+                  Submit Deposit
+                  <i class="bi bi-arrow-right"></i>
+
+
+              </button>
+            </section>
+
+
+
+            <div class="guide">
+
+                <h4>
+
+                    Payment Guide
+
+                </h4>
+
+                <p>
+
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>
+                      Transfer the exact amount.
+                    </span>
+
+                </p>
+
+                <section *ngIf="!selectedAccount.automatic">
+                  <p >
+
+                      <i class="bi bi-check-circle-fill"></i>
+                      <span>Upload the receipt after payment.</span>
+
+                  </p>
+                </section>
+
+                <section *ngIf="selectedAccount.automatic">
+                  <p >
+
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Use your username as payment remark.</span>
+
+                  </p>
+                  <p >
+
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Click I have paid button.</span>
+
+                  </p>
+                </section>
+                <p>
+
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>Deposit will be confirmed automatically.</span>
+
+                </p>
+
+            </div>
+        </div>
+      </div>
+
+      <button  (click)="walletService().cancelPayment('deposit')" class="delete-btn">
+          Cancel Deposit
+      </button>
+  </ng-template>
+
+</div>
+
+<!-- PAYMENT REMARK MODAL -->
+<!-- PAYMENT REMARK MODAL -->
+<div class="payment-modal-backdrop" *ngIf="showPaymentRemarkModal">
+
+  <div class="payment-modal">
+      <button
+        class="close"
+        (click)="showPaymentRemarkModal=false"
+        aria-label="Close Bet Slip">
+
+        <span>✕</span>
+
+    </button>
+
+
+    <!-- STEP 1 -->
+    <ng-container *ngIf="!showSenderNameInput">
+
+      <div class="payment-modal-icon">
+        <i class="bi bi-question-circle"></i>
+      </div>
+
+      <h3>Payment Remark</h3>
+
+      <p>
+        Did you use your <strong>username</strong> as the
+        payment remark when making this payment?
+      </p>
+
+      <div class="payment-modal-actions">
+
+        <button
+          type="button"
+          class="modal-btn secondary"
+          (click)="paymentRemarkResponse(false)">
+          No
+        </button>
+
+        <button
+          type="button"
+          class="modal-btn primary"
+          (click)="paymentRemarkResponse(true)">
+          Yes
+        </button>
+
+      </div>
+
+    </ng-container>
+
+
+    <!-- STEP 2 -->
+    <ng-container *ngIf="showSenderNameInput">
+
+      <div class="payment-modal-icon warning">
+        <i class="bi bi-person-vcard"></i>
+      </div>
+
+      <h3>Sender's Name</h3>
+
+      <p class="modal-description">
+        Please provide your <strong>full name</strong> as displayed
+        on your bank account.
+      </p>
+
+      <input
+        type="text"
+        class="sender-name-input"
+        [(ngModel)]="senderName"
+        placeholder="Enter your full name"
+        autocomplete="name"
+      />
+
+      <small class="input-hint">
+        Enter the name exactly as it appears on your bank account.
+      </small>
+
+      <div class="payment-modal-actions">
+
+        <button
+          type="button"
+          class="modal-btn secondary"
+          (click)="showSenderNameInput = false">
+          Back
+        </button>
+
+        <button
+          type="button"
+          class="modal-btn primary"
+          [disabled]="!senderName.trim()"
+          (click)="Paid()">
+          Submit
+        </button>
+
+      </div>
+
+    </ng-container>
+
+  </div>
+
+</div>

@@ -1,0 +1,370 @@
+<main class="deposit-page">
+  <header class="wallet-header">
+    <a
+      class="header-button"
+      routerLink="/wallet"
+      aria-label="Go back"
+    >
+      <i
+        class="bi bi-chevron-left"
+        aria-hidden="true"
+      ></i>
+    </a>
+
+    <h1>Deposit Crypto</h1>
+
+    <a
+      class="header-button"
+      routerLink="/wallet/transactions"
+      aria-label="View transactions"
+    >
+      <i
+        class="bi bi-clock-history"
+        aria-hidden="true"
+      ></i>
+    </a>
+  </header>
+
+  @if (wallet.loading()) {
+    <section class="wallet-loading">
+      <span class="loader"></span>
+      <p>Loading wallet details...</p>
+    </section>
+  } @else {
+    <div class="deposit-container">
+      <section class="balance-card">
+        <div>
+          <span class="balance-label">
+            Total balance
+
+            <i
+              class="bi bi-eye"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <strong>
+            {{
+              +wallet.quickNav.storeData.store['wallet']?.balance
+                | currency:
+                  wallet.balance().currency:
+                  'symbol':
+                  '1.2-2'
+            }}
+          </strong>
+
+          <small>
+            Available account balance
+          </small>
+        </div>
+
+        <div
+          class="balance-chart"
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 150 60"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="
+                M0 52
+                C15 48, 20 42, 32 45
+                S50 28, 62 34
+                S82 15, 95 24
+                S115 10, 125 17
+                S140 3, 150 7
+              "
+            ></path>
+          </svg>
+        </div>
+      </section>
+
+      <nav
+        class="wallet-tabs"
+        aria-label="Wallet operations"
+      >
+        <a
+          class="active"
+          routerLink="/wallet/deposit"
+        >
+          Deposit
+        </a>
+
+        <a routerLink="/wallet/withdraw">
+          Withdraw
+        </a>
+      </nav>
+
+      <section class="deposit-section">
+        <header class="section-heading">
+          <div>
+            <span>Step 1</span>
+            <h2>Select asset</h2>
+          </div>
+
+          <small>
+            Choose the asset to deposit
+          </small>
+        </header>
+
+        <div class="asset-grid">
+          @for (
+            asset of wallet.assets();
+            track asset.symbol
+          ) {
+            <button
+              class="asset-button"
+              type="button"
+              [class.active]="
+                selectedAsset() ===
+                asset.symbol
+              "
+              (click)="selectAsset(asset)"
+            >
+              <span
+                class="asset-icon"
+                [style.--asset-color]="
+                  asset.color
+                "
+              >
+                {{ assetIcon(asset.symbol) }}
+              </span>
+
+              <span>{{ asset.symbol }}</span>
+
+              @if (
+                selectedAsset() ===
+                asset.symbol
+              ) {
+                <i
+                  class="bi bi-check-circle-fill"
+                  aria-hidden="true"
+                ></i>
+              }
+            </button>
+          }
+        </div>
+      </section>
+
+      @if (activeNetwork(); as network) {
+        <section class="deposit-section">
+          <header class="section-heading">
+            <div>
+              <span>Step 2</span>
+              <h2>Select network</h2>
+            </div>
+
+            <small>
+              Network must match the sender
+            </small>
+          </header>
+
+          <div class="network-select">
+            <span class="network-icon">
+              {{
+                assetIcon(
+                  selectedAsset()
+                )
+              }}
+            </span>
+
+            <select
+              [value]="network.id"
+              (change)="selectNetwork($event)"
+              aria-label="Select network"
+            >
+              @for (
+                item of activeNetworks();
+                track item.id
+              ) {
+                <option [value]="item.id">
+                  {{ item.display_name }}
+                </option>
+              }
+            </select>
+
+            <i
+              class="bi bi-chevron-down"
+              aria-hidden="true"
+            ></i>
+          </div>
+        </section>
+
+        <section class="address-card">
+          <div class="address-card__header">
+            <div>
+              <span>Deposit address</span>
+
+              <strong>
+                {{ network.symbol }}
+                ·
+                {{ network.display_name }}
+              </strong>
+            </div>
+
+            <span class="secure-badge">
+              <i
+                class="bi bi-shield-check"
+                aria-hidden="true"
+              ></i>
+              Secure
+            </span>
+          </div>
+
+          @if (network.qr_code_url) {
+            <div class="qr-code">
+              <img
+                [src]="network.qr_code_url"
+                [alt]="
+                  network.symbol +
+                  ' deposit QR code'
+                "
+              >
+            </div>
+          } @else {
+            <div class="qr-placeholder">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data={{network.address}}" />
+            </div>
+          }
+
+          <div class="wallet-address">
+            <div>
+              <span>Wallet address</span>
+
+              <strong>
+                {{ network.address }}
+              </strong>
+            </div>
+
+            <button
+              type="button"
+              [class.copied]="addressCopied()"
+              (click)="copyAddress()"
+            >
+              <i
+                class="bi"
+                [class.bi-copy]="
+                  !addressCopied()
+                "
+                [class.bi-check2]="
+                  addressCopied()
+                "
+              ></i>
+
+              <span>
+                {{
+                  addressCopied()
+                    ? 'Copied'
+                    : 'Copy'
+                }}
+              </span>
+            </button>
+          </div>
+
+          <div class="deposit-warning">
+            <i
+              class="bi bi-exclamation-circle-fill"
+              aria-hidden="true"
+            ></i>
+
+            <div>
+              <strong>
+                Important deposit notice
+              </strong>
+
+              <p>{{ network.warning }}</p>
+
+              <small>
+                Minimum deposit:
+                {{ network.minimum_deposit }}
+                {{ network.symbol }}.
+                Requires
+                {{ network.confirmations }}
+                network confirmation(s).
+              </small>
+            </div>
+          </div>
+        </section>
+      }
+
+      @if (wallet.recentDeposits().length) {
+        <section class="recent-section">
+          <header class="recent-header">
+            <h2>Recent deposits</h2>
+
+            <a routerLink="/wallet/transactions">
+              View all
+            </a>
+          </header>
+
+          <div class="transaction-list">
+            @for (
+              transaction of
+                wallet.recentDeposits();
+              track transaction.id
+            ) {
+              <article class="transaction-item">
+                <span class="transaction-icon">
+                  {{
+                    assetIcon(
+                      transaction.asset
+                    )
+                  }}
+                </span>
+
+                <div class="transaction-information">
+                  <strong>
+                    {{ transaction.asset }}
+                    Deposit
+                  </strong>
+
+                  <span>
+                    {{ transaction.created_at
+                      | date:'MMM d, y · h:mm a'
+                    }}
+                  </span>
+                </div>
+
+                <div class="transaction-result">
+                  <strong>
+                    +{{ transaction.amount }}
+                    {{ transaction.asset }}
+                  </strong>
+
+                  <span
+                    class="status"
+                    [class]="
+                      'status ' +
+                      transaction.status
+                    "
+                  >
+                    {{ transaction.status }}
+                  </span>
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  }
+
+  @if (wallet.error()) {
+    <div class="wallet-error">
+      <i
+        class="bi bi-exclamation-circle"
+        aria-hidden="true"
+      ></i>
+
+      <span>{{ wallet.error() }}</span>
+
+      <button
+        type="button"
+        (click)="wallet.setError(null)"
+      >
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+  }
+</main>

@@ -1,0 +1,120 @@
+<div
+    class="sheet-overlay"
+    *ngIf="wallet.paymentSheet$"
+    (click)="wallet.closeSelector()">
+
+    <div
+        class="payment-sheet"
+        (click)="$event.stopPropagation()">
+
+        <div class="handle"></div>
+
+        <div class="sheet-header">
+
+            <h2>
+
+                Select Payment Method
+
+            </h2>
+
+            <button
+                class="close-btn"
+                (click)="wallet.closeSelector()">
+
+                <i class="bi bi-x-lg"></i>
+
+            </button>
+
+        </div>
+
+        <!-- Search -->
+
+        <div class="search">
+
+            <i class="bi bi-search"></i>
+
+            <input
+
+                type="text"
+
+                [(ngModel)]="search"
+
+                placeholder="Search payment">
+
+        </div>
+
+        <!-- Methods -->
+
+        <div class="methods">
+
+        <div
+
+            class="method"
+
+            *ngFor="let item of filteredPayments()"
+
+            (click)="select(item)"
+
+            [class.active]="isSelected(item)">
+
+            <div class="logo">
+
+                <img
+
+                    *ngIf="wallet.selectedTab=='crypto'"
+
+                    [src]="item.img"
+
+                    [alt]="item.name">
+
+                <span
+
+                    *ngIf="wallet.selectedTab=='local'">
+
+                    {{item.flag}}
+
+                </span>
+
+            </div>
+
+            <div class="details">
+
+                <h3>
+
+                    {{item.name}}
+
+                </h3>
+
+                <span>
+
+                    {{item.subtitle}}
+
+                </span>
+
+            </div>
+
+            <div class="right">
+
+                <span>
+
+                    {{ item.network?.[1] || item.code}}
+
+                </span>
+
+                <i
+
+                    *ngIf="isSelected(item)"
+
+                    class="bi bi-check-circle-fill">
+
+                </i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    </div>
+
+</div>

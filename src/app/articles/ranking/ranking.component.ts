@@ -95,6 +95,9 @@ export class RankingComponent {
       return null;
     }
 
+    // console.log({rankingData});
+
+
     return rankingData as any;
   }
 
