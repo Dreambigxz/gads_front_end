@@ -72,9 +72,7 @@ export class TransactionsComponent {
   readonly loading = signal(false);
 
   readonly transactions =
-    signal<WalletTransaction[]>(
-      DEMO_TRANSACTIONS
-    );
+    signal<WalletTransaction[]>([]);
 
   readonly selectedType =
     signal<TypeFilter>('all');
