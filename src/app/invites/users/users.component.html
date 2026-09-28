@@ -1,24 +1,7 @@
-<app-header></app-header>
-<main class="generation-page">
-  <!-- <header class="page-header">
-    <button
-      class="back-button"
-      type="button"
-      aria-label="Go back"
-      onclick="history.back()"
-    >
-      <i class="bi bi-chevron-left"></i>
-    </button>
-
-    <div class="header-copy">
-      <span>My network</span>
-      <h1>Generation Members</h1>
-    </div>
-
-    <span class="member-count">
-      {{ users.length }}
-    </span>
-  </header> -->
+<app-header
+ [wallet]="quickNav.storeData.store['wallet']"
+ />
+ <main class="generation-page">
 
   <section class="summary-card">
     <div class="summary-icon">
