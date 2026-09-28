@@ -10,7 +10,7 @@ const distPath = path.join(__dirname, "dist", "g-ads", "browser");
 app.use(
   "/api",
   createProxyMiddleware({
-    target: "https://web-production-64af5.up.railway.app/api",
+    target: "https://web-production-f0389.up.railway.app/api",
     changeOrigin: true,
     secure: true,
   })
