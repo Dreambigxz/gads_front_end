@@ -1,16 +1,33 @@
 
-
-
         <!-- REGISTER FORM -->
-
         <div class="main-page">
           <div class="wrap">
             <div class="logo">
-              <img src="assets/images/logo1.svg" class="light-mode-logo" alt="" title="">
-              <!-- <img src="assets/images/logo2.svg" class="dark-mode-logo" alt="" title=""> -->
+              <img src="assets/images/logo.png" class="light-mode-logo" alt="" title="">
+            </div>
+
+            <div class="auth-heading">
+              <span class="auth-badge">WELCOME TO TRAFFIX - <small>Register</small></span>
+
+              <!-- <h1>Join Traffix Today</h1> -->
+
+              <small>
+                Create your free account and start engaging,
+                exploring, and earning rewards.
+              </small>
             </div>
             <div class="main-area">
-              <h1>Register</h1>
+              <div *ngIf="authService.RefCode" class="info-alert">
+                <div class="info-alert__icon">
+                  <i class="bi bi-info-circle-fill"></i>
+                </div>
+
+                <div  class="info-alert__content">
+                  <p>
+                    Referral code captured - <small>{{authService.RefCode}}</small>
+                  </p>
+                </div>
+              </div>
               <form
                 class="list"
                 [formGroup]="authService.formView.register"

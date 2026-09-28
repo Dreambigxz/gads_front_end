@@ -1,0 +1,173 @@
+.home-quick-navigation {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+
+  width: 100%;
+  margin: var(--space-4) 0;
+}
+
+.quick-navigation-item {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+
+  min-width: 0;
+  min-height: 112px;
+  padding: var(--space-3);
+
+  overflow: hidden;
+
+  border: var(--border-width) solid
+    var(--border-color);
+  border-radius: var(--radius-lg);
+
+  color: var(--text-primary);
+  background: var(--background-surface);
+
+  text-decoration: none;
+
+  box-shadow: var(--shadow-xs);
+
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.quick-navigation-item::after {
+  position: absolute;
+  right: -22px;
+  bottom: -26px;
+
+  width: 67px;
+  height: 67px;
+
+  content: "";
+
+  border-radius: var(--radius-round);
+  background: currentColor;
+
+  opacity: 0.045;
+}
+
+.quick-navigation-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.quick-navigation-item:active {
+  transform: scale(0.98);
+}
+
+.quick-navigation-icon {
+  display: grid;
+  place-items: center;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: var(--radius-md);
+
+  font-size: var(--font-size-lg);
+}
+
+.quick-navigation-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  min-width: 0;
+}
+
+.quick-navigation-copy strong {
+  color: var(--text-primary);
+  font-size: var(--font-size-md);
+}
+
+.quick-navigation-copy small {
+  overflow: hidden;
+
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-navigation-item .arrow {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+
+  color: var(--text-light);
+  font-size: var(--font-size-xs);
+}
+
+/* Deposit */
+
+.quick-navigation-item.deposit {
+  color: var(--color-primary);
+}
+
+.deposit .quick-navigation-icon {
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+/* Withdrawal */
+
+.quick-navigation-item.withdraw {
+  color: var(--color-secondary);
+}
+
+.withdraw .quick-navigation-icon {
+  color: var(--color-secondary);
+  background: var(--color-secondary-soft);
+}
+
+/* Rewards */
+
+.quick-navigation-item.rewards {
+  color: var(--color-accent-dark);
+}
+
+.rewards .quick-navigation-icon {
+  color: var(--color-accent-dark);
+  background: var(--color-accent-soft);
+}
+
+@media (max-width: 380px) {
+  .home-quick-navigation {
+    gap: var(--space-1);
+  }
+
+  .quick-navigation-item {
+    min-height: 101px;
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+  }
+
+  .quick-navigation-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .quick-navigation-item .arrow {
+    top: var(--space-2);
+    right: var(--space-2);
+  }
+
+  .quick-navigation-copy strong {
+    font-size: var(--font-size-sm);
+  }
+
+  .quick-navigation-copy small {
+    font-size: var(--font-size-xs);
+  }
+}

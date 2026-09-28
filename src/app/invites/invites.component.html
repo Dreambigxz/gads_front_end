@@ -1,0 +1,415 @@
+<app-header></app-header>
+
+<main class="invites-page">
+  <header class="page-heading">
+    <div>
+      <span>Referral network</span>
+
+      <h1>Invite & Earn</h1>
+
+      <p>
+        Grow your network and earn together.
+      </p>
+    </div>
+
+    <span class="page-heading__icon">
+      <i
+        class="bi bi-people-fill"
+        aria-hidden="true"
+      ></i>
+    </span>
+  </header>
+
+  @if (loading()) {
+    <section class="invites-loading">
+      <span class="loader"></span>
+      <p>Loading your network...</p>
+    </section>
+  } @else {
+    <div class="invites-container">
+      <!-- Referral summary -->
+
+      <section class="referral-hero">
+        <div class="referral-hero__content">
+          <span>Total Referral Earnings</span>
+
+          <strong>
+            {{
+              totalEarnings()
+                | currency:
+                  'USD':
+                  'symbol':
+                  '1.2-2'
+            }}
+          </strong>
+
+          <div class="network-summary">
+            <div>
+              <small>Total Network</small>
+
+              <b>
+                {{ totalNetwork() }}
+                {{
+                  totalNetwork() === 1
+                    ? 'user'
+                    : 'users'
+                }}
+              </b>
+            </div>
+
+            <span></span>
+
+            <div>
+              <small>Active Members</small>
+
+              <b>
+                {{ totalActive() }}
+              </b>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="network-illustration"
+          aria-hidden="true"
+        >
+          <span class="person center">
+            <i class="bi bi-person-fill"></i>
+          </span>
+
+          <span class="person person-one">
+            <i class="bi bi-person-fill"></i>
+          </span>
+
+          <span class="person person-two">
+            <i class="bi bi-person-fill"></i>
+          </span>
+
+          <span class="person person-three">
+            <i class="bi bi-person-fill"></i>
+          </span>
+
+          <span class="network-line line-one"></span>
+          <span class="network-line line-two"></span>
+          <span class="network-line line-three"></span>
+        </div>
+      </section>
+
+      <!-- Referral link -->
+
+      <section class="referral-link-card">
+        <header>
+          <div>
+            <span>Your referral code</span>
+
+            <strong>
+              {{
+                referralData()['RefCode']
+              }}
+            </strong>
+          </div>
+
+
+            <span (click)="quickNav.go('/invites/inactives')" class="pending-referral">
+              {{
+                referralData()[
+                  'pending_ref'
+                ]
+              }}
+              pending <i class="bi bi-chevron-right"></i>
+            </span>
+
+        </header>
+
+        <div class="referral-link">
+          <span>
+            {{ referralLink() }}
+          </span>
+
+          <button
+            type="button"
+            [class.copied]="copied()"
+            (click)="copyReferralLink()"
+          >
+            <i
+              class="bi"
+              [class.bi-copy]="!copied()"
+              [class.bi-check2]="copied()"
+              aria-hidden="true"
+            ></i>
+
+            {{
+              copied()
+                ? 'Copied'
+                : 'Copy'
+            }}
+          </button>
+        </div>
+
+        <button
+          class="invite-button"
+          type="button"
+          (click)="inviteFriends()"
+        >
+          <i
+            class="bi bi-send-fill"
+            aria-hidden="true"
+          ></i>
+
+          <span>Invite Friends</span>
+
+          <i
+            class="bi bi-arrow-right"
+            aria-hidden="true"
+          ></i>
+        </button>
+      </section>
+
+      <!-- Commission summary -->
+
+      <section class="commission-summary">
+        <div>
+          <span class="commission-icon paid">
+            <i
+              class="bi bi-check2-circle"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <div>
+            <small>Cashed Commission</small>
+
+            <strong>
+              {{
+                referralData()[
+                  'cashed_commissions'
+                ] || 0
+                  | currency:
+                    'USD':
+                    'symbol':
+                    '1.2-2'
+              }}
+            </strong>
+          </div>
+        </div>
+
+        <span
+          class="commission-divider"
+          aria-hidden="true"
+        ></span>
+
+        <div>
+          <span class="commission-icon pending">
+            <i
+              class="bi bi-clock-history"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <div>
+            <small>Pending Commission</small>
+
+            <strong>
+              {{
+                referralData()['uncashed'] || 0
+                  | currency:
+                    'USD':
+                    'symbol':
+                    '1.2-2'
+              }}
+            </strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- Generations -->
+
+      <section class="generations-section">
+        <header class="section-heading">
+          <div>
+            <span>Your network</span>
+            <h2>Your Generations</h2>
+          </div>
+
+          <small>
+            {{ totalNetwork() }} members
+          </small>
+        </header>
+
+        <div class="generation-list">
+          @for (
+            generation of generations();
+            track generation['level']
+          ) {
+            <button
+              class="generation-card"
+              type="button"
+              [class.level-one]="
+                generation['level'] === 1
+              "
+              [class.level-two]="
+                generation['level'] === 2
+              "
+              [class.level-three]="
+                generation['level'] === 3
+              "
+              (click)="
+                viewGeneration(generation)
+              "
+            >
+              <div class="generation-header">
+                <span class="level-number">
+                  {{ generation['level'] }}
+                </span>
+
+                <div class="generation-title">
+                  <div>
+                    <h3>
+                      Lv
+                      {{ generation['level'] }}
+                    </h3>
+
+                    <span  class="level-label">
+                      {{ generation['label'] }}
+                    </span>
+                  </div>
+
+                  <small>
+                    {{
+                      generation[
+                        'referral_percent'
+                      ]
+                    }}%
+                    referral
+                    <!-- {{
+                      generation[
+                        'rebate_percent'
+                      ]
+                    }}%
+                    rebate -->
+                  </small>
+
+                  <span (click)="viewGeneration(generation)" class="btn-view" type="button">
+                    View
+                    <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                  </span>
+                </div>
+
+                <div class="generation-earning">
+                  <span>Earnings</span>
+
+                  <strong>
+                    {{
+                      generation['earnings']
+                        | currency:
+                          'USD':
+                          'symbol':
+                          '1.2-2'
+                    }}
+                  </strong>
+                </div>
+
+                <i
+                  class="bi bi-chevron-right"
+                  aria-hidden="true"
+                ></i>
+              </div>
+
+              <div class="generation-statistics">
+                <div>
+                  <span>Users</span>
+
+                  <div class="">
+                    <strong>
+                      {{ generation['users'] }}
+                    </strong>
+                    <span class="line">/</span>
+                    <small>
+                      {{ generation['active'] }}
+                      active
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <span
+                  class="stat-divider"
+                  aria-hidden="true"
+                ></span>
+
+                <div>
+                  <span>Deposited</span>
+
+                  <strong>
+                    {{
+                      generation['deposited']
+                        | currency:
+                          'USD':
+                          'symbol':
+                          '1.0-2'
+                    }}
+                  </strong>
+
+                  <!-- <small>
+                    {{
+                      generation[
+                        'deposit_count'
+                      ]
+                    }}
+                    transactions
+                  </small> -->
+                </div>
+
+                <span
+                  class="stat-divider"
+                  aria-hidden="true"
+                ></span>
+
+                <div>
+                  <span>Withdrawn</span>
+
+                  <strong>
+                    {{
+                      generation['withdrawn']
+                        | currency:
+                          'USD':
+                          'symbol':
+                          '1.0-2'
+                    }}
+                  </strong>
+
+                  <!-- <small>
+                    {{
+                      generation[
+                        'withdraw_count'
+                      ]
+                    }}
+                    transactions
+                  </small> -->
+                </div>
+              </div>
+            </button>
+          }
+        </div>
+      </section>
+
+      <!-- Information -->
+
+      <div class="referral-notice">
+        <i
+          class="bi bi-info-circle"
+          aria-hidden="true"
+        ></i>
+
+        <p>
+          Earnings are generated from deposit activity completed
+          by users in your network.
+        </p>
+      </div>
+    </div>
+  }
+</main>
+
+
+<app-mobile-menu  />

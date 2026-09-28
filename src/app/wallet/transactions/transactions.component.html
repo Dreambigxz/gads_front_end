@@ -232,13 +232,8 @@
 
               <span class="transaction-main">
                 <strong>
-                  {{ transaction.method }}
-
                   {{
-                    transaction.type ===
-                    'deposit'
-                      ? 'Deposit'
-                      : 'Withdrawal'
+                    transaction.type | titlecase
                   }}
                 </strong>
 
@@ -266,18 +261,14 @@
 
               <span class="transaction-result">
                 <strong
-                  [class.deposit]="
-                    transaction.type ===
-                    'deposit'
-                  "
+                  [class.deposit]="transaction.type.includes('deposit')"
                   [class.withdraw]="
                     transaction.type ===
                     'withdraw'
                   "
                 >
                   {{
-                    transaction.type ===
-                    'deposit'
+                    transaction.type.includes('deposit')
                       ? '+'
                       : '-'
                   }}${{

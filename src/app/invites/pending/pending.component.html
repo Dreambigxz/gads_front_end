@@ -1,0 +1,81 @@
+<app-header></app-header>
+
+<div class="pending-view">
+
+    <!-- <small class="inactive-text">Inactive Subordinates.</small> -->
+
+
+  <section class="pending-table-card">
+    <!-- <header class="table-header">
+      <div>
+        <span>Referral network</span>
+        <h2>Pending Subordinates</h2>
+      </div>
+
+      <strong>{{ pending.length }}</strong>
+    </header> -->
+
+
+
+    @if (pending.length) {
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Date joined</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (item of pending; track item.id) {
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <span class="user-avatar">
+                      {{
+                        item.user
+                          ?.charAt(0)
+                          ?.toUpperCase()
+                      }}
+                    </span>
+
+                    <div>
+                      <strong>{{ item.user }}</strong>
+                      <small>Pending activation</small>
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <div class="date-cell">
+                    <strong>
+                      {{
+                        item.created_at
+                          | date:'MMM d, y'
+                      }}
+                    </strong>
+
+                    <small>
+                      {{
+                        item.created_at
+                          | date:'h:mm a'
+                      }}
+                    </small>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <i class="bi bi-person-check"></i>
+        <h3>No pending users</h3>
+        <p>Your pending referrals will appear here.</p>
+      </div>
+    }
+  </section>
+
+</div>

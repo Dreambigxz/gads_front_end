@@ -48,7 +48,7 @@ export class DepositComponent {
   ngOnInit(){
 
     if (!this.quickNav.storeData.get("deposit")) {
-        this.quickNav.reqServerData.get('wallet?dir=start_deposit').subscribe((res)=>{
+        this.quickNav.reqServerData.get('wallet?dir=start_deposit/').subscribe((res)=>{
           this.walletService.initSetting()//.deposit(this);
       })}
   }
@@ -64,7 +64,7 @@ export class DepositComponent {
   checkPaymentStatus(){
 
   }
-  
+
 
   async copyAddress(): Promise<void> {
     const address =

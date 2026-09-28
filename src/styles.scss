@@ -8,7 +8,7 @@
         BRAND COLORS
      ========================================= */
 
-     --color-primary: #e91e24;
+     --primary: #e91e24;
      --color-primary: #e91e24;
      --color-primary-rgb: 233, 30, 36;
 
@@ -399,16 +399,12 @@ img {
 }
 
 .item-input-wrap input::placeholder {
-
     color:#64748B !important;
-
 }
 
 .item-input-wrap > i {
 
     flex-shrink:0;
-
-    color:var(--primary);
-
-    font-size:19px;
+    color:var(--color-primary);
+    font-size:16px;
 }

@@ -39,3 +39,76 @@
 .google-login-btn svg {
   flex: 0 0 20px;
 }
+
+// LOGO
+.light-mode-logo {
+  display: block;
+  width: clamp(90px, 24vw, 130px);
+  height: auto;
+  object-fit: contain;
+
+  margin: 0 auto 24px;
+
+  /* Smooth premium appearance */
+  filter: drop-shadow(0 8px 18px rgba(239, 30, 36, 0.14));
+
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.light-mode-logo:hover {
+  transform: translateY(-2px) scale(1.025);
+  filter: drop-shadow(0 10px 22px rgba(239, 30, 36, 0.2));
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .light-mode-logo {
+    width: 100px;
+    margin-bottom: 20px;
+  }
+}
+
+.auth-heading {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.auth-badge {
+  display: block;
+  margin-bottom: 10px;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  color: #ef1e24;
+  background: rgba(239, 30, 36, 0.08);
+
+  padding: 7px 13px;
+  border-radius: 50px;
+}
+
+.auth-heading h1 {
+  margin: 0 0 8px;
+
+  font-size: clamp(26px, 6vw, 34px);
+  font-weight: 800;
+  line-height: 1.15;
+
+  color: #151821;
+  letter-spacing: -0.8px;
+}
+
+.auth-heading p {
+  max-width: 390px;
+  margin: 0 auto;
+
+  color: #7a7f8c;
+  font-size: 14px;
+  line-height: 1.6;
+}

@@ -1,0 +1,146 @@
+<!-- Language settings row -->
+
+<!-- Language modal -->
+@if (quickNav.languageModalOpen) {
+  <div
+    class="language-modal-backdrop"
+    role="presentation"
+    (click)="closeLanguageModal()"
+  >
+    <section
+      translate="no"
+      class="language-modal no-translate"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="language-modal-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header class="language-modal__header">
+        <div class="language-modal__heading">
+          <span class="modal-icon">
+            <i
+              class="bi bi-translate"
+              aria-hidden="true"
+            ></i>
+          </span>
+
+          <div>
+            <span class="modal-eyebrow">
+              App preferences
+            </span>
+
+            <h2 id="language-modal-title">
+              Choose Language
+            </h2>
+          </div>
+        </div>
+
+        <button
+          class="modal-close"
+          type="button"
+          aria-label="Close language selection"
+          (click)="closeLanguageModal()"
+        >
+          <i
+            class="bi bi-x-lg"
+            aria-hidden="true"
+          ></i>
+        </button>
+      </header>
+
+      <div class="language-search">
+        <i
+          class="bi bi-search"
+          aria-hidden="true"
+        ></i>
+
+        <input
+          type="search"
+          placeholder="Search language"
+          aria-label="Search languages"
+          [(ngModel)]="languageSearch"
+        >
+
+        @if (languageSearch) {
+          <button
+            type="button"
+            aria-label="Clear search"
+            (click)="languageSearch = ''"
+          >
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        }
+      </div>
+
+      <div class="language-modal__body">
+        @for (
+          lang of filteredLanguages;
+          track lang
+        ) {
+          <button
+            class="language-option"
+            type="button"
+            [class.language-option--active]="
+              selectedLanguage?.[0] ===
+              quickNav.availableLang[lang][0]
+            "
+            (click)="selectModalLanguage(lang)"
+          >
+            <img
+              [src]="
+                'https://flagsapi.com/' +
+                quickNav.availableLang[lang][1] +
+                '/flat/64.png'
+              "
+              [alt]="
+                quickNav.availableLang[lang][0]
+              "
+            >
+
+            <span class="language-option__copy">
+              <strong>{{ lang }}</strong>
+
+              <small>
+                {{
+                  quickNav.availableLang[lang][0]
+                }}
+              </small>
+            </span>
+
+            <span
+              class="selection-indicator"
+              aria-hidden="true"
+            >
+              @if (
+                selectedLanguage?.[0] ===
+                quickNav.availableLang[lang][0]
+              ) {
+                <i class="bi bi-check2"></i>
+              }
+            </span>
+          </button>
+        } @empty {
+          <div class="language-empty">
+            <i class="bi bi-search"></i>
+
+            <h3>No language found</h3>
+
+            <p>
+              Try searching with another name.
+            </p>
+          </div>
+        }
+      </div>
+
+      <footer class="language-modal__footer">
+        <i
+          class="bi bi-info-circle"
+          aria-hidden="true"
+        ></i>
+
+        The selected language will be applied
+        across the application.
+      </footer>
+    </section>
+  </div>
+}

@@ -33,7 +33,7 @@ export class SummaryComponent {
     }
 
     return Number(
-      this.plan?.[activePlan.id]?.durationDays ?? 0
+      this.plan?.[activePlan.plan_id]?.durationDays ?? 0
     );
   }
 

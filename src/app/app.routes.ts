@@ -6,18 +6,24 @@ import { MainComponent } from "./main/main.component";
 import { DetailsComponent } from "./articles/details/details.component";
 
 import { CreatePlanComponent } from "./plan/create/create.component";
-
 import {  SponsoredAdsComponent } from "./sponsored-ads/sponsored-ads.component";
 
 import { DepositComponent } from "./wallet/deposit/deposit.component";
 import { WithdrawComponent } from "./wallet/withdraw/withdraw.component";
 import { TransactionsComponent } from "./wallet/transactions/transactions.component";
 
+import { InvitesComponent } from "./invites/invites.component";
+import { UsersComponent } from "./invites/users/users.component";
+import { PendingComponent } from "./invites/pending/pending.component";
+
+import { AccountComponent } from "./account/account.component";
+import { SecurityCenterComponent } from "./account/security-center/security-center.component";
+
 export const routes: Routes = [
 
   // auth
   {
-    path: 'auth',
+      path: 'authentication',
       component: AuthComponent,
       title:"Authorization",
   },
@@ -77,6 +83,48 @@ export const routes: Routes = [
     canActivate: [authGuard]
 
   },
+
+  // Referral Routes
+  {
+    path:"invites",
+    component:  InvitesComponent,
+    title: "Promotions",
+    canActivate: [authGuard]
+
+  },
+
+  {
+    path:"invites/users/:lv",
+    component:  UsersComponent,
+    title: "Invited Users",
+    canActivate: [authGuard]
+
+  },
+
+  {
+    path:"invites/inactives",
+    component:  PendingComponent,
+    title: "Pending Subordinates",
+    canActivate: [authGuard]
+
+  },
+
+  {
+    path:"account",
+    component:  AccountComponent,
+    title: "Account",
+    canActivate: [authGuard]
+
+  },
+
+  {
+    path:"account/security",
+    component:  SecurityCenterComponent,
+    title: "Security",
+    canActivate: [authGuard]
+
+  },
+
 
 
 ];

@@ -1,0 +1,368 @@
+<main class="account-page">
+  <header class="account-header">
+    <button
+      class="back-button"
+      type="button"
+      aria-label="Go back"
+      onclick="history.back()"
+    >
+      <i
+        class="bi bi-chevron-left"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <div class="account-header__title">
+      <!-- <span>Account center</span> -->
+      <h1>Account</h1>
+      <!-- <p>Manage your profile and activity</p> -->
+    </div>
+
+    <button
+      class="notification-button"
+      type="button"
+      aria-label="View notifications"
+    >
+      <i
+        class="bi bi-bell"
+        aria-hidden="true"
+      ></i>
+
+      <span></span>
+    </button>
+  </header>
+  <section class="profile-section">
+    <div class="profile-information">
+      <div class="profile-avatar">
+        @if (user.avatar) {
+          <img
+            [src]="user.avatar"
+            [alt]="user.username"
+          >
+        } @else {
+          <span>
+            {{
+              quickNav.storeData.store['username']
+                ?.charAt(0)
+                ?.toUpperCase()
+            }}
+          </span>
+        }
+
+        @if (user.active) {
+          <i
+            class="active-indicator"
+            aria-label="Active account"
+          ></i>
+        }
+      </div>
+
+      <div class="profile-copy">
+        <div class="profile-name">
+          <h2>{{ quickNav.storeData.store['username'] }}</h2>
+
+          <!-- <span class="active-badge">
+            <i></i>
+            Active member
+          </span> -->
+        </div>
+
+        <p>{{ quickNav.storeData.store['email'] }}</p>
+
+        <div
+          class="vip-badge"
+          [class.vip-badge--inactive]="!quickNav.storeData.store['plan_summary']?.plan_id"
+        >
+          <span class="vip-badge__icon">
+            <i class="bi bi-gem"></i>
+          </span>
+
+          <span class="vip-badge__content">
+            <small>Membership plan</small>
+
+            <strong>
+              VIP {{ quickNav.storeData.store['plan_summary']?.plan_id || 0 }}
+            </strong>
+          </span>
+
+          <span class="vip-badge__status">
+            {{ quickNav.storeData.store['plan_summary']?.plan_id ? 'Active' : 'Inactive' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <span
+      class="edit-profile"
+      (click)="quickNav.authService.logout(false)"
+    >
+      <i class="bi bi-power"></i>
+      <!-- <span>Edit profile</span> -->
+    </span>
+  </section>
+
+  <section class="wallet-card">
+    <div class="wallet-stat">
+      <span>Available balance</span>
+
+      <strong>
+        {{
+          quickNav.storeData.store['wallet']?.balance
+            | currency:
+              user.currency:
+              'symbol':
+              '1.2-2'
+        }}
+      </strong>
+    </div>
+
+    <div class="wallet-divider"></div>
+
+    <div class="wallet-stat">
+      <span>Total earned</span>
+
+      <strong>
+        {{
+          quickNav.storeData.store['plan_summary']?.ended_profit || 0
+            | currency:
+              user.currency:
+              'symbol':
+              '1.2-2'
+        }}
+      </strong>
+    </div>
+
+    <div class="wallet-actions">
+      <a
+        class="wallet-button wallet-button--deposit"
+        routerLink="/wallet/deposit"
+      >
+        <i class="bi bi-wallet2"></i>
+        <span>Add Funds</span>
+      </a>
+
+      <a
+        class="wallet-button wallet-button--withdraw"
+        routerLink="/wallet/withdraw"
+      >
+        <i class="bi bi-box-arrow-up"></i>
+        <span>Withdraw</span>
+      </a>
+    </div>
+  </section>
+
+  <nav
+    class="quick-actions"
+    aria-label="Quick access"
+  >
+    <a routerLink="/wallet/transactions">
+      <span class="quick-icon">
+        <i class="bi bi-receipt"></i>
+      </span>
+      <strong>Transactions</strong>
+    </a>
+
+
+
+    <a routerLink="/plan/task">
+      <span class="quick-icon">
+        <i class="bi bi-check2-square"></i>
+      </span>
+      <strong>Tasks</strong>
+    </a>
+
+    <a routerLink="/invites">
+      <span class="quick-icon">
+        <i class="bi bi-people"></i>
+      </span>
+      <strong>Invite</strong>
+    </a>
+
+    <a routerLink="/plans">
+      <span class="quick-icon">
+        <i class="bi bi-gift"></i>
+      </span>
+      <strong>Rewards</strong>
+    </a>
+
+  </nav>
+
+  <section class="account-group">
+    <header class="group-header">
+      <span>Account</span>
+      <h2>Preferences</h2>
+    </header>
+
+    <div class="settings-list">
+      <!-- <a
+        class="settings-item"
+        routerLink="/account/personal"
+      >
+        <span class="settings-icon">
+          <i class="bi bi-person"></i>
+        </span>
+
+        <span class="settings-copy">
+          <strong>Personal details</strong>
+          <small>Update your account information</small>
+        </span>
+
+        <i class="bi bi-chevron-right arrow"></i>
+      </a> -->
+
+      <span
+        class="settings-item"
+        (click)="openLanguageModal()"
+      >
+        <span class="settings-icon">
+          <i class="bi bi-globe2"></i>
+        </span>
+
+        <span class="settings-copy">
+          <strong>Language</strong>
+          <small>{{ quickNav.selectedLang() }}</small>
+        </span>
+
+        <i class="bi bi-chevron-right arrow"></i>
+      </span>
+
+      <span
+        class="settings-item"
+        (click)="quickNav.changePassword=true"
+      >
+        <span class="settings-icon">
+          <i class="bi bi-lock"></i>
+        </span>
+
+        <span class="settings-copy">
+          <strong>Change password</strong>
+          <small>Keep your account protected</small>
+        </span>
+
+        <i class="bi bi-chevron-right arrow"></i>
+      </span>
+
+      <button
+        class="settings-item notification-setting"
+        type="button"
+        (click)="toggleNotifications()"
+      >
+        <span class="settings-icon">
+          <i class="bi bi-bell"></i>
+        </span>
+
+        <span class="settings-copy">
+          <strong>Notifications</strong>
+          <small>
+            {{
+              notificationsEnabled
+                ? 'Notifications enabled'
+                : 'Notifications disabled'
+            }}
+          </small>
+        </span>
+
+        <span
+          class="switch"
+          [class.switch--active]="
+            notificationsEnabled
+          "
+        >
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <section class="account-group">
+    <header class="group-header">
+      <span>Need assistance?</span>
+      <h2>Support & Community</h2>
+    </header>
+
+    <div class="support-list">
+      <a
+        class="support-item"
+        routerLink="/help"
+      >
+        <span class="support-icon">
+          <i class="bi bi-headset"></i>
+        </span>
+
+        <span class="support-copy">
+          <strong>Help Center</strong>
+          <small>
+            Get answers and contact support
+          </small>
+        </span>
+
+        <i class="bi bi-chevron-right arrow"></i>
+      </a>
+
+      <a
+        class="support-item support-item--channel"
+        href="https://t.me/your_channel"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="support-icon">
+          <i class="bi bi-telegram"></i>
+        </span>
+
+        <span class="support-copy">
+          <strong>Join Channel</strong>
+          <small>
+            News, updates and announcements
+          </small>
+        </span>
+
+        <span class="join-button">Join</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="additional-links">
+    <a (click)="useGuide.open()">
+      <span>
+        <i class="bi bi-info-circle"></i>
+        How Traffix Works
+      </span>
+
+      <i class="bi bi-chevron-right"></i>
+    </a>
+
+    <a routerLink="/account/security">
+      <span>
+        <i class="bi bi-shield-check"></i>
+        Privacy & Security
+      </span>
+
+      <i class="bi bi-chevron-right"></i>
+    </a>
+
+    <button
+      class="logout-button"
+      type="button"
+      (click)="quickNav.authService.logout(false)"
+    >
+      <span>
+        <i class="bi bi-box-arrow-right"></i>
+        Sign out
+      </span>
+
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </section>
+</main>
+
+  <app-language
+    *ngIf="quickNav.languageModalOpen"
+    [quickNav]="quickNav"/>
+  <app-chanage-password
+    *ngIf="quickNav.changePassword"
+    [quickNav]="quickNav"
+    />
+
+<app-mobile-menu  />
+
+<app-use-guide/>

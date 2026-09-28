@@ -1,0 +1,172 @@
+<app-header></app-header>
+<main class="generation-page">
+  <!-- <header class="page-header">
+    <button
+      class="back-button"
+      type="button"
+      aria-label="Go back"
+      onclick="history.back()"
+    >
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <div class="header-copy">
+      <span>My network</span>
+      <h1>Generation Members</h1>
+    </div>
+
+    <span class="member-count">
+      {{ users.length }}
+    </span>
+  </header> -->
+
+  <section class="summary-card">
+    <div class="summary-icon">
+      <i class="bi bi-people-fill"></i>
+    </div>
+
+    <div class="summary-content">
+      <span>Total members</span>
+      <strong>{{ users.length }}</strong>
+      <small>Users in this generation</small>
+    </div>
+
+    <div class="summary-earning">
+      <span>Earned</span>
+
+      <strong>
+        {{
+          totalEarned
+            | currency:
+              (users[0]?.currency || 'USD'):
+              'symbol':
+              '1.2-2'
+        }}
+      </strong>
+    </div>
+  </section>
+
+  <section class="members-section">
+    <header class="section-header">
+      <div>
+        <span>Referral network</span>
+        <h2>Members</h2>
+      </div>
+
+      <small>
+        {{ users.length }}
+        {{ users.length === 1 ? 'user' : 'users' }}
+      </small>
+    </header>
+
+    @if (users.length) {
+      <div class="members-list">
+        @for (item of users; track item.id) {
+          <article class="member-card">
+            <div class="member-avatar">
+              {{
+                item.referred_user
+                  ?.charAt(0)
+                  ?.toUpperCase()
+              }}
+            </div>
+
+            <div class="member-main">
+              <div class="member-top">
+                <div class="member-identity">
+                  <strong>
+                    {{ item.referred_user }}
+                  </strong>
+
+                  <span>
+                    Generation {{ item.generation }}
+                  </span>
+                </div>
+
+                <span
+                  class="status-badge"
+                  [class.status-badge--paid]="item.cashed"
+                  [class.status-badge--ready]="
+                    !item.cashed &&
+                    item.ready_for_cash
+                  "
+                >
+                  <i
+                    class="bi"
+                    [class.bi-check2-circle]="item.cashed"
+                    [class.bi-hourglass-split]="!item.cashed"
+                  ></i>
+
+                  {{
+                    item.cashed
+                      ? 'Paid'
+                      : item.ready_for_cash
+                        ? 'Ready'
+                        : 'Pending'
+                  }}
+                </span>
+              </div>
+
+              <div class="member-stats">
+                <div>
+                  <span>Activity value</span>
+
+                  <strong>
+                    {{
+                      item.base_amount
+                        | currency:
+                          item.currency:
+                          'symbol':
+                          '1.2-2'
+                    }}
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Your earning</span>
+
+                  <strong class="earning">
+                    +{{
+                      item.amount
+                        | currency:
+                          item.currency:
+                          'symbol':
+                          '1.2-2'
+                    }}
+                  </strong>
+                </div>
+              </div>
+
+              <footer class="member-footer">
+                <span class="earning-type">
+                  <i class="bi bi-gift"></i>
+                  {{ item.type | titlecase }}
+                </span>
+
+                <time [attr.datetime]="item.timestamp">
+                  {{
+                    item.timestamp
+                      | date:'MMM d, y · h:mm a'
+                  }}
+                </time>
+              </footer>
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <span class="empty-icon">
+          <i class="bi bi-people"></i>
+        </span>
+
+        <h3>No members yet</h3>
+
+        <p>
+          Users you invite will appear here when
+          they join your referral network.
+        </p>
+      </div>
+    }
+  </section>
+</main>

@@ -43,7 +43,6 @@ export class ChanagePasswordComponent {
 
   }
 
-
   get canChangePassword(): boolean {
 
     return (
@@ -56,8 +55,6 @@ export class ChanagePasswordComponent {
     );
 
   }
-
-
 
   closeChangePassword() {
 
@@ -78,7 +75,6 @@ export class ChanagePasswordComponent {
     this.validatePassword();
 
   }
-
 
   changePassword() {
 
@@ -103,6 +99,5 @@ export class ChanagePasswordComponent {
 
 
   }
-
 
 }

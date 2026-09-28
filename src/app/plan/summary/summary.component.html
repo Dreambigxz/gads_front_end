@@ -1,4 +1,4 @@
-<main *ngIf="trade?.active_capital" class="trade-summary" aria-label="Trade summary">
+<main *ngIf="hasPlan.length" class="trade-summary" aria-label="Trade summary">
 
   <button
     class="do-task-button"
@@ -80,7 +80,7 @@
 
           <strong class="primary-value">
             {{ (trade?.total_daily_percent || 0)
-              | currency:(trade?.currency || 'USD'):'symbol':'1.0-0'
+              | currency:(trade?.currency || 'USD'):'symbol':'1.2-2'
             }}
           </strong>
 
@@ -131,8 +131,8 @@
             </div>
 
             <div class="task-info__count">
-              <strong>{{ ads?.completed_today }}</strong>
-              <span>/ {{ plan[hasPlan[0].plan_id -1].dailyTasks || 0 }}</span>
+              <strong>{{ ads?.completed_today|| 0 }}</strong>
+              <span>/ {{ ads?.daily_limit || 0 }}</span>
             </div>
           </div>
       <!-- <small>Compared with yesterday</small> -->
@@ -186,7 +186,7 @@
         </span>
       </div>
 
-      <span class="stat-label">Profit Summary</span>
+      <span class="stat-label">Expected Profit</span>
 
       <!-- Total possible profit -->
       <strong class="profit-value">
@@ -196,7 +196,7 @@
       </strong>
 
       <small class="profit-description">
-        Total profit available from this plan
+        <!-- <i>Earning Summary</i> -->
       </small>
 
       <div class="profit-breakdown">

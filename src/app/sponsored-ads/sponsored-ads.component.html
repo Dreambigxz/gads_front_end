@@ -44,48 +44,50 @@
       </header>
 
       @if (modal.ads(); as adsData) {
-        <div *ngIf="!modal.ads().sponsors.length" class="task-summary">
-          <div class="task-summary__item available">
-            <span class="task-summary__icon">
-              <i class="bi bi-megaphone-fill"></i>
-            </span>
+        <div  class="task-summary">
+          <ng-template *ngIf="modal.ads().sponsors.length">
+            <div class="task-summary__item available">
+              <span class="task-summary__icon">
+                <i class="bi bi-megaphone-fill"></i>
+              </span>
 
-            <div class="task-summary__content">
-              <span>Available</span>
+              <div class="task-summary__content">
+                <span>Available</span>
 
-              <strong>
-                {{ adsData.sponsors?.length || 0 }}
-              </strong>
+                <strong>
+                  {{ adsData.sponsors?.length || 0 }}
+                </strong>
+              </div>
             </div>
-          </div>
 
-          <div class="task-summary__item completed">
-            <span class="task-summary__icon">
-              <i class="bi bi-check2-circle"></i>
-            </span>
+            <div class="task-summary__item completed">
+              <span class="task-summary__icon">
+                <i class="bi bi-check2-circle"></i>
+              </span>
 
-            <div class="task-summary__content">
-              <span>Completed</span>
+              <div class="task-summary__content">
+                <span>Completed</span>
 
-              <strong>
-                {{ adsData.completed_today || 0 }}
-              </strong>
+                <strong>
+                  {{ adsData.completed_today || 0 }}
+                </strong>
+              </div>
             </div>
-          </div>
 
-          <div class="task-summary__item target">
-            <span class="task-summary__icon">
-              <i class="bi bi-bullseye"></i>
-            </span>
+            <div class="task-summary__item target">
+              <span class="task-summary__icon">
+                <i class="bi bi-bullseye"></i>
+              </span>
 
-            <div class="task-summary__content">
-              <span>Daily target</span>
+              <div class="task-summary__content">
+                <span>Daily target</span>
 
-              <strong>
-                {{ adsData.daily_limit || 0 }}
-              </strong>
+                <strong>
+                  {{ adsData.daily_limit || 0 }}
+                </strong>
+              </div>
             </div>
-          </div>
+          </ng-template>
 
           <div class="task-summary__progress">
             <div class="task-summary__progress-header">
@@ -343,12 +345,16 @@
                 available tomorrow.
               </p>
 
-              <strong>
+              <!-- <strong>
                 {{ adsData.completed_today }}
                 of
                 {{ adsData.daily_limit }}
                 completed
-              </strong>
+              </strong> -->
+
+              <div class="text-info">
+                <strong>Keep engaging with our daily posts by liking and commenting to earn $0.50–$1.00 in daily rewards.</strong>
+              </div>
             </div>
           }
 
@@ -389,7 +395,7 @@
             aria-hidden="true"
           ></i>
 
-          Rewards are credited after task verification.
+        <small>  <strong>Keep engaging with our daily posts by liking and commenting to earn $0.50–$1.00 in daily rewards.</strong></small>
         </footer>
       }
     </section>

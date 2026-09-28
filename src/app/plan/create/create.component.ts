@@ -47,11 +47,11 @@ export class CreatePlanComponent {
 
     this.plans = this.quickNav.storeData.get("plans")
 
-    if (!this.quickNav.storeData.get("plans")) {
+    if (!this.quickNav.storeData.get("plan_summary")) {
       this.quickNav.reqServerData.get("plans/")
       .subscribe((res:any)=>{
         this.plans = this.quickNav.storeData.get("plans")
-        this.completedPlanKeys =  this.quickNav.storeData.get("completed_planKeys") || []
+        this.completedPlanKeys =  this.quickNav.storeData.get("completed_plan_keys") || []
         this.loadSponsorAds()
       })
     }else{
@@ -61,7 +61,7 @@ export class CreatePlanComponent {
 
   loadSponsorAds(){
 
-    if (this.quickNav.storeData.get("ads")?.sponsors) {
+    if (this.hasPlan.length) {
       this.adsService.open(this.quickNav.storeData.get("ads"))
     }
   }

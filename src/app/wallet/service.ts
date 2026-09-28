@@ -284,7 +284,8 @@ export class WalletService {
     selectCrypto(assetName:any) {
 
         const assets = this.quickNav.storeData.get("assets")
-        this.selectedCrypto$.next(assets[this.activeAssetKey(assetName)]);
+
+        this.selectedCrypto$.next(assets?.[this.activeAssetKey(assetName)]);
 
     }
 

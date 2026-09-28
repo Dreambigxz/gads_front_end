@@ -8,7 +8,6 @@ import { SuccessCheckComponent } from '../app/reuseables/success-check/success-c
 import { SpinnerComponent } from '../app/reuseables/http-loader/spinner.component';
 // import { QuickNavService } from '../app/reuseables/services/quick-nav.service'; // ✅ adjust path as needed
 import { AuthService } from '../app/reuseables/auth/auth.service';
-import { UseGuideComponent } from "../app/use-guide/use-guide.component";
 import { SponsoredAdsComponent } from "../app/sponsored-ads/sponsored-ads.component";
 
 import {
@@ -31,7 +30,6 @@ import {
     MessageComponent,
     SuccessCheckComponent,
     RankingComponent,
-    UseGuideComponent,
     SponsoredAdsComponent
   ],
   templateUrl: './app.component.html',

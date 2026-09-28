@@ -52,9 +52,6 @@ export class HeaderComponent {
 
   segments(segments:any){
 
-    console.log({segments});
-
-
     if (segments.includes("plan")) {
       this.pageName="Plan"
       this.subtitle = "Investment plan"
@@ -64,16 +61,19 @@ export class HeaderComponent {
       this.pageName=segments.pop()?.split("?")[0].replaceAll("-"," ").toUpperCase() || ''
       this.subtitle = 'Article'
     }
-
+    if (location.pathname.includes('invites/users')) {
+      this.pageName=segments.pop()?.split("?")[0].replaceAll("-"," ").toUpperCase()
+      this.subtitle = 'Level'
+    }
     else{
       this.pageName=segments.pop()?.split("?")[0].replaceAll("-"," ").toUpperCase() || ''
     }
 
     this.title = this.pageName
-    // this.quickNav.storeData.set("pageName", )
 
-    console.log({"pageName": this.pageName});
-    console.log({segments});
+    // this.quickNav.storeData.set("pageName", )
+    // console.log({"pageName": this.pageName});
+    // console.log({segments});
 
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 
@@ -37,6 +37,7 @@ export class QuickNavService {
 
    emptyDataUrl = 'assets/images/empty-box.png'
    changePassword = false
+   languageModalOpen = false
 
    modal:any
 
@@ -57,6 +58,9 @@ export class QuickNavService {
    }
 
   langKeys = Object.keys(this.availableLang)
+
+  readonly selectedLang =
+    signal(localStorage.getItem("lang") || "English")
 
   helpLinks = {
 

@@ -1,0 +1,292 @@
+<app-header></app-header>
+<app-spinner></app-spinner>
+<div class="invite-page">
+
+
+
+  <!-- TOTAL CASH TRACK -->
+  <section class="cash-track">
+
+    <div class="cash-track-header">
+
+      <div class="cash-icon">
+        <i class="bi bi-cash-stack"></i>
+      </div>
+
+      <div class="cash-title">
+        <span>TOTAL CASH BACK</span>
+        <strong>
+          {{ totalRewardAmount | currencyConverter:true }}
+        </strong>
+      </div>
+
+      <div class="cash-percent">
+        {{ cashProgress }}%
+      </div>
+
+    </div>
+
+
+    <div class="cash-progress">
+
+      <div
+        class="cash-progress-fill"
+        [style.width.%]="cashProgress">
+      </div>
+
+    </div>
+
+
+    <div class="cash-track-footer">
+
+      <div>
+        <span>Unlocked</span>
+        <strong>
+          {{ unlockedCash | currencyConverter:true }}
+        </strong>
+      </div>
+
+      <div>
+        <span>Remaining</span>
+        <strong>
+          {{ remainingCash | currencyConverter:true }}
+        </strong>
+      </div>
+
+      <!-- <div>
+        <span>Potential</span>
+        <strong>
+          ${{ totalRewardAmount | number:'1.2-2' }}
+        </strong>
+      </div> -->
+
+    </div>
+
+  </section>
+
+  <!-- PROGRESS SUMMARY -->
+  <section class="progress-summary">
+
+    <div class="summary-left">
+
+      <div class="summary-icon">
+        <i class="bi bi-gift-fill"></i>
+      </div>
+
+      <div>
+        <span>Your Progress</span>
+
+        <strong>
+          {{ totalInvites }}
+          <small>invites</small>
+        </strong>
+      </div>
+
+    </div>
+
+    <div class="summary-right">
+
+      <span>Next Reward</span>
+
+      <strong>
+        {{ nextReward?.reward_amount || 0 |currencyConverter:true  }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+
+
+  <!-- LEVELS -->
+  <section class="reward-section">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-eyebrow">
+          REWARD MILESTONES
+        </span>
+
+        <h2>Invite levels</h2>
+      </div>
+
+      <span class="level-count">
+        {{ rewards.length }} Levels
+      </span>
+
+    </div>
+
+
+    <div class="reward-list">
+
+      <div
+        class="reward-card"
+        *ngFor="let reward of rewards"
+        [class.completed]="totalInvites >= reward.invites_required"
+        [class.next-level]="reward.id === nextReward?.id">
+
+
+        <!-- LEVEL -->
+        <div class="level-badge">
+
+          <span>LV</span>
+
+          <strong>
+            {{ reward.id }}
+          </strong>
+
+        </div>
+
+
+        <!-- CONTENT -->
+        <div class="reward-content">
+
+          <div class="reward-top">
+
+            <div>
+
+              <h3>
+                Level {{ reward.id }}
+              </h3>
+
+              <span class="requirement">
+
+                {{ reward.invites_required }}
+                invites required
+
+              </span>
+
+            </div>
+
+
+            <div class="reward-amount">
+
+              <span>Reward</span>
+
+              <strong>
+                {{ reward.reward_amount|currencyConverter:true }}
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- PROGRESS -->
+          <div class="progress-area">
+
+            <div class="progress-info">
+
+              <span>
+                {{ getProgress(reward) }}% complete
+              </span>
+
+              <span
+                *ngIf="totalInvites < reward.invites_required">
+
+                {{ reward.invites_required - totalInvites }}
+                left
+
+              </span>
+
+              <span
+                *ngIf="totalInvites >= reward.invites_required"
+                class="completed-text">
+
+                Completed ✓
+
+              </span>
+
+            </div>
+
+
+            <div class="progress-track">
+
+              <div
+                class="progress-fill"
+                [style.width.%]="getProgress(reward)">
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- STATUS -->
+          <div class="reward-status">
+
+            <span *ngIf="totalInvites < reward.invites_required">
+
+              <i class="bi bi-person-plus"></i>
+
+              Invite
+              {{ reward.invites_required - totalInvites }}
+              more
+
+            </span>
+
+
+            <span
+              *ngIf="totalInvites >= reward.invites_required"
+              class="unlocked">
+
+              <i class="bi bi-check-circle-fill"></i>
+
+              Reward unlocked
+
+            </span>
+
+
+            <span
+              *ngIf="reward.id === nextReward?.id"
+              class="next-badge">
+
+              NEXT
+
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- BOTTOM CTA -->
+  <section class="invite-cta">
+
+    <div class="cta-icon">
+      <i class="bi bi-share-fill"></i>
+    </div>
+
+    <div class="cta-content">
+
+      <strong>
+        Keep inviting
+      </strong>
+
+      <span>
+        Every friend brings you closer to your next reward.
+      </span>
+
+    </div>
+
+    <button
+      type="button"
+      (click)="quickNav.go('invites')">
+
+      Invite
+
+      <i class="bi bi-arrow-right"></i>
+
+    </button>
+
+  </section>
+
+</div>

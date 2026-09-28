@@ -100,11 +100,11 @@
 
 .icon-button {
   display: grid;
-  flex: 0 0 42px;
+  flex: 0 0 35px;
   place-items: center;
 
-  width: 42px;
-  height: 42px;
+  width: 35px;
+  height: 35px;
   padding: 0;
 
   border:
@@ -119,7 +119,7 @@
 
   box-shadow: var(--shadow-xs);
 
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-md);
   cursor: pointer;
 
   transition:

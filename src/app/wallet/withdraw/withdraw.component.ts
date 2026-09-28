@@ -1,5 +1,10 @@
-import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  Component,
+  computed,
+  inject,
+  signal
+} from '@angular/core';
 
 import { TruncateCenterPipe } from '../../reuseables/pipes/truncate-center.pipe';
 
@@ -16,6 +21,18 @@ import { CountdownPipe } from '../../reuseables/pipes/countdown.pipe';
 
 import { CryptoHeaderComponent } from "../crypto-header/crypto-header.component";
 
+import {
+  RouterLink
+} from '@angular/router';
+
+
+type AssetFilter =
+  | 'all'
+  | 'USDT'
+  | 'BNB'
+  | 'TRX';
+
+
 
 @Component({
   selector: 'app-withdraw',
@@ -29,7 +46,9 @@ import { CryptoHeaderComponent } from "../crypto-header/crypto-header.component"
     CurrencyConverterPipe,
     TimeFormatPipe,
     CountdownPipe,
-    CryptoHeaderComponent
+    CryptoHeaderComponent,
+    RouterLink
+
   ],
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.css', "../wallet.component.css"]
@@ -45,7 +64,7 @@ export class WithdrawComponent {
   ngOnInit(){
 
     if (!this.quickNav.storeData.get("withdraw")) {
-        this.quickNav.reqServerData.get('wallet?dir=start_withdraw').subscribe((res)=>{
+        this.quickNav.reqServerData.get('wallet?dir=start_withdraw/').subscribe((res)=>{
           this.walletService.initSetting()
 
       })}

@@ -1,0 +1,148 @@
+:host {
+  display: block;
+  font-family: var(--font-family);
+}
+
+.pending-view{
+  margin-top: 12px;
+
+}
+.pending-table-card {
+
+  margin-top: 12px;
+
+  width: 100%;
+  overflow: hidden;
+
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-lg);
+
+  background: var(--background-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.inactive-text{
+
+  padding-left: 12px;
+}
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  width: 50%;
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+}
+
+th {
+  color: var(--text-muted);
+  background: var(--background-surface-soft);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-extra-bold);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+td {
+  border-top: var(--border-width) solid var(--border-color-light);
+}
+
+tbody tr {
+  transition: background var(--transition-fast);
+}
+
+tbody tr:hover {
+  background: var(--background-surface-soft);
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.user-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: var(--radius-md);
+
+  color: var(--text-on-primary);
+  background: var(--gradient-primary);
+
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-extra-bold);
+}
+
+.user-cell > div,
+.date-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-cell strong,
+.date-cell strong {
+  color: var(--text-primary);
+  font-size: var(--font-size-md);
+}
+
+.user-cell small,
+.date-cell small {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.empty-state {
+  padding: var(--space-10) var(--space-4);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.empty-state i {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-success);
+  font-size: var(--font-size-2xl);
+}
+
+.empty-state h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
+}
+
+.empty-state p {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 420px) {
+  .table-header {
+    padding: var(--space-3);
+  }
+
+  th,
+  td {
+    padding: var(--space-3);
+  }
+
+  .user-avatar {
+    flex-basis: 32px;
+    width: 32px;
+    height: 32px;
+  }
+}

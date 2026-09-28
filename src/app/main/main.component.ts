@@ -8,6 +8,8 @@ import { QuickNavService } from '../reuseables/services/quick-nav.service'; // â
 
 import { MobileMenuComponent } from "../components/mobile-menu/mobile-menu.component";
 import { UseGuideService } from "../use-guide/use-guide.service";
+import { UseGuideComponent } from "../use-guide/use-guide.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -17,6 +19,8 @@ import { UseGuideService } from "../use-guide/use-guide.service";
     NewsHeaderComponent,
     SlidersComponent,
     NewsCategoriesNavComponent,
+    UseGuideComponent,
+    RouterLink
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
@@ -30,8 +34,10 @@ export class MainComponent {
 
     ngOnInit(){
 
-      const seenGuide = window.localStorage.getItem("useGuide")
+      setTimeout(() => {
 
+      }, 5000);
+      const seenGuide = window.localStorage.getItem("useGuide")
       if (!seenGuide) {
         this.useGuide.open()
       }

@@ -1,41 +1,51 @@
-<!-- LOOGIN FORM -->
+<!-- Reset FORM -->
+<div class="main-page">
+  <div class="wrap">
+      <div class="logo">
+        <img src="assets/images/logo.png" class="light-mode-logo" alt="" title="">
+      </div>
+      <div class="auth-heading">
+        <span class="auth-badge">RESET ACCOUNT</span>
+      </div>
+      <div class="main-area">
 
-<form
-  class="login-form"
-  [formGroup]="authService.formView.reset"
-  (ngSubmit)="authService.onSubmit(authService.formView.reset,'reset')">
+        <form
+          class="list"
+          [formGroup]="authService.formView.reset"
+          (ngSubmit)="authService.onSubmit(authService.formView.reset,'reset')">
 
+          <ul>
+            <!-- EMAIL -->
+            <li class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-input-wrap">
 
-    <!-- EMAIL -->
+                  <input
+                    formControlName='email'
+                    type="email"
+                    placeholder="Email Address">
+                    <i class="bi bi-envelope"></i>
+                </div>
+              </div>
+            </li>
 
-    <div class="input-group">
+            <div class="signup">
+              <button
+                type="submit"
+                class="list-button"
+                title=""
+                [disabled]="authService.formView.reset.invalid">
+                RESET
+              </button>
+            </div>
 
-        <i class="bi bi-envelope"></i>
+            <div class="login-footer" >
+              <p>Continue to account?</p>
+              <span class="log-title" (click)="authService.mode='login'" >Login</span>
+            </div>
+          </ul>
 
-        <input
-            formControlName='email'
-            type="email"
-            placeholder="Email Address">
-
-    </div>
-
-
-
-    <!-- LOGIN  -->
-
-    <button
-        type="submit"
-        class="create-btn"
-        [disabled]="authService.formView.reset.invalid">
-
-        <span>
-            RESET
-        </span>
-
-        <i class="bi bi-arrow-right"></i>
-
-    </button>
-
-
-
-</form>
+        </form>
+      </div>
+  </div>
+</div>

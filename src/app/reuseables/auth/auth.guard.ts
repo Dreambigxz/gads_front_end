@@ -22,5 +22,5 @@ export const authGuard: CanActivateFn = (route, state) => {
 
 
   // Redirect to login
-  return router.createUrlTree(['auth']);
+  return router.createUrlTree(['authentication']);
 };

@@ -1,0 +1,398 @@
+<main class="security-page">
+  <header class="security-header">
+    <button
+      class="header-button"
+      type="button"
+      aria-label="Go back"
+      (click)="goBack()"
+    >
+      <i
+        class="bi bi-chevron-left"
+        aria-hidden="true"
+      ></i>
+    </button>
+
+    <h1>Security Center</h1>
+
+    <span class="header-shield">
+      <i
+        class="bi bi-shield-check"
+        aria-hidden="true"
+      ></i>
+    </span>
+  </header>
+
+  @if (loading()) {
+    <section class="loading-state">
+      <span class="loader"></span>
+      <p>Checking account security...</p>
+    </section>
+  } @else {
+    <section
+      class="security-hero"
+      [class.security-hero--warning]="
+        security.suspicious_activity
+      "
+    >
+      <span class="security-hero__icon">
+        <i
+          class="bi"
+          [class.bi-shield-check]="
+            !security.suspicious_activity
+          "
+          [class.bi-shield-exclamation]="
+            security.suspicious_activity
+          "
+          aria-hidden="true"
+        ></i>
+
+        <small>
+          <i
+            class="bi"
+            [class.bi-check-lg]="
+              !security.suspicious_activity
+            "
+            [class.bi-exclamation-lg]="
+              security.suspicious_activity
+            "
+          ></i>
+        </small>
+      </span>
+
+      <div class="security-hero__copy">
+        <h2>
+          {{
+            security.suspicious_activity
+              ? 'Security review needed'
+              : 'Your account is protected'
+          }}
+        </h2>
+
+        <p>
+          {{
+            security.suspicious_activity
+              ? security.suspicious_count +
+                ' unusual login activity found'
+              : 'No unusual activity detected'
+          }}
+        </p>
+
+        <span class="security-status">
+          <i
+            class="bi"
+            [class.bi-shield-check]="
+              !security.suspicious_activity
+            "
+            [class.bi-exclamation-triangle]="
+              security.suspicious_activity
+            "
+          ></i>
+
+          {{
+            security.suspicious_activity
+              ? 'Review required'
+              : 'Secure'
+          }}
+        </span>
+
+        <small class="last-checked">
+          Last checked just now
+        </small>
+      </div>
+    </section>
+
+    @if (security.suspicious_activity) {
+      <button
+        class="security-alert"
+        type="button"
+        aria-label="Review suspicious logins"
+      >
+        <span class="security-alert__icon">
+          <i
+            class="bi bi-exclamation-triangle-fill"
+          ></i>
+        </span>
+
+        <span class="security-alert__copy">
+          <strong>
+            Unrecognized login detected
+          </strong>
+
+          <small>
+            Review recent account activity
+          </small>
+        </span>
+
+        <span class="review-button">
+          Review
+        </span>
+
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    }
+
+    <section class="activity-section">
+      <header class="section-header">
+        <div>
+          <span>Account access</span>
+          <h2>Recent login activity</h2>
+        </div>
+
+        <small>
+          Latest
+          {{ security.activities?.length || 0 }}
+        </small>
+      </header>
+
+      @if (security.activities?.length) {
+        <div class="activity-list">
+          @for (
+            activity of security.activities;
+            track activity.id
+          ) {
+            <article
+              class="activity-item"
+              [class.activity-item--suspicious]="
+                activity.is_suspicious
+              "
+            >
+              <span
+                class="device-icon"
+                [class.device-icon--suspicious]="
+                  activity.is_suspicious
+                "
+              >
+                <i
+                  class="bi"
+                  [ngClass]="deviceIcon(activity)"
+                  aria-hidden="true"
+                ></i>
+              </span>
+
+              <div class="activity-information">
+                <div class="activity-heading">
+                  <strong>
+                    {{ activityTitle(activity) }}
+                  </strong>
+
+                  <time
+                    [attr.datetime]="
+                      activity.created_at
+                    "
+                  >
+                    {{
+                      activity.created_at
+                        | date:'MMM d, h:mm a'
+                    }}
+                  </time>
+                </div>
+
+                <div class="activity-location">
+                  <i
+                    class="bi bi-geo-alt-fill"
+                    aria-hidden="true"
+                  ></i>
+
+                  <span>
+                    {{
+                      activity.location ||
+                      'Unknown location'
+                    }}
+                  </span>
+
+                  @if (activity.is_current) {
+                    <b>Current device</b>
+                  }
+                </div>
+
+                <div class="activity-footer">
+                  <span class="ip-address">
+                    {{
+                      activity.ip_address ||
+                      'IP unavailable'
+                    }}
+                  </span>
+
+                  <span
+                    class="activity-badge"
+                    [class.activity-badge--current]="
+                      activity.is_current
+                    "
+                    [class.activity-badge--danger]="
+                      activity.is_suspicious
+                    "
+                    [class.activity-badge--registration]="
+                      activity.event_type ===
+                      'registration'
+                    "
+                  >
+                    <i
+                      class="bi"
+                      [class.bi-check-circle-fill]="
+                        !activity.is_suspicious
+                      "
+                      [class.bi-exclamation-circle-fill]="
+                        activity.is_suspicious
+                      "
+                    ></i>
+
+                    {{ activityStatus(activity) }}
+                  </span>
+                </div>
+
+                @if (
+                  activity.is_suspicious &&
+                  activity.suspicious_reasons
+                    ?.length
+                ) {
+                  <div class="suspicious-reasons">
+                    @for (
+                      reason of
+                        activity.suspicious_reasons;
+                      track reason
+                    ) {
+                      <span>{{ reason }}</span>
+                    }
+                  </div>
+                }
+              </div>
+
+              <button
+                class="activity-more"
+                type="button"
+                aria-label="View login details"
+              >
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </article>
+          }
+        </div>
+
+        <button
+          class="view-activity-button"
+          type="button"
+        >
+          <span>View all activity</span>
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      } @else {
+        <div class="empty-activity">
+          <span>
+            <i class="bi bi-shield-check"></i>
+          </span>
+
+          <h3>No login activity yet</h3>
+
+          <p>
+            Your recent logins will appear here.
+          </p>
+        </div>
+      }
+    </section>
+
+    <section class="actions-section">
+      <header class="section-header">
+        <div>
+          <span>Protect your account</span>
+          <h2>Security actions</h2>
+        </div>
+      </header>
+
+      <div class="security-actions">
+        <span
+          class="security-action
+                 security-action--primary"
+          (click)="quickNav.changePassword=true"
+        >
+          <span>
+            <i class="bi bi-lock-fill"></i>
+          </span>
+
+          <strong>Change Password</strong>
+
+          <i class="bi bi-chevron-right"></i>
+        </span>
+
+        <span
+          class="security-action"
+          (click)="quickNav.openTab(quickNav.helpLinks.tech)"
+        >
+          <span>
+            <i class="bi bi-headset"></i>
+          </span>
+
+          <strong>Contact Support</strong>
+
+          <i class="bi bi-chevron-right"></i>
+        </span>
+      </div>
+    </section>
+
+    <section class="privacy-section">
+      <header class="section-header">
+        <div>
+          <span>More protection</span>
+          <h2>Privacy controls</h2>
+        </div>
+      </header>
+
+      <div class="privacy-list">
+        <button
+          class="privacy-item"
+          type="button"
+          disabled
+        >
+          <span class="privacy-icon">
+            <i class="bi bi-shield-lock"></i>
+          </span>
+
+          <span class="privacy-copy">
+            <strong>
+              Two-factor authentication
+            </strong>
+
+            <small>
+              Add an extra layer of protection
+            </small>
+          </span>
+
+          <span class="coming-soon">
+            Coming soon
+          </span>
+        </button>
+
+        <button
+          class="privacy-item
+                 privacy-item--danger"
+          type="button"
+          [disabled]="signingOut()"
+          (click)="signOutAllDevices()"
+        >
+          <span class="privacy-icon">
+            <i class="bi bi-box-arrow-right"></i>
+          </span>
+
+          <span class="privacy-copy">
+            <strong>
+              Sign out of all devices
+            </strong>
+
+            <small>
+              End every active login session
+            </small>
+          </span>
+
+          @if (signingOut()) {
+            <span class="small-loader"></span>
+          } @else {
+            <i class="bi bi-chevron-right"></i>
+          }
+        </button>
+      </div>
+    </section>
+  }
+</main>
+<app-chanage-password
+  *ngIf="quickNav.changePassword"
+  [quickNav]="quickNav"
+  />

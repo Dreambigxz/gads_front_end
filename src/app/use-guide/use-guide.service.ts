@@ -19,7 +19,7 @@ export class UseGuideService {
 
   close(): void {
     this.openState.set(false);
-    // window.localStorage.setItem("useGuide","true")
+    window.localStorage.setItem("useGuide","true")
   }
 
   toggle(): void {
