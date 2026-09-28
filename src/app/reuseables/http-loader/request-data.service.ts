@@ -8,7 +8,7 @@ export class RequestDataService {
 
   production = false
   // useUrl = 'http://127.0.0.1:8000/api'
-  useUrl = "https://gadsbk-production.up.railway.app/api"
+  useUrl = "https://web-production-f0389.up.railway.app/api"
   // ng serve --host 0.0.0.0
 
 
