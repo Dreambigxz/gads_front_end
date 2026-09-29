@@ -7,6 +7,7 @@ import { DetailsComponent } from "./articles/details/details.component";
 
 import { CreatePlanComponent } from "./plan/create/create.component";
 import {  SponsoredAdsComponent } from "./sponsored-ads/sponsored-ads.component";
+import { HistoryComponent } from "./plan/history/history.component";
 
 import { DepositComponent } from "./wallet/deposit/deposit.component";
 import { WithdrawComponent } from "./wallet/withdraw/withdraw.component";
@@ -54,14 +55,18 @@ export const routes: Routes = [
     canActivate: [authGuard]
 
   },
-
+  {
+    path:"task/history",
+    component: HistoryComponent,
+    canActivate: [authGuard]
+  },
 
   {
     path:"ads",
     component: SponsoredAdsComponent,
     canActivate: [authGuard]
-
   },
+
 
   // wallet routes
   {

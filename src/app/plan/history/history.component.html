@@ -1,0 +1,232 @@
+<app-header
+  [wallet]="quickNav.storeData.store['wallet']"/>
+
+  <main class="earnings-page">
+    <!-- <header class="earnings-header">
+      <button
+        type="button"
+        aria-label="Go back"
+        (click)="goBack()"
+      >
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <h1>Task Earnings</h1>
+
+      <span>
+        <i class="bi bi-calendar3"></i>
+      </span>
+    </header> -->
+
+    <section class="earnings-summary">
+      <span>Total Task Earnings</span>
+
+      <strong>
+        {{
+          summary().total_amount
+            | currency:'USD':'symbol':'1.2-2'
+        }}
+      </strong>
+
+      <p>
+        <i class="bi bi-arrow-up-right"></i>
+        {{ summary().total_tasks }}
+        tasks completed
+      </p>
+
+      <div class="summary-stats">
+        <div>
+          <small>Today</small>
+
+          <strong>
+            {{
+              summary().today_amount
+                | currency:
+                  'USD':
+                  'symbol':
+                  '1.2-2'
+            }}
+          </strong>
+        </div>
+
+        <div>
+          <small>Per task</small>
+
+          <strong>
+            {{
+              summary().per_task
+                | currency:
+                  'USD':
+                  'symbol':
+                  '1.2-2'
+            }}
+          </strong>
+        </div>
+      </div>
+    </section>
+
+    <nav class="period-filter">
+      @for (
+        period of periods;
+        track period.key
+      ) {
+        <button
+          type="button"
+          [class.active]="
+            activePeriod() === period.key
+          "
+          (click)="selectPeriod(period.key)"
+        >
+          {{ period.label }}
+        </button>
+      }
+    </nav>
+
+    <!-- <nav class="plan-filter">
+      <button
+        type="button"
+        [class.active]="
+          activePlan() === 'all'
+        "
+        (click)="selectPlan('all')"
+      >
+        All Plans
+      </button>
+
+      @for (
+        plan of summary().plans;
+        track plan
+      ) {
+        <button
+          type="button"
+          [class.active]="
+            activePlan() === plan
+          "
+          (click)="selectPlan(plan)"
+        >
+          {{ plan }}
+        </button>
+      }
+    </nav> -->
+
+    @if (loading()) {
+      <div class="history-loading">
+        <span></span>
+        <p>Loading earnings...</p>
+      </div>
+    } @else {
+      <section class="history">
+        @for (
+          group of groupedEarnings();
+          track group.key
+        ) {
+          <section class="earning-group">
+            <header>
+              <h2>{{ group.label }}</h2>
+
+              <span>
+                {{
+                  group.amount
+                    | currency:
+                      'USD':
+                      'symbol':
+                      '1.2-2'
+                }}
+                ·
+                {{ group.tasks }}
+                {{ group.tasks === 1
+                    ? 'task'
+                    : 'tasks'
+                }}
+              </span>
+            </header>
+
+            <div class="earning-list">
+              @for (
+                earning of group.items;
+                track earning.id
+              ) {
+                <article class="earning-item">
+                  <span class="earning-icon">
+                    <i class="bi bi-check-lg"></i>
+                  </span>
+
+                  <div class="earning-copy">
+                    <strong>
+                      Sponsored task completed
+                    </strong>
+
+                    <small>
+                      Plan {{ earning.plan }}
+                      ·
+                      {{ earning.type | titlecase }}
+                    </small>
+                  </div>
+
+                  <time
+                    [attr.datetime]="
+                      earning.timestamp
+                    "
+                  >
+                    {{
+                      earning.timestamp
+                        | date:'h:mm a'
+                    }}
+                  </time>
+
+                  <div class="earning-amount">
+                    <strong>
+                      +{{
+                        earning.amount
+                          | currency:
+                            'USD':
+                            'symbol':
+                            '1.2-2'
+                      }}
+                    </strong>
+
+                    <small>Completed</small>
+                  </div>
+                </article>
+              }
+            </div>
+          </section>
+        } @empty {
+          <div class="empty-history">
+            <i class="bi bi-receipt"></i>
+            <h3>No task earnings found</h3>
+            <p>
+              Your completed task rewards will
+              appear here.
+            </p>
+          </div>
+        }
+      </section>
+    }
+
+    @if (hasNextPage()) {
+      <button
+        class="load-more"
+        type="button"
+        [disabled]="loadingMore()"
+        (click)="loadMore()"
+      >
+        @if (loadingMore()) {
+          <span class="button-loader"></span>
+          Loading...
+        } @else {
+          <i class="bi bi-chevron-down"></i>
+          Load more history
+        }
+      </button>
+    }
+
+    @if (
+      earnings().length &&
+      !hasNextPage()
+    ) {
+      <p class="history-end">
+        You have reached the end of your history.
+      </p>
+    }
+  </main>

@@ -2,154 +2,196 @@
  [wallet]="quickNav.storeData.store['wallet']"
  />
  <main class="generation-page">
+   <section class="summary-card">
+     <div class="summary-icon">
+       <i class="bi bi-people-fill"></i>
+     </div>
 
-  <section class="summary-card">
-    <div class="summary-icon">
-      <i class="bi bi-people-fill"></i>
-    </div>
+     <div class="summary-content">
+       <span>Total members</span>
+       <strong>{{ count }}</strong>
+       <small>Users in this generation</small>
+     </div>
 
-    <div class="summary-content">
-      <span>Total members</span>
-      <strong>{{ users.length }}</strong>
-      <small>Users in this generation</small>
-    </div>
+     <div class="summary-earning">
+       <span>Earned</span>
+       <strong>
+         {{ totalEarned | currency:currency:'symbol':'1.2-2' }}
+       </strong>
+     </div>
+   </section>
 
-    <div class="summary-earning">
-      <span>Earned</span>
+   <nav class="period-tabs" aria-label="Referral period">
+     <button
+       type="button"
+       [class.active]="period === 'today'"
+       [attr.aria-pressed]="period === 'today'"
+       (click)="setPeriod('today')"
+     >
+       Today
+     </button>
 
-      <strong>
-        {{
-          totalEarned
-            | currency:
-              (users[0]?.currency || 'USD'):
-              'symbol':
-              '1.2-2'
-        }}
-      </strong>
-    </div>
-  </section>
+     <button
+       type="button"
+       [class.active]="period === 'week'"
+       [attr.aria-pressed]="period === 'week'"
+       (click)="setPeriod('week')"
+     >
+       This week
+     </button>
 
-  <section class="members-section">
-    <header class="section-header">
-      <div>
-        <span>Referral network</span>
-        <h2>Members</h2>
-      </div>
+     <button
+       type="button"
+       [class.active]="period === 'all'"
+       [attr.aria-pressed]="period === 'all'"
+       (click)="setPeriod('all')"
+     >
+       All
+     </button>
+   </nav>
 
-      <small>
-        {{ users.length }}
-        {{ users.length === 1 ? 'user' : 'users' }}
-      </small>
-    </header>
+   <section class="members-section">
+     <header class="section-header">
+       <div>
+         <span>Referral network</span>
+         <h2>Members</h2>
+       </div>
 
-    @if (users.length) {
-      <div class="members-list">
-        @for (item of users; track item.id) {
-          <article class="member-card">
-            <div class="member-avatar">
-              {{
-                item.referred_user
-                  ?.charAt(0)
-                  ?.toUpperCase()
-              }}
-            </div>
+       <small>
+         {{ count }}
+         {{ count === 1 ? 'user' : 'users' }}
+       </small>
+     </header>
 
-            <div class="member-main">
-              <div class="member-top">
-                <div class="member-identity">
-                  <strong>
-                    {{ item.referred_user }}
-                  </strong>
+     @if (loading) {
+       <div class="list-message" role="status">
+         <i class="bi bi-arrow-repeat"></i>
+         <span>Loading referrals…</span>
+       </div>
+     } @else if (error) {
+       <div class="list-message list-message--error" role="alert">
+         <i class="bi bi-exclamation-circle"></i>
+         <span>{{ error }}</span>
+         <button type="button" (click)="loadUsers()">Try again</button>
+       </div>
+     } @else if (users.length) {
+       <div class="members-list">
+         @for (item of users; track item.id) {
+           <article class="member-card">
+             <div class="member-avatar" aria-hidden="true">
+               {{ item.referred_user?.charAt(0)?.toUpperCase() }}
+             </div>
 
-                  <span>
-                    Generation {{ item.generation }}
-                  </span>
-                </div>
+             <div class="member-main">
+               <div class="member-top">
+                 <div class="member-identity">
+                   <strong>{{ item.referred_user }}</strong>
+                   <span>Generation {{ item.generation }}</span>
+                 </div>
 
-                <span
-                  class="status-badge"
-                  [class.status-badge--paid]="item.cashed"
-                  [class.status-badge--ready]="
-                    !item.cashed &&
-                    item.ready_for_cash
-                  "
-                >
-                  <i
-                    class="bi"
-                    [class.bi-check2-circle]="item.cashed"
-                    [class.bi-hourglass-split]="!item.cashed"
-                  ></i>
+                 <span
+                   class="status-badge"
+                   [class.status-badge--paid]="item.cashed"
+                   [class.status-badge--ready]="
+                     !item.cashed && item.ready_for_cash
+                   "
+                 >
+                   <i
+                     class="bi"
+                     [class.bi-check2-circle]="item.cashed"
+                     [class.bi-hourglass-split]="!item.cashed"
+                   ></i>
 
-                  {{
-                    item.cashed
-                      ? 'Paid'
-                      : item.ready_for_cash
-                        ? 'Ready'
-                        : 'Pending'
-                  }}
-                </span>
-              </div>
+                   {{
+                     item.cashed
+                       ? 'Paid'
+                       : item.ready_for_cash
+                         ? 'Ready'
+                         : 'Pending'
+                   }}
+                 </span>
+               </div>
 
-              <div class="member-stats">
-                <div>
-                  <span>Activity value</span>
+               <div class="member-stats">
+                 <div>
+                   <span>Activity value</span>
+                   <strong>
+                     {{
+                       item.base_amount
+                         | currency:item.currency:'symbol':'1.2-2'
+                     }}
+                   </strong>
+                 </div>
 
-                  <strong>
-                    {{
-                      item.base_amount
-                        | currency:
-                          item.currency:
-                          'symbol':
-                          '1.2-2'
-                    }}
-                  </strong>
-                </div>
+                 <div>
+                   <span>Your earning</span>
+                   <strong class="earning">
+                     +{{
+                       item.amount
+                         | currency:item.currency:'symbol':'1.2-2'
+                     }}
+                   </strong>
+                 </div>
+               </div>
 
-                <div>
-                  <span>Your earning</span>
+               <footer class="member-footer">
+                 <span class="earning-type">
+                   <i class="bi bi-gift"></i>
+                   {{ item.type | titlecase }}
+                 </span>
 
-                  <strong class="earning">
-                    +{{
-                      item.amount
-                        | currency:
-                          item.currency:
-                          'symbol':
-                          '1.2-2'
-                    }}
-                  </strong>
-                </div>
-              </div>
+                 <time [attr.datetime]="item.timestamp">
+                   {{ item.timestamp | date:'MMM d, y · h:mm a' }}
+                 </time>
+               </footer>
+             </div>
+           </article>
+         }
+       </div>
 
-              <footer class="member-footer">
-                <span class="earning-type">
-                  <i class="bi bi-gift"></i>
-                  {{ item.type | titlecase }}
-                </span>
+       @if (totalPages > 1) {
+         <nav class="pagination" aria-label="Referral pages">
+           <button
+             type="button"
+             [disabled]="page === 1"
+             (click)="goToPage(page - 1)"
+             aria-label="Previous page"
+           >
+             <i class="bi bi-chevron-left"></i>
+             <span>Previous</span>
+           </button>
 
-                <time [attr.datetime]="item.timestamp">
-                  {{
-                    item.timestamp
-                      | date:'MMM d, y · h:mm a'
-                  }}
-                </time>
-              </footer>
-            </div>
-          </article>
-        }
-      </div>
-    } @else {
-      <div class="empty-state">
-        <span class="empty-icon">
-          <i class="bi bi-people"></i>
-        </span>
+           <span class="pagination-info">
+             Page <strong>{{ page }}</strong> of {{ totalPages }}
+           </span>
 
-        <h3>No members yet</h3>
+           <button
+             type="button"
+             [disabled]="page === totalPages"
+             (click)="goToPage(page + 1)"
+             aria-label="Next page"
+           >
+             <span>Next</span>
+             <i class="bi bi-chevron-right"></i>
+           </button>
+         </nav>
+       }
+     } @else {
+       <div class="empty-state">
+         <span class="empty-icon">
+           <i class="bi bi-people"></i>
+         </span>
 
-        <p>
-          Users you invite will appear here when
-          they join your referral network.
-        </p>
-      </div>
-    }
-  </section>
-</main>
+         <h3>No referrals {{ period === 'all' ? 'yet' : period === 'today' ? 'today' : 'this week' }}</h3>
+
+         <p>
+           @if (period === 'all') {
+             Users you invite will appear here when they join your referral network.
+           } @else {
+             There are no referral earnings for this period. Select another tab to see more.
+           }
+         </p>
+       </div>
+     }
+   </section>
+ </main>

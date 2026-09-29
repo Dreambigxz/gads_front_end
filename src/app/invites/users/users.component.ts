@@ -1,15 +1,37 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
-import {  Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter, startWith } from 'rxjs/operators';
-
-// import { RouterLink, Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
-import { QuickNavService } from '../../reuseables/services/quick-nav.service';
 import { CurrencyConverterPipe } from '../../reuseables/pipes/currency-converter.pipe';
-import { HeaderComponent } from "../../components/header/header.component";
+import { HeaderComponent } from '../../components/header/header.component';
+import { QuickNavService } from '../../reuseables/services/quick-nav.service';
 
-// import { InviteServices } from "../invite.service";
+type Period = 'today' | 'week' | 'all';
+
+interface Promotion {
+  id: number;
+  referred_user: string;
+  generation: number;
+  amount: string;
+  base_amount: string;
+  type: string;
+  currency: string;
+  created_at: string;
+  timestamp: string;
+  cashed: boolean;
+  ready_for_cash: boolean;
+  user: number;
+}
+
+interface PromotionPage {
+  count: number;
+  total_earned: string;
+  currency: string;
+  next: string | null;
+  previous: string | null;
+  results: Promotion[];
+}
 
 @Component({
   selector: 'app-users',
@@ -17,77 +39,92 @@ import { HeaderComponent } from "../../components/header/header.component";
     CommonModule,
     CurrencyConverterPipe,
     HeaderComponent
-],
+  ],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.css'
+  styleUrl: './users.component.css',
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit, OnDestroy {
 
-  users: any = []
+  users: Promotion[] = [];
+  period: Period = 'week';
+  page = 1;
+  readonly pageSize = 10;
+
+  count = 0;
+  totalEarned = 0;
+  currency = 'USD';
+  loading = false;
+  error = '';
+  generation = 1;
+
+  private readonly destroy$ = new Subject<void>();
+  private requestId = 0;
 
   constructor(
     public quickNav: QuickNavService,
-    private router: Router,
     private route: ActivatedRoute,
-
   ) {}
 
-  rewardFilter: 'all' | 'referral' | 'rebate' = 'all';
-
-  ngOnInit()  {
-
-    this.router.events
-    .pipe(
-      filter(event => event instanceof NavigationEnd),
-      startWith(null)
-    )
-    .subscribe(() => {
-      const generation = this.route.snapshot.paramMap.get('lv');
-      this.loadUser(generation)
-    })
+  ngOnInit(): void {
+    this.route.paramMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        this.generation = Number(params.get('lv')) || 1;
+        this.page = 1;
+        this.loadUsers();
+      });
   }
 
-
-  // get filteredUsers() {
-  //
-  //     const users = this.inviteService.users || [];
-  //
-  //     if (this.rewardFilter === 'all') {
-  //
-  //         return users;
-  //
-  //     }
-  //
-  //     return users.filter(
-  //         (user:any) =>
-  //             user.type?.toLowerCase() ===
-  //             this.rewardFilter
-  //     );
-  //
-  // }
-
-  loadUser(generation:any){
-
-    if (!this.quickNav.storeData.get('promotionLevel_'+generation)) {
-      this.quickNav.reqServerData.get('promotions/?level='+generation)
-      .subscribe({next: res => {
-          this.users =  this.quickNav.storeData.get('promotionLevel_'+generation)
-        }})
-      }
-      this.users =  this.quickNav.storeData.get('promotionLevel_'+generation) || []
-
+  get totalPages(): number {
+    return Math.ceil(this.count / this.pageSize);
   }
 
-
-  get totalEarned(): number {
-    return this.users.reduce(
-      (total:any, item:any) => total + Number(item.amount || 0),
-      0
-    );
+  setPeriod(period: Period): void {
+    if (period === this.period) return;
+    this.period = period;
+    this.page = 1;
+    this.loadUsers();
   }
 
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages || page === this.page || this.loading) {
+      return;
+    }
+    this.page = page;
+    this.loadUsers();
+  }
 
+  loadUsers(): void {
+    const currentRequest = ++this.requestId;
+    this.loading = true;
+    this.error = '';
 
+    const params = `level=${this.generation}&period=${this.period}&page=${this.page}&hideSpinnerimportant`
 
+    this.quickNav.reqServerData.get(`active-users/?${params}`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response:any) => {
+          if (currentRequest !== this.requestId) return;
 
+          this.users = response.results;
+          this.count = response.count;
+          this.totalEarned = Number(response.total_earned);
+          this.currency = response.currency;
+          this.loading = false;
+        },
+        error: () => {
+          if (currentRequest !== this.requestId) return;
+
+          this.users = [];
+          this.loading = false;
+          this.error = 'Could not load referrals. Please try again.';
+        },
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

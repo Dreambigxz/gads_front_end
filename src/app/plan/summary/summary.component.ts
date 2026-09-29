@@ -24,7 +24,6 @@ export class SummaryComponent {
   @Output() viewDetails = new EventEmitter<void>();
 
 
-
   get durationDays(): number {
     const activePlan = this.hasPlan?.[0];
 
@@ -86,10 +85,6 @@ export class SummaryComponent {
     return ending;
   }
 
-  viewTasks(type: 'available' | 'pending' | 'done'): void {
-    // this.router.navigate(['/tasks'], {
-    //   queryParams: { status: type }
-    // });
-}
+
 
 }

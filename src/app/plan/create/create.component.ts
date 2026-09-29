@@ -195,6 +195,10 @@ export class CreatePlanComponent {
     });
   }
 
+  openTaskHistory(){
+    this.quickNav.go('/task/history')
+  }
+
 
 
 }
