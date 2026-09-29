@@ -98,7 +98,7 @@ export const PostHttpInterceptor: HttpInterceptorFn = (
 
   let clientTimezone = getClientTimezone();
 
-   clientTimezone = "America/Noronha"
+   clientTimezone = "America/Sao_Paulo"
 
   // Ensure the current session/token is still valid.
   authService.checkLogin();
