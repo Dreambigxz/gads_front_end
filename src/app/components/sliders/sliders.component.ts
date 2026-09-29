@@ -29,17 +29,17 @@ export class SlidersComponent {
   private sliderInterval?: ReturnType<typeof setInterval>;
   private touchStartX = 0;
 
-  slides: NewsSlide[] = [
+  slides: any = [
     {
-      id: 1,
-      badge: 'BREAKING',
-      title: 'World leaders unite for a cleaner, greener future',
-      description:
-        'Global summit sets bold new climate targets to accelerate change by 2030.',
+      // id: 1,
+      // badge: 'BREAKING',
+      // title: 'World leaders unite for a cleaner, greener future',
+      // description:
+      //   'Global summit sets bold new climate targets to accelerate change by 2030.',
       image:
-        'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85',
-      time: '2h ago',
-      category: 'World'
+        '/assets/images/slides/slide1.jpg',
+      // time: '2h ago',
+      // category: 'World'
     },
     {
       id: 2,
@@ -132,6 +132,6 @@ export class SlidersComponent {
 
     this.startSlider();
   }
-  
+
 
 }
