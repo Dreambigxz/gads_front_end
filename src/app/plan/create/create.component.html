@@ -1,15 +1,6 @@
 <app-header
   [wallet]="quickNav.storeData.store['wallet']"/>
 
-<app-plan-summary
-  [trade]="quickNav.storeData.store['plan_summary']"
-  [ads]="quickNav.storeData.store['ads']"
-  [plan]="quickNav.storeData.store['plans']"
-  [hasPlan]="hasPlan"
-  [adsService]="adsService"
-  (viewDetails)="openTaskHistory()"
-  />
-
 <main class="activation-page">
 
   <aside class="sponsor-info" role="note">
@@ -54,27 +45,12 @@
     </div>
   </section>
 
-  @if (activationMessage) {
-    <div class="activation-alert">
-      <i class="bi bi-info-circle-fill"></i>
-      <span>{{ activationMessage }}</span>
-
-      <button
-        type="button"
-        aria-label="Close message"
-        (click)="activationMessage = ''"
-      >
-        <i class="bi bi-x"></i>
-      </button>
-    </div>
-  }
-
   <section class="plans-section">
     <div class="section-heading">
       <div>
         <span>Available packages</span>
-        <h2 *ngIf="!hasPlan.length">Select a plan</h2>
-        <h2 *ngIf="hasPlan.length">Change plan</h2>
+        <h2>Select a plan</h2>
+        <!-- <h2 *ngIf="hasPlan.length">Add new plan</h2> -->
       </div>
 
       <div class="duration-badge">
@@ -236,7 +212,6 @@
   </section>
 </main>
 
-<app-mobile-menu  />
 
 
 @if (selectedPlan) {
@@ -321,3 +296,5 @@
     </section>
   </div>
 }
+
+<app-mobile-menu  />

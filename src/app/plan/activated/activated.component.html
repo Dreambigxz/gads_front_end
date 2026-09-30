@@ -1,0 +1,279 @@
+
+<app-header
+  [wallet]="quickNav.storeData.store['wallet']"/>
+
+<app-plan-summary
+  [trade]="quickNav.storeData.store['plan_summary']"
+  [ads]="quickNav.storeData.store['ads']"
+  [plan]="quickNav.storeData.store['plans']"
+  [hasPlan]="hasPlan"
+  [adsService]="adsService"
+  (viewDetails)="this.quickNav.go('/task/history')"
+  (addNewTask)="this.quickNav.go('/plan/new')"
+  />
+  <section class="plans-page">
+
+    <!-- Tabs -->
+  <div class="plans-tabs" role="tablist" aria-label="Plan status">
+    <button
+      type="button"
+      role="tab"
+      [class.active]="page === 'active'"
+      [attr.aria-selected]="page === 'active'"
+      (click)="page = 'active'"
+    >
+      Running
+      <span>{{ activePlans.length }}</span>
+    </button>
+
+    <button
+      type="button"
+      role="tab"
+      [class.active]="page === 'completed'"
+      [attr.aria-selected]="page === 'completed'"
+      (click)="page = 'completed'"
+    >
+      Completed
+      <span>{{ completedPlans.length }}</span>
+    </button>
+  </div>
+
+  <!-- Plan list -->
+  <div class="plans-list">
+
+    <article
+      class="task-plan"
+      *ngFor="let plan of (page === 'active' ? activePlans : completedPlans)"
+    >
+      <ng-container
+        *ngIf="
+          (quickNav.storeData.store['plans']?.[plan.plan_id]
+            || plan.planData) as details
+        "
+      >
+
+        <!-- Plan heading -->
+        <div class="plan-heading">
+          <div class="plan-identity">
+            <span class="plan-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 6l4 5 5-7 5 7 4-5-2 12H5L3 6Z"/>
+                <path d="M6 21h12"/>
+              </svg>
+            </span>
+
+            <div>
+              <h2>VIP {{ plan.plan_id }}</h2>
+              <p>
+                {{ +plan.amount === 0 ? 'Free starter plan' : 'Daily task plan' }}
+              </p>
+            </div>
+          </div>
+
+          <span
+            class="status-badge"
+            [class.completed]="page === 'completed'"
+          >
+            <span class="status-dot"></span>
+            {{ page === 'completed' ? 'Completed' : 'Running' }}
+          </span>
+        </div>
+
+        <div class="plan-reference">
+          <span>{{ plan.name }}</span>
+          <span class="reference-dot">·</span>
+          <span>Ref {{ plan.ref_num }}</span>
+        </div>
+
+        <!-- Main metrics -->
+        <div class="plan-metrics">
+
+          <div class="main-metric">
+            <small>Total earned</small>
+
+            <strong>
+              {{
+                plan.total_earned != null
+                  ? (plan.total_earned | currency:'USD':'symbol':'1.2-2')
+                  : '—'
+              }}
+            </strong>
+
+            <span>
+              {{
+                plan.total_earned != null
+                  ? 'Rewards credited'
+                  : 'Earnings not available'
+              }}
+            </span>
+          </div>
+
+          <div class="main-metric days-metric">
+            <small>Days left</small>
+
+            <strong>
+              {{
+                page === 'completed'
+                  ? 0
+                  : (
+                      getDaysDifference(
+                        endDate(
+                          plan.created_at,
+                          details.durationDays ?? details.lock_days
+                        )
+                      ) > 0
+                        ? getDaysDifference(
+                            endDate(
+                              plan.created_at,
+                              details.durationDays ?? details.lock_days
+                            )
+                          )
+                        : 0
+                    )
+              }}
+            </strong>
+
+            <span>
+              of {{ details.durationDays ?? details.lock_days }} days
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Daily task terms -->
+        <div class="daily-terms">
+
+          <div>
+            <strong>{{ details.dailyTasks ?? '—' }}</strong>
+            <span>Tasks / day</span>
+          </div>
+
+          <div>
+            <strong>
+              {{
+                details.rewardPerTask != null
+                  ? (details.rewardPerTask | currency:'USD':'symbol':'1.2-2')
+                  : '—'
+              }}
+            </strong>
+            <span>Per task</span>
+          </div>
+
+          <div>
+            <strong>
+              {{
+                details.dailyReward != null
+                  ? (details.dailyReward | currency:'USD':'symbol':'1.2-2')
+                  : '—'
+              }}
+            </strong>
+            <span>Daily reward</span>
+          </div>
+
+        </div>
+
+        <!-- Schedule -->
+        <div class="plan-schedule">
+
+          <div class="schedule-item">
+            <span class="schedule-marker" aria-hidden="true"></span>
+
+            <div class="schedule-content">
+              <small>Started</small>
+              <strong>
+                {{ plan.created_at | date:'dd MMM yyyy · h:mm a' }}
+              </strong>
+            </div>
+          </div>
+
+
+
+          <div class="schedule-item">
+            <span
+              class="schedule-marker end-marker"
+              aria-hidden="true"
+            ></span>
+
+            <div class="schedule-content">
+              <small>Expected end</small>
+              <strong>
+                {{
+                  endDate(
+                    plan.created_at,
+                    details.durationDays ?? details.lock_days
+                  ) | date:'dd MMM yyyy · h:mm a'
+                }}
+              </strong>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="plan-footer">
+          <span>Activation amount</span>
+          <strong>
+            {{ plan.amount | currency:'USD':'symbol':'1.2-2' }}
+          </strong>
+        </footer>
+
+      </ng-container>
+    </article>
+
+  </div>
+
+  <!-- Empty state -->
+  <div
+    class="plans-empty"
+    *ngIf="
+      (page === 'active' ? activePlans.length : completedPlans.length) === 0
+    "
+  >
+    <span class="empty-icon" aria-hidden="true">
+      <svg viewBox="0 0 64 64">
+        <path d="M38 8H17a5 5 0 0 0-5 5v38a5 5 0 0 0 5 5h20"/>
+        <path d="M38 8v16h16L38 8Z"/>
+        <path d="M54 24v10M22 29h15M22 38h10"/>
+        <circle cx="46" cy="47" r="12"/>
+        <path d="m40 47 4 4 8-9"/>
+      </svg>
+    </span>
+
+    <h2>
+      {{ page === 'active' ? 'No running plans yet' : 'No completed plans yet' }}
+    </h2>
+
+
+    <p>
+      {{
+        page === 'active'
+          ? 'Your active task plans will appear here.'
+          : 'Your completed plans and earnings will appear here.'
+      }}
+    </p>
+
+    <button (click)="quickNav.go('/plan/new')" *ngIf="page === 'active'" type="button" class="create-plan-button">
+        <span class="create-plan-icon">
+          <i class="bi bi-plus-lg" aria-hidden="true"></i>
+        </span>
+
+        <span>Create New Plan</span>
+
+        <i class="bi bi-arrow-right button-arrow" aria-hidden="true"></i>
+        </button>
+
+
+    <button
+      type="button"
+      class="empty-link"
+      *ngIf="page === 'completed'"
+      (click)="page = 'active'"
+    >
+      View running plans
+      <span aria-hidden="true">→</span>
+    </button>
+  </div>
+
+</section>
+
+<app-mobile-menu  />

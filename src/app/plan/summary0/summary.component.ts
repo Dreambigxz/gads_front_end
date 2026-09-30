@@ -21,9 +21,8 @@ export class SummaryComponent {
   @Input() adsService!: any;
   @Input() plan!: any;
   @Input() hasPlan!: any;
-  @Input() openUrl!: any;
   @Output() viewDetails = new EventEmitter<void>();
-  @Output() addNewTask = new EventEmitter<void>();
+
 
   get durationDays(): number {
     const activePlan = this.hasPlan?.[0];

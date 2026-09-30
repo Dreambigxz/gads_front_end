@@ -8,6 +8,7 @@ import { DetailsComponent } from "./articles/details/details.component";
 import { CreatePlanComponent } from "./plan/create/create.component";
 import {  SponsoredAdsComponent } from "./sponsored-ads/sponsored-ads.component";
 import { HistoryComponent } from "./plan/history/history.component";
+import { ActivatedComponent } from "./plan/activated/activated.component";
 
 import { DepositComponent } from "./wallet/deposit/deposit.component";
 import { WithdrawComponent } from "./wallet/withdraw/withdraw.component";
@@ -49,8 +50,15 @@ export const routes: Routes = [
 
   //activate plan
   {
-    path:"plan/task",
+    path:"plan/new",
     component: CreatePlanComponent,
+    title:"Activate plan",
+    canActivate: [authGuard]
+
+  },
+  {
+    path:"plan/activated",
+    component: ActivatedComponent,
     title:"Activate plan",
     canActivate: [authGuard]
 

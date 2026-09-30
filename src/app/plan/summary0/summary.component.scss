@@ -1097,62 +1097,49 @@
 }
 
 
-// task action
-.task-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: 100%;
-}
-
-.do-task-button,
-.add-task-button {
+.do-task-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  flex: 1 1 140px;
-  min-height: 46px;
-  padding: 12px 16px;
-  border: 1px solid #e91e24;
-  border-radius: 10px;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 600;
+  min-height: var(--button-height-md);
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-pill);
+  color: var(--text-on-primary);
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-primary);
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.do-task-button {
-  background: #e91e24;
-  color: #fff;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .do-task-button:hover {
-  background: #cf1720;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.do-task-button:active {
+  transform: scale(0.97);
+}
+
+.do-task-button i {
+  font-size: var(--font-size-base);
 }
 
 .do-task-button small {
   display: grid;
   place-items: center;
-  min-width: 22px;
-  height: 22px;
-  padding: 0 6px;
-  border-radius: 6px;
-  background: rgb(255 255 255 / 20%);
-  font-size: 11px;
-}
-
-.add-task-button {
-  background: #fff;
-  color: #e91e24;
-}
-
-.add-task-button:hover {
-  background: #fff1f2;
-}
-
-.task-actions button:focus-visible {
-  outline: 2px solid #e91e24;
-  outline-offset: 3px;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  color: var(--color-primary);
+  background: var(--background-surface);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-extra-bold);
 }

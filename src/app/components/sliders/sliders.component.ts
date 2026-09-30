@@ -31,49 +31,50 @@ export class SlidersComponent {
 
   slides: any = [
     {
-      // id: 1,
-      // badge: 'BREAKING',
-      // title: 'World leaders unite for a cleaner, greener future',
-      // description:
-      //   'Global summit sets bold new climate targets to accelerate change by 2030.',
+      image:
+        '/assets/images/slides/slide2.jpeg',
+        id: 1,
+
+    },
+    {
       image:
         '/assets/images/slides/slide1.jpg',
-      // time: '2h ago',
-      // category: 'World'
+        id: 1,
+
     },
-    {
-      id: 2,
-      badge: 'SPORTS',
-      title: 'Underdogs stun champions in dramatic final',
-      description:
-        'A late winning goal completed one of the biggest surprises of the season.',
-      image:
-        'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1200&q=85',
-      time: '3h ago',
-      category: 'Sports'
-    },
-    {
-      id: 3,
-      badge: 'TECHNOLOGY',
-      title: 'New technology is changing how people work',
-      description:
-        'Smarter digital tools are helping businesses improve productivity.',
-      image:
-        'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85',
-      time: '5h ago',
-      category: 'Technology'
-    },
-    {
-      id: 4,
-      badge: 'BUSINESS',
-      title: 'Global markets show renewed optimism this week',
-      description:
-        'Investors respond positively as international markets continue to recover.',
-      image:
-        'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85',
-      time: '7h ago',
-      category: 'Business'
-    }
+    // {
+    //   id: 2,
+    //   badge: 'SPORTS',
+    //   title: 'Underdogs stun champions in dramatic final',
+    //   description:
+    //     'A late winning goal completed one of the biggest surprises of the season.',
+    //   image:
+    //     'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1200&q=85',
+    //   time: '3h ago',
+    //   category: 'Sports'
+    // },
+    // {
+    //   id: 3,
+    //   badge: 'TECHNOLOGY',
+    //   title: 'New technology is changing how people work',
+    //   description:
+    //     'Smarter digital tools are helping businesses improve productivity.',
+    //   image:
+    //     'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85',
+    //   time: '5h ago',
+    //   category: 'Technology'
+    // },
+    // {
+    //   id: 4,
+    //   badge: 'BUSINESS',
+    //   title: 'Global markets show renewed optimism this week',
+    //   description:
+    //     'Investors respond positively as international markets continue to recover.',
+    //   image:
+    //     'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85',
+    //   time: '7h ago',
+    //   category: 'Business'
+    // }
   ];
 
   ngOnInit(): void {

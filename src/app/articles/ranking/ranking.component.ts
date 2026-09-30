@@ -63,6 +63,8 @@ interface RankingResponse {
 })
 export class RankingComponent {
 
+  rewardList = "0.05"
+
   readonly qnav =
     inject(QuickNavService);
 

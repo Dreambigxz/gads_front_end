@@ -27,6 +27,8 @@ import {
 })
 export class UseGuideComponent {
 
+  rewardList = "0.05"
+
   readonly modal = inject(UseGuideService);
 
   private readonly document = inject(DOCUMENT);

@@ -5,13 +5,12 @@ import { SummaryComponent } from "../summary/summary.component";
 import { HeaderComponent } from "../../components/header/header.component";
 
 import { MobileMenuComponent } from "../../components/mobile-menu/mobile-menu.component";
-import { SponsoredAdsModalService } from "../../sponsored-ads/sponsored-ads.service";
 
 @Component({
   selector: 'app-create',
   imports: [
     CommonModule,
-    SummaryComponent,
+    // SummaryComponent,
     HeaderComponent,
     MobileMenuComponent
   ],
@@ -22,13 +21,12 @@ export class CreatePlanComponent {
 
   constructor(
     public quickNav:QuickNavService,
-    public adsService: SponsoredAdsModalService
   ){}
 
   readonly rewardPerTask = 0.20;
   readonly durationDays = 70;
 
-  activePlanKey: string | null = null;
+  activePlanKeys: string[]  = []
 
   /*
    * Populate this from Django.
@@ -47,24 +45,22 @@ export class CreatePlanComponent {
 
     this.plans = this.quickNav.storeData.get("plans")
 
-    if (!this.quickNav.storeData.get("plan_summary")) {
+    if (!this.quickNav.storeData.get("my_plans")) {
       this.quickNav.reqServerData.get("plans/")
       .subscribe((res:any)=>{
-        this.plans = this.quickNav.storeData.get("plans")
-        this.completedPlanKeys =  this.quickNav.storeData.get("completed_plan_keys") || []
-        this.loadSponsorAds()
+        this.loadData()
       })
     }else{
-      this.loadSponsorAds()
+      this.loadData()
     }
   }
 
-  loadSponsorAds(){
-
-    if (this.hasPlan.length) {
-      this.adsService.open(this.quickNav.storeData.get("ads"))
-    }
+  loadData(){
+    this.plans = this.quickNav.storeData.get("plans")
+    this.activePlanKeys = this.hasPlan.map((plan:any) => plan.plan_id);
+    this.completedPlanKeys = this.quickNav.storeData.get('my_plans')?.completed?.map((plan:any) => plan.plan_id) || [];
   }
+
 
   isLocked(plan: any): boolean {
     if (!plan.lockedByDefault) {
@@ -86,8 +82,7 @@ export class CreatePlanComponent {
 
   isActive(plan: any): boolean {
 
-    const activePlanKey = this.hasPlan[0]?.plan_id
-    return activePlanKey === plan.id;
+    return this.activePlanKeys?.includes(plan.id)
   }
 
   isCompleted(plan: any): boolean {
@@ -143,22 +138,17 @@ export class CreatePlanComponent {
 
     const plan = this.selectedPlan;
 
-
-    /*
-     * Call your Django activation endpoint here.
-     * Only update activePlanKey after the server
-     * successfully activates the plan.
-     */
-
      let processor = 'create_plan'
-     if (this.hasPlan.length) {
-       processor = "change_plan"
-     }
+     // if (this.hasPlan.length) {
+     //   processor = "change_plan"
+     // }
      this.quickNav.reqServerData.post('plans/', {plan_id:plan.id, processor})
      .subscribe((res:any)=>{
        this.closeConfirmation();
        if (res.status === 'success') {
-         this.scrollToTop()
+         this.scrollToTop();
+         this.loadData();
+         this.quickNav.go("plan/activated")
        }
      })
 
@@ -166,10 +156,10 @@ export class CreatePlanComponent {
 
   formatMoney(amount: number): string {
 
-  if (!amount) {
-    amount=0
-  }
-  return amount.toLocaleString(
+    if (!amount) {
+      amount=0
+    }
+    return amount.toLocaleString(
     'en-US',
     {
       style: 'currency',
@@ -182,8 +172,7 @@ export class CreatePlanComponent {
   getActivationtext(plan:any){
 
     let text = `Activate ${plan.name}`
-    if (this.hasPlan.length) text = `Change to ${plan.name}`;
-
+    // if (this.hasPlan.length) text = `Change to ${plan.name}`;
     return text;
 
   }

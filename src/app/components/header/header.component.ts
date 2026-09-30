@@ -53,9 +53,9 @@ export class HeaderComponent {
   segments(segments:any){
 
     let pageName = location.pathname
-    if (pageName.includes("plan/task")) {
-      this.pageName="Task"
-      this.subtitle = "Investment plan"
+    if (pageName.includes("plan/new")) {
+      this.pageName="Plan"
+      this.subtitle = "Add new"
     }
     if (pageName.includes("task/history")) {
       this.pageName="History"
