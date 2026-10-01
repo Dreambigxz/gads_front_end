@@ -171,7 +171,7 @@ export class SponsoredAdsComponent {
   trackAdOpen(ad:any): void {
     // this.adOpened.emit(ad);
 
-    this.quickNav.open(ad.destination_url)
+    this.quickNav.openTab(ad.destination_url)
 
     this.quickNav.reqServerData.post('sponsored-ad-clicked', {ad})
     .subscribe()
