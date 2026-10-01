@@ -64,7 +64,7 @@ export class WithdrawComponent {
   ngOnInit(){
 
     if (!this.quickNav.storeData.get("withdraw")) {
-        this.quickNav.reqServerData.get('wallet?dir=start_withdraw/').subscribe((res)=>{
+        this.quickNav.reqServerData.get('wallet/?dir=start_withdraw').subscribe((res)=>{
           this.walletService.initSetting()
 
       })}

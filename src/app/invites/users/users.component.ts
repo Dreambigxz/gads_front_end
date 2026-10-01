@@ -99,7 +99,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = '';
 
-    const params = `level=${this.generation}&period=${this.period}&page=${this.page}&hideSpinnerimportant`
+    const params = `level=${this.generation}&period=${this.period}&page=${this.page}`
 
     this.quickNav.reqServerData.get(`active-users/?${params}`)
       .pipe(takeUntil(this.destroy$))
