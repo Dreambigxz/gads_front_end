@@ -67,6 +67,7 @@
           [class.active]="isActive(plan)"
           [class.completed]="isCompleted(plan)"
           [class.popular]="plan.popular"
+          *ngIf="!plan.hide"
         >
           @if (plan.popular && !isLocked(plan)) {
             <span class="popular-label">
