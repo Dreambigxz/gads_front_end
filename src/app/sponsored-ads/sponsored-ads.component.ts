@@ -35,8 +35,7 @@ export class SponsoredAdsComponent {
     private quickNav: QuickNavService
   ){}
 
-  // @Input()
-  // ads: any =[ ]
+  rewardList = '0.05'
 
   @Input()
   loading = false;
@@ -172,7 +171,7 @@ export class SponsoredAdsComponent {
   trackAdOpen(ad:any): void {
     // this.adOpened.emit(ad);
 
-    this.quickNav.openTab(ad.destination_url)
+    this.quickNav.open(ad.destination_url)
 
     this.quickNav.reqServerData.post('sponsored-ad-clicked', {ad})
     .subscribe()

@@ -1156,3 +1156,24 @@
   outline: 2px solid #e91e24;
   outline-offset: 3px;
 }
+
+
+.history-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  // min-height: 44px;
+  // margin-top: 20px;
+  // padding: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--plan-primary);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.history-btn span {
+  font-size: 19px;
+}

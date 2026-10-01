@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CurrencyConverterPipe } from '../../reuseables/pipes/currency-converter.pipe';
-import { SpinnerComponent } from '../../reuseables/http-loader/spinner.component';
 import { HeaderComponent } from "../../components/header/header.component";
 
 import { QuickNavService } from '../../reuseables/services/quick-nav.service';
@@ -10,8 +9,7 @@ import { QuickNavService } from '../../reuseables/services/quick-nav.service';
 @Component({
   selector: 'app-reward',
   imports: [
-    CommonModule,CurrencyConverterPipe,
-    SpinnerComponent,HeaderComponent
+    CommonModule,CurrencyConverterPipe,HeaderComponent
   ],
   templateUrl: './reward.component.html',
   styleUrl: './reward.component.css'

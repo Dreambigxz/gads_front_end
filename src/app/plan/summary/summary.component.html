@@ -235,4 +235,29 @@
     </article>
   </section>
 
+  <!-- <span
+    class="details-button"
+    type="button"
+    (click)="viewDetails.emit()"
+  >
+    <span class="details-button__icon">
+      <i class="bi bi-graph-up-arrow"></i>
+    </span>
+
+    <span class="details-button__copy">
+      <strong>View Earning History</strong>
+      <small>See transactions and daily returns</small>
+    </span>
+
+    <i class="bi bi-chevron-right"></i>
+  </span> -->
+
+    <button
+      type="button"
+      class="history-btn"
+      (click)="viewDetails.emit()"
+    >
+      View Earning History
+      <span aria-hidden="true">→</span>
+    </button>
 </main>

@@ -17,6 +17,7 @@ import { TransactionsComponent } from "./wallet/transactions/transactions.compon
 import { InvitesComponent } from "./invites/invites.component";
 import { UsersComponent } from "./invites/users/users.component";
 import { PendingComponent } from "./invites/pending/pending.component";
+import { RewardComponent } from "./invites/reward/reward.component";
 
 import { AccountComponent } from "./account/account.component";
 import { SecurityCenterComponent } from "./account/security-center/security-center.component";
@@ -105,7 +106,6 @@ export const routes: Routes = [
     canActivate: [authGuard]
 
   },
-
   {
     path:"invites/users/:lv",
     component:  UsersComponent,
@@ -113,7 +113,6 @@ export const routes: Routes = [
     canActivate: [authGuard]
 
   },
-
   {
     path:"invites/inactives",
     component:  PendingComponent,
@@ -121,6 +120,13 @@ export const routes: Routes = [
     canActivate: [authGuard]
 
   },
+  // {
+  //   path:"invites/rewards",
+  //   component:  RewardComponent,
+  //   title: "Invite Rewards",
+  //   canActivate: [authGuard]
+  //
+  // },
 
   {
     path:"account",

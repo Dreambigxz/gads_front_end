@@ -88,6 +88,12 @@ export class QuickNavService {
     copyContent(this.quickMessage,item,message)
   }
 
+  open(url:any){
+
+    window.location.assign(url);
+
+  }
+
   openTab(url:any){
 
     window.open(url, '_blank')

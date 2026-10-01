@@ -169,7 +169,7 @@
 
       <!-- Commission summary -->
 
-      <section class="commission-summary">
+      <!-- <section class="commission-summary">
         <div>
           <span class="commission-icon paid">
             <i
@@ -222,7 +222,7 @@
             </strong>
           </div>
         </div>
-      </section>
+      </section> -->
 
       <!-- Generations -->
 
@@ -277,18 +277,22 @@
                   </div>
 
                   <small>
-                    {{
-                      generation[
-                        'referral_percent'
-                      ]
-                    }}%
-                    referral
-                    <!-- {{
-                      generation[
-                        'rebate_percent'
-                      ]
-                    }}%
-                    rebate -->
+                    <strong>
+                      {{
+                        generation[
+                          'referral_percent'
+                        ]
+                      }}%
+                      referral
+                    </strong>
+                    <span *ngIf="generation['rebate_percent']">
+                      .{{
+                        generation[
+                          'rebate_percent'
+                        ]
+                      }}%
+                      rebate
+                    </span>
                   </small>
 
                   <span (click)="viewGeneration(generation)" class="btn-view" type="button">
@@ -326,7 +330,7 @@
                       {{ generation['users'] }}
                     </strong>
                     <span class="line">/</span>
-                    <small>
+                    <small class="text-green strong">
                       {{ generation['active'] }}
                       active
                     </small>

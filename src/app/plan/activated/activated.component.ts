@@ -120,8 +120,6 @@ export class ActivatedComponent {
 
   getAccruedProfit(plan:any, amount:any, created_at:any) {
 
-    console.log({plan});
-
     const createdAt = new Date(created_at).getTime();
     const now = Date.now();
 

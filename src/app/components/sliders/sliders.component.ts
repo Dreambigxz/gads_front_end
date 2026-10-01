@@ -39,7 +39,7 @@ export class SlidersComponent {
     {
       image:
         '/assets/images/slides/slide1.jpg',
-        id: 1,
+        id: 2,
 
     },
     // {

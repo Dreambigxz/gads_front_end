@@ -957,3 +957,7 @@ span.line {
   outline: 3px solid var(--color-primary-muted);
   outline-offset: 2px;
 }
+
+.strong{
+  font-weight: 900;
+}

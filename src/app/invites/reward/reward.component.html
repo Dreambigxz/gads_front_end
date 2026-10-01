@@ -1,292 +1,220 @@
 <app-header></app-header>
-<app-spinner></app-spinner>
+
 <div class="invite-page">
 
+  <header class="invite-heading">
+    <span class="eyebrow">INVITE & EARN</span>
+    <h1>Invite rewards</h1>
+    <p>Invite friends and unlock rewards as your community grows.</p>
+  </header>
 
-
-  <!-- TOTAL CASH TRACK -->
-  <section class="cash-track">
+  <!-- Cash overview -->
+  <section class="cash-track" aria-label="Cash back overview">
 
     <div class="cash-track-header">
-
-      <div class="cash-icon">
-        <i class="bi bi-cash-stack"></i>
-      </div>
-
       <div class="cash-title">
-        <span>TOTAL CASH BACK</span>
+        <span>Total cash back</span>
         <strong>
           {{ totalRewardAmount | currencyConverter:true }}
         </strong>
       </div>
 
-      <div class="cash-percent">
-        {{ cashProgress }}%
-      </div>
-
+      <span class="cash-icon">
+        <i class="bi bi-gift" aria-hidden="true"></i>
+      </span>
     </div>
 
+    <div class="cash-progress-heading">
+      <span>Reward progress</span>
+      <strong>{{ cashProgress | number:'1.0-0' }}%</strong>
+    </div>
 
-    <div class="cash-progress">
-
+    <div
+      class="cash-progress"
+      role="progressbar"
+      aria-label="Cash back progress"
+      [attr.aria-valuenow]="cashProgress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
       <div
         class="cash-progress-fill"
-        [style.width.%]="cashProgress">
-      </div>
-
+        [style.width.%]="cashProgress"
+      ></div>
     </div>
 
-
     <div class="cash-track-footer">
-
       <div>
-        <span>Unlocked</span>
-        <strong>
-          {{ unlockedCash | currencyConverter:true }}
-        </strong>
+        <span>
+          <i class="bi bi-check-circle" aria-hidden="true"></i>
+          Unlocked
+        </span>
+        <strong>{{ unlockedCash | currencyConverter:true }}</strong>
       </div>
 
       <div>
         <span>Remaining</span>
-        <strong>
-          {{ remainingCash | currencyConverter:true }}
-        </strong>
+        <strong>{{ remainingCash | currencyConverter:true }}</strong>
       </div>
-
-      <!-- <div>
-        <span>Potential</span>
-        <strong>
-          ${{ totalRewardAmount | number:'1.2-2' }}
-        </strong>
-      </div> -->
-
     </div>
 
   </section>
 
-  <!-- PROGRESS SUMMARY -->
-  <section class="progress-summary">
-
-    <div class="summary-left">
-
-      <div class="summary-icon">
-        <i class="bi bi-gift-fill"></i>
-      </div>
+  <!-- Personal progress -->
+  <section class="progress-summary" aria-label="Invitation progress">
+    <div class="summary-item">
+      <span class="summary-icon">
+        <i class="bi bi-people" aria-hidden="true"></i>
+      </span>
 
       <div>
-        <span>Your Progress</span>
-
+        <span>Total invites</span>
         <strong>
           {{ totalInvites }}
-          <small>invites</small>
+          <small>friends</small>
         </strong>
       </div>
-
     </div>
 
-    <div class="summary-right">
-
-      <span>Next Reward</span>
-
-      <strong>
-        {{ nextReward?.reward_amount || 0 |currencyConverter:true  }}
-      </strong>
-
+    <div class="summary-item next-reward">
+      <div>
+        <span>{{ nextReward ? 'Next reward' : 'All levels unlocked' }}</span>
+        <strong>
+          {{ (nextReward?.reward_amount || 0) | currencyConverter:true }}
+        </strong>
+      </div>
     </div>
-
   </section>
 
-
-
-
-  <!-- LEVELS -->
+  <!-- Milestones -->
   <section class="reward-section">
-
     <div class="section-heading">
-
       <div>
-        <span class="section-eyebrow">
-          REWARD MILESTONES
-        </span>
-
+        <span class="eyebrow">YOUR MILESTONES</span>
         <h2>Invite levels</h2>
       </div>
 
-      <span class="level-count">
-        {{ rewards.length }} Levels
-      </span>
-
+      <span class="level-count">{{ rewards.length }} levels</span>
     </div>
 
-
     <div class="reward-list">
-
-      <div
+      <article
         class="reward-card"
         *ngFor="let reward of rewards"
         [class.completed]="totalInvites >= reward.invites_required"
-        [class.next-level]="reward.id === nextReward?.id">
+        [class.next-level]="reward.id === nextReward?.id"
+      >
+        <div class="reward-header">
+          <div class="level-identity">
+            <span class="level-badge">
+              <i
+                *ngIf="totalInvites >= reward.invites_required; else levelNumber"
+                class="bi bi-check-lg"
+                aria-hidden="true"
+              ></i>
 
-
-        <!-- LEVEL -->
-        <div class="level-badge">
-
-          <span>LV</span>
-
-          <strong>
-            {{ reward.id }}
-          </strong>
-
-        </div>
-
-
-        <!-- CONTENT -->
-        <div class="reward-content">
-
-          <div class="reward-top">
+              <ng-template #levelNumber>
+                {{ reward.id }}
+              </ng-template>
+            </span>
 
             <div>
-
-              <h3>
-                Level {{ reward.id }}
-              </h3>
-
+              <h3>Level {{ reward.id }}</h3>
               <span class="requirement">
-
-                {{ reward.invites_required }}
-                invites required
-
+                {{ reward.invites_required }} invites required
               </span>
-
             </div>
-
-
-            <div class="reward-amount">
-
-              <span>Reward</span>
-
-              <strong>
-                {{ reward.reward_amount|currencyConverter:true }}
-              </strong>
-
-            </div>
-
           </div>
 
-
-          <!-- PROGRESS -->
-          <div class="progress-area">
-
-            <div class="progress-info">
-
-              <span>
-                {{ getProgress(reward) }}% complete
-              </span>
-
-              <span
-                *ngIf="totalInvites < reward.invites_required">
-
-                {{ reward.invites_required - totalInvites }}
-                left
-
-              </span>
-
-              <span
-                *ngIf="totalInvites >= reward.invites_required"
-                class="completed-text">
-
-                Completed ✓
-
-              </span>
-
-            </div>
-
-
-            <div class="progress-track">
-
-              <div
-                class="progress-fill"
-                [style.width.%]="getProgress(reward)">
-              </div>
-
-            </div>
-
+          <div class="reward-amount">
+            <span>Reward</span>
+            <strong>
+              {{ reward.reward_amount | currencyConverter:true }}
+            </strong>
           </div>
-
-
-          <!-- STATUS -->
-          <div class="reward-status">
-
-            <span *ngIf="totalInvites < reward.invites_required">
-
-              <i class="bi bi-person-plus"></i>
-
-              Invite
-              {{ reward.invites_required - totalInvites }}
-              more
-
-            </span>
-
-
-            <span
-              *ngIf="totalInvites >= reward.invites_required"
-              class="unlocked">
-
-              <i class="bi bi-check-circle-fill"></i>
-
-              Reward unlocked
-
-            </span>
-
-
-            <span
-              *ngIf="reward.id === nextReward?.id"
-              class="next-badge">
-
-              NEXT
-
-            </span>
-
-          </div>
-
         </div>
 
-      </div>
+        <div class="progress-area">
+          <div class="progress-info">
+            <span>
+              {{ getProgress(reward) | number:'1.0-0' }}% complete
+            </span>
 
+            <span
+              class="invites-left"
+              *ngIf="totalInvites < reward.invites_required"
+            >
+              {{ reward.invites_required - totalInvites }} left
+            </span>
+
+            <span
+              class="completed-text"
+              *ngIf="totalInvites >= reward.invites_required"
+            >
+              Completed
+            </span>
+          </div>
+
+          <div
+            class="progress-track"
+            role="progressbar"
+            [attr.aria-label]="'Level ' + reward.id + ' progress'"
+            [attr.aria-valuenow]="getProgress(reward)"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div
+              class="progress-fill"
+              [style.width.%]="getProgress(reward)"
+            ></div>
+          </div>
+        </div>
+
+        <div class="reward-status">
+          <span *ngIf="totalInvites < reward.invites_required">
+            <i class="bi bi-person-plus" aria-hidden="true"></i>
+            Invite {{ reward.invites_required - totalInvites }} more friends
+          </span>
+
+          <span
+            class="unlocked"
+            *ngIf="totalInvites >= reward.invites_required"
+          >
+            <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+            Reward unlocked
+          </span>
+
+          <span
+            class="next-badge"
+            *ngIf="
+              reward.id === nextReward?.id
+              && totalInvites < reward.invites_required
+            "
+          >
+            NEXT LEVEL
+          </span>
+        </div>
+      </article>
     </div>
-
   </section>
 
-
-  <!-- BOTTOM CTA -->
+  <!-- Invite action -->
   <section class="invite-cta">
-
-    <div class="cta-icon">
-      <i class="bi bi-share-fill"></i>
-    </div>
-
-    <div class="cta-content">
-
-      <strong>
-        Keep inviting
-      </strong>
-
-      <span>
-        Every friend brings you closer to your next reward.
+    <div class="cta-heading">
+      <span class="cta-icon">
+        <i class="bi bi-share" aria-hidden="true"></i>
       </span>
 
+      <div class="cta-content">
+        <strong>Grow your community</strong>
+        <span>Share your invite link and reach your next milestone.</span>
+      </div>
     </div>
 
-    <button
-      type="button"
-      (click)="quickNav.go('invites')">
-
-      Invite
-
-      <i class="bi bi-arrow-right"></i>
-
+    <button type="button" (click)="quickNav.go('invites')">
+      <span>Invite friends</span>
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
     </button>
-
   </section>
 
 </div>

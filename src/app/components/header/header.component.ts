@@ -52,6 +52,8 @@ export class HeaderComponent {
 
   segments(segments:any){
 
+    this.subtitle = "";
+    
     let pageName = location.pathname
     if (pageName.includes("plan/new")) {
       this.pageName="Plan"
