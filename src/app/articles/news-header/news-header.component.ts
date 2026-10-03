@@ -18,14 +18,14 @@ export class NewsHeaderComponent {
 
   @Input() userName: string = 'username';
   @Input() quickNav: any;
-  @Input() unreadNotificationsCount: number = 3;
+  @Input() unreadNotificationsCount: any;
 
   onSearch(): void {
     console.log('Search clicked');
   }
 
   onNotificationClick(): void {
-    console.log('Notifications clicked');
+    this.quickNav.go("/notifications")
   }
 
   get getGreeting(): string {

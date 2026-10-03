@@ -1,0 +1,444 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.ref-dashboard {
+  --ref-primary: #e91e24;
+  --ref-soft: #fff1f2;
+  --ref-text: #252833;
+  --ref-muted: #7b8190;
+  --ref-border: #eceef3;
+  --ref-green: #238957;
+
+  width: 100%;
+  min-width: 0;
+  color: var(--ref-text);
+}
+
+.ref-dashboard,
+.ref-dashboard * {
+  box-sizing: border-box;
+}
+
+.ref-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.ref-eyebrow {
+  color: var(--ref-primary);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.ref-heading h2 {
+  margin: 7px 0;
+  font-size: clamp(21px, 4vw, 27px);
+  font-weight: 750;
+  letter-spacing: -0.6px;
+}
+
+.ref-heading p {
+  margin: 0;
+  color: var(--ref-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.ref-heading-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #ffdfe2;
+  border-radius: 15px;
+  background: var(--ref-soft);
+  color: var(--ref-primary);
+  font-size: 22px;
+}
+
+/* Commission summary */
+.ref-summary {
+  margin-bottom: 20px;
+  overflow: hidden;
+  border: 1px solid var(--ref-border);
+  border-radius: 20px;
+  background: #fff;
+}
+
+.ref-code-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--ref-border);
+}
+
+.ref-code-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #555c6a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ref-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--ref-soft);
+  color: var(--ref-primary);
+  font-size: 17px;
+}
+
+.ref-icon--green {
+  background: #edf9f2;
+  color: var(--ref-green);
+}
+
+.ref-code {
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px dashed #f6bdc1;
+  border-radius: 9px;
+  background: var(--ref-soft);
+  color: var(--ref-primary);
+  font-family: monospace;
+  font-size: 15px;
+  letter-spacing: 1px;
+  overflow-wrap: anywhere;
+}
+
+.commission-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 24px 22px;
+}
+
+.commission-item {
+  min-width: 0;
+  padding-right: 20px;
+}
+
+.commission-item + .commission-item {
+  padding-right: 0;
+  padding-left: 24px;
+  border-left: 1px solid var(--ref-border);
+}
+
+.metric-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ref-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.metric-dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.metric-dot--green {
+  background: var(--ref-green);
+}
+
+.metric-dot--red {
+  background: var(--ref-primary);
+}
+
+.commission-value {
+  display: block;
+  margin: 10px 0 6px;
+  color: var(--ref-primary);
+  font-size: clamp(23px, 4vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.7px;
+  overflow-wrap: anywhere;
+}
+
+.commission-value--green {
+  color: var(--ref-green);
+}
+
+.commission-item small {
+  color: #969caa;
+  font-size: 11px;
+}
+
+/* Cards */
+.ref-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--ref-border);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.ref-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+}
+
+.ref-card-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.ref-card-title h3 {
+  margin: 0 0 5px;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.ref-card-title p {
+  margin: 0;
+  color: var(--ref-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.ref-count-badge {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #f4f5f8;
+  color: var(--ref-muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+/* Statistics table */
+.ref-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 12px;
+}
+
+.ref-table thead {
+  background: #fafbfc;
+}
+
+.ref-table thead th {
+  padding: 12px 20px;
+  border-top: 1px solid var(--ref-border);
+  border-bottom: 1px solid var(--ref-border);
+  color: var(--ref-muted);
+  font-size: 10px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.ref-table tbody th,
+.ref-table tbody td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f2f5;
+}
+
+.ref-table tbody th {
+  font-weight: 600;
+}
+
+.ref-table tbody tr:last-child th,
+.ref-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.ref-table th:last-child,
+.ref-table td:last-child {
+  text-align: right;
+}
+
+.generation-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  white-space: nowrap;
+}
+
+.generation-icon {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #eceef3;
+  border-radius: 9px;
+  background: #f7f8fa;
+  color: #697180;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.active-count {
+  display: inline-block;
+  min-width: 30px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  background: #edf9f2;
+  color: var(--ref-green);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.amount-cell {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Deposit and withdrawal activity */
+.ref-activity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.activity-card .ref-card-heading {
+  padding-bottom: 14px;
+}
+
+.activity-list {
+  padding: 0 20px 8px;
+}
+
+.activity-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f2f5;
+}
+
+.activity-row:last-child {
+  border-bottom: 0;
+}
+
+.activity-generation {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #727988;
+  font-size: 12px;
+}
+
+.activity-row strong {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.deposit-amount {
+  color: var(--ref-green);
+}
+
+.ref-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .ref-activity-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .ref-heading-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 19px;
+  }
+
+  .ref-summary {
+    border-radius: 16px;
+  }
+
+  .ref-code-row {
+    padding: 15px 16px;
+  }
+
+  .commission-grid {
+    padding: 20px 16px;
+  }
+
+  .commission-item {
+    padding-right: 12px;
+  }
+
+  .commission-item + .commission-item {
+    padding-left: 16px;
+  }
+
+  .metric-label {
+    font-size: 10px;
+  }
+
+  .commission-value {
+    font-size: 24px;
+  }
+
+  .commission-item small {
+    font-size: 10px;
+  }
+
+  .ref-card-heading {
+    padding: 16px;
+  }
+
+  .ref-card-title h3 {
+    font-size: 14px;
+  }
+
+  .ref-table thead th,
+  .ref-table tbody th,
+  .ref-table tbody td {
+    padding: 13px 10px;
+  }
+
+  .generation-label {
+    gap: 6px;
+  }
+
+  .activity-list {
+    padding: 0 16px 6px;
+  }
+}

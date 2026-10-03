@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { WalletService } from "../../service";
@@ -14,15 +14,15 @@ import { WalletService } from "../../service";
   templateUrl: './wp-sheet.component.html',
   styleUrl: './wp-sheet.component.css'
 })
-export class WpSheetComponent implements OnInit {
+export class WpSheetComponent implements OnInit, OnDestroy {
 
     cryptoForm!: any;
 
     localForm!: any;
 
-  constructor(
-        public wallet:WalletService,
-    ){}
+    constructor(
+          public wallet:WalletService,
+      ){}
 
     editMode =  input(false);
 
@@ -93,7 +93,6 @@ export class WpSheetComponent implements OnInit {
 
 
         this.wallet.formHandler.submitForm(form, "create_withdraw", 'wallet/?showSpinner', true,  (res) => {
-
             if (res.status==='success') {
               this.wallet.initSetting();
 
@@ -103,6 +102,34 @@ export class WpSheetComponent implements OnInit {
         })
 
 
+    }
+
+    codeCountdown = 0;
+
+    private codeTimer?: ReturnType<typeof setInterval>;
+
+    getCode() {
+      if (this.codeCountdown > 0) return;
+
+      this.codeCountdown = 60;
+
+      // Send your code request here.
+      this.wallet.quickNav.reqServerData.post('wallet/',  {'processor': "verificaion_code"}).subscribe()
+
+      this.codeTimer = setInterval(() => {
+        this.codeCountdown--;
+
+        if (this.codeCountdown <= 0) {
+          clearInterval(this.codeTimer);
+          this.codeTimer = undefined;
+        }
+      }, 1000);
+
+
+    }
+
+    ngOnDestroy() {
+      clearInterval(this.codeTimer);
     }
 
 

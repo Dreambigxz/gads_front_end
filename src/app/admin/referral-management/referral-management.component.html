@@ -1,0 +1,195 @@
+<section
+  *ngIf="quickNav.storeData.store['loaded_user']?.refDir as dashboardData"
+  class="ref-dashboard"
+>
+  <header class="ref-heading">
+    <div>
+      <span class="ref-eyebrow">TEAM OVERVIEW</span>
+      <h2>Referral management</h2>
+      <p>Track commissions and activity across three generations.</p>
+    </div>
+
+    <span class="ref-heading-icon">
+      <i class="bi bi-diagram-3"></i>
+    </span>
+  </header>
+
+  <!-- Referral code and commissions -->
+  <section class="ref-summary">
+    <div class="ref-code-row">
+      <div class="ref-code-label">
+        <span class="ref-icon">
+          <i class="bi bi-person-plus"></i>
+        </span>
+        <span>Referral code</span>
+      </div>
+
+      <strong class="ref-code">{{ dashboardData.RefCode }}</strong>
+    </div>
+
+    <div class="commission-grid">
+      <div class="commission-item">
+        <span class="metric-label">
+          <span class="metric-dot metric-dot--green"></span>
+          Cashed commission
+        </span>
+
+        <strong class="commission-value commission-value--green">
+          ${{ (dashboardData.cashed_commissions || 0) | number:'1.2-2' }}
+        </strong>
+
+        <small>Already cashed</small>
+      </div>
+
+      <div class="commission-item">
+        <span class="metric-label">
+          <span class="metric-dot metric-dot--red"></span>
+          Uncashed commission
+        </span>
+
+        <strong class="commission-value">
+          ${{ (dashboardData.uncashed || 0) | number:'1.2-2' }}
+        </strong>
+
+        <small>Not yet cashed</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- Generation statistics -->
+  <section class="ref-card">
+    <header class="ref-card-heading">
+      <div class="ref-card-title">
+        <span class="ref-icon">
+          <i class="bi bi-people"></i>
+        </span>
+
+        <div>
+          <h3>Referral statistics</h3>
+          <p>Team size and commission earnings</p>
+        </div>
+      </div>
+
+      <span class="ref-count-badge">3 levels</span>
+    </header>
+
+    <div class="ref-table-wrapper">
+      <table class="ref-table">
+        <caption class="ref-sr-only">
+          Referral team statistics by generation
+        </caption>
+
+        <thead>
+          <tr>
+            <th scope="col">Level</th>
+            <th scope="col">Total</th>
+            <th scope="col">Active</th>
+            <th scope="col">Commission</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="
+              let gen of ['generation_1', 'generation_2', 'generation_3'];
+              let index = index
+            "
+          >
+            <th scope="row">
+              <span class="generation-label">
+                <span class="generation-icon">{{ index + 1 }}</span>
+                <span>G{{ index + 1 }}</span>
+              </span>
+            </th>
+
+            <td>{{ dashboardData.total?.[gen] || 0 }}</td>
+
+            <td>
+              <span class="active-count">
+                {{ dashboardData.active?.[gen] || 0 }}
+              </span>
+            </td>
+
+            <td class="amount-cell">
+              ${{ (dashboardData.referral?.[gen]?.amount || 0)
+                  | number:'1.2-2' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Team activity -->
+  <div class="ref-activity-grid">
+    <section class="ref-card activity-card">
+      <header class="ref-card-heading">
+        <div class="ref-card-title">
+          <span class="ref-icon ref-icon--green">
+            <i class="bi bi-arrow-down-left"></i>
+          </span>
+
+          <div>
+            <h3>Team deposits</h3>
+            <p>Deposits by generation</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="activity-list">
+        <div
+          *ngFor="
+            let gen of ['generation_1', 'generation_2', 'generation_3'];
+            let index = index
+          "
+          class="activity-row"
+        >
+          <span class="activity-generation">
+            <span class="generation-icon">{{ index + 1 }}</span>
+            Generation {{ index + 1 }}
+          </span>
+
+          <strong class="deposit-amount">
+            ${{ (dashboardData.deposit?.[gen]?.amount || 0)
+                | number:'1.2-2' }}
+          </strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="ref-card activity-card">
+      <header class="ref-card-heading">
+        <div class="ref-card-title">
+          <span class="ref-icon">
+            <i class="bi bi-arrow-up-right"></i>
+          </span>
+
+          <div>
+            <h3>Team withdrawals</h3>
+            <p>Withdrawals by generation</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="activity-list">
+        <div
+          *ngFor="
+            let gen of ['generation_1', 'generation_2', 'generation_3'];
+            let index = index
+          "
+          class="activity-row"
+        >
+          <span class="activity-generation">
+            <span class="generation-icon">{{ index + 1 }}</span>
+            Generation {{ index + 1 }}
+          </span>
+
+          <strong>
+            ${{ (dashboardData.withdraw?.[gen]?.amount || 0)
+                | number:'1.2-2' }}
+          </strong>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

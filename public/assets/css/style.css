@@ -3916,7 +3916,7 @@ Settings RTL Page Css Ends
     bottom: 0%;
 }
 .notification-page {
-    background-color: rgba(0,0,0,0.64);
+    /* background-color: rgba(0,0,0,0.64); */
     padding-bottom: 0;
 }
 .custom-notification-app{

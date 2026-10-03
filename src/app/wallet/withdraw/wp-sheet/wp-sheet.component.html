@@ -181,7 +181,7 @@
           <h3>Security Verification</h3>
 
           <p>
-            Enter your four-digit transaction PIN.
+            Enter your OTP.
           </p>
         </div>
       </div>
@@ -189,7 +189,7 @@
       <div class="form-group pin-group">
         <div class="label-row">
           <label for="crypto-secret-pin">
-            Secret PIN
+            One Time Pin
           </label>
 
           <button
@@ -202,7 +202,7 @@
               )
             "
           >
-            Forgot PIN?
+          <i class="bi bi-headset"></i>  Need help?
           </button>
         </div>
 
@@ -220,16 +220,23 @@
 
           <input
             id="crypto-secret-pin"
-            type="password"
+            type="text"
             inputmode="numeric"
             pattern="[0-9]*"
-            maxlength="4"
+            maxlength="9"
             formControlName="pin"
             placeholder="••••"
             autocomplete="off"
           >
 
-          <span>4 digits</span>
+          <button
+            type="button"
+            class="get-code-button"
+            [disabled]="codeCountdown > 0"
+            (click)="getCode()"
+          >
+            {{ codeCountdown > 0 ? 'Resend in ' + codeCountdown + 's' : 'Get code' }}
+          </button>
         </div>
 
         <small
@@ -239,7 +246,7 @@
             cryptoForm.controls.pin.invalid
           "
         >
-          Enter your valid four-digit PIN.
+          Enter code sent to your email address.
         </small>
       </div>
     </form>
@@ -397,16 +404,15 @@
           <h3>Security Verification</h3>
 
           <p>
-            Confirm this change with your
-            transaction PIN.
+            Confirm this change with OTP.
           </p>
         </div>
       </div>
 
-      <div class="form-group pin-group">
+      <!-- <div class="form-group pin-group">
         <div class="label-row">
           <label for="local-secret-pin">
-            Secret PIN
+            OTP PIN
           </label>
 
           <button
@@ -458,7 +464,7 @@
         >
           Enter your valid four-digit PIN.
         </small>
-      </div>
+      </div> -->
     </form>
 
     <div class="security-notice">

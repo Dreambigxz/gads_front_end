@@ -107,6 +107,8 @@ export class UsersComponent implements OnInit, OnDestroy {
         next: (response:any) => {
           if (currentRequest !== this.requestId) return;
 
+            console.log({response});
+
           this.users = response.results;
           this.count = response.count;
           this.totalEarned = Number(response.total_earned);

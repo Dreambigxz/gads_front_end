@@ -1,0 +1,140 @@
+<app-header></app-header>
+
+<main class="notification-page">
+
+
+  <!-- Filters -->
+  <nav class="notification-tabs" aria-label="Notification filters">
+    <button
+      type="button"
+      [class.active]="activeTab === 'new'"
+      [attr.aria-pressed]="activeTab === 'new'"
+      (click)="activeTab = 'new'"
+    >
+      <i class="bi bi-bell"></i>
+      New
+      <span  class="tab-count">
+        {{ notifications?.unseen?.length || 0 }}
+      </span>
+    </button>
+
+    <button
+      type="button"
+      [class.active]="activeTab === 'read'"
+      [attr.aria-pressed]="activeTab === 'read'"
+      (click)="activeTab = 'read'"
+    >
+      <i class="bi bi-check2-all"></i>
+      Read
+      <span class="tab-count">
+        {{ notifications?.seen?.length || 0 }}
+      </span>
+    </button>
+  </nav>
+
+  <!-- New notifications -->
+  <section
+    *ngIf="activeTab === 'new'"
+    class="notification-list"
+    aria-label="New notifications"
+  >
+    <div class="list-heading">
+      <h2>Latest updates</h2>
+      <span>{{ notifications?.unseen?.length || 0 }} unread</span>
+    </div>
+
+    <article
+      *ngFor="let notification of notifications?.unseen"
+      class="notification-card notification-card--new"
+    >
+      <span class="notification-icon" aria-hidden="true">
+        <i class="bi bi-bell"></i>
+      </span>
+
+      <div class="notification-content">
+        <div class="notification-title">
+          <h3>{{ notification.title }}</h3>
+          <span class="new-dot" aria-label="Unread"></span>
+        </div>
+
+        <p>{{ notification.message }}</p>
+
+        <span class="notification-time">
+          <i class="bi bi-clock" aria-hidden="true"></i>
+          {{ notification.timestamp | momentAgo }}
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="read-button"
+        [attr.aria-label]="'Mark ' + notification.title + ' as read'"
+        (click)="markAsRead(notification)"
+      >
+        <i class="bi bi-check2"></i>
+        <span>Mark as read</span>
+      </button>
+    </article>
+
+    <div
+      *ngIf="!notifications?.unseen?.length"
+      class="empty-notifications"
+    >
+      <span class="empty-icon">
+        <i class="bi bi-check2-circle"></i>
+      </span>
+      <h3>You’re all caught up</h3>
+      <p>New account updates will appear here.</p>
+    </div>
+  </section>
+
+  <!-- Read notifications -->
+  <section
+    *ngIf="activeTab === 'read'"
+    class="notification-list"
+    aria-label="Read notifications"
+  >
+    <div class="list-heading">
+      <h2>Previously read</h2>
+      <span>{{ notifications?.seen?.length || 0 }} notifications</span>
+    </div>
+
+    <article
+      *ngFor="let notification of notifications?.seen"
+      class="notification-card notification-card--read"
+    >
+      <span class="notification-icon" aria-hidden="true">
+        <i class="bi bi-check2-circle"></i>
+      </span>
+
+      <div class="notification-content">
+        <div class="notification-title">
+          <h3>{{ notification.title }}</h3>
+        </div>
+
+        <p>{{ notification.message }}</p>
+
+        <span class="notification-time">
+          <i class="bi bi-clock" aria-hidden="true"></i>
+          {{ notification.timestamp | momentAgo }}
+        </span>
+      </div>
+
+      <span class="read-label">
+        <i class="bi bi-check2-all"></i>
+        Read
+      </span>
+    </article>
+
+    <div
+      *ngIf="!notifications?.seen?.length"
+      class="empty-notifications"
+    >
+      <span class="empty-icon">
+        <i class="bi bi-inbox"></i>
+      </span>
+      <h3>No read notifications</h3>
+      <p>Updates you mark as read will appear here.</p>
+    </div>
+  </section>
+</main>

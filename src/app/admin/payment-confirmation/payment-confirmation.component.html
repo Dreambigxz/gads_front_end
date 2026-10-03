@@ -1,0 +1,282 @@
+<app-header></app-header>
+
+
+<section class="transaction-page">
+<header class="transaction-heading">
+	<div>
+		<span class="tx-eyebrow">TRAFFIX MANAGEMENT</span>
+		<h1>{{ directory === 'Withdraw' ? 'Withdrawals' : 'Deposits' }}</h1>
+		<p>Review payment details and manage pending transactions.</p>
+	</div>
+
+	<span class="heading-icon">
+		<i class="bi bi-wallet2"></i>
+	</span>
+</header>
+
+<!-- Total amount -->
+<div class="transaction-total">
+	<div>
+		<span>Total amount</span>
+		<strong>
+			{{ currencySymbol }}{{ totalAmount | number:'1.2-2' }}
+		</strong>
+	</div>
+
+	<div class="usd-total">
+		<span>USD equivalent</span>
+		<strong>${{ totalAmountDollar | number:'1.2-2' }}</strong>
+	</div>
+</div>
+
+<div class="transaction-layout" [class.has-summary]="data">
+	<!-- Transactions -->
+	<div class="transaction-list">
+		<ng-container *ngFor="let tra of transaction">
+			<article
+				*ngIf="
+					(directory === 'Withdraw' || directory === 'Deposit') &&
+					!['success', 'declined'].includes(tra.status?.toLowerCase())
+				"
+				class="transaction-card"
+			>
+				<header class="transaction-card-header">
+					<div class="transaction-user">
+						<span class="user-avatar">
+							{{ (tra.username || '?').charAt(0).toUpperCase() }}
+						</span>
+
+						<div>
+							<h2>{{ tra.username }}</h2>
+							<span class="transaction-time">
+								<i class="bi bi-clock"></i>
+								{{ tra.timestamp | momentAgo }}
+							</span>
+						</div>
+					</div>
+
+					<span
+						class="transaction-status"
+						[ngClass]="{
+							'status-pending': tra.status?.toLowerCase() === 'pending',
+							'status-awaiting': tra.status?.toLowerCase() === 'awaiting',
+							'status-confirmed': tra.status?.toLowerCase() === 'confirmed'
+						}"
+					>
+						<span class="status-dot"></span>
+						{{ tra.status }}
+					</span>
+				</header>
+
+				<div class="transaction-card-body">
+					<div class="transaction-amount">
+						<span>
+							{{ directory === 'Withdraw' ? 'Withdrawal amount' : 'Deposit amount' }}
+						</span>
+
+						<strong>
+							<small>{{ tra.method }}</small>
+							{{ tra.init_amount | number:'1.2-2' }}
+						</strong>
+					</div>
+
+					<!-- Withdrawal details -->
+					<div *ngIf="directory === 'Withdraw'" class="payment-details">
+						<div class="payment-row">
+							<span>Account number</span>
+
+							<button
+								type="button"
+								class="copy-account"
+								aria-label="Copy account number"
+								(click)="
+									copyContent(
+										extraField(tra, 'account_number'),
+										'Account number copied'
+									)
+								"
+							>
+								{{ extraField(tra, 'account_number') | truncateCenter }}
+								<i class="bi bi-copy"></i>
+							</button>
+						</div>
+
+						<div class="payment-row">
+							<span>Account holder</span>
+							<strong>{{ extraField(tra, 'account_holder') }}</strong>
+						</div>
+
+						<div class="payment-row">
+							<span>Bank</span>
+							<strong>{{ extraField(tra, 'bank') }}</strong>
+						</div>
+					</div>
+
+					<!-- Deposit details -->
+					<div *ngIf="directory === 'Deposit'" class="payment-details">
+						<div class="payment-row">
+							<span>Sender name</span>
+							<strong>{{ tra.transactionID || '—' }}</strong>
+						</div>
+
+						<div *ngIf="tra.proof" class="payment-row">
+							<span>Payment receipt</span>
+
+							<button
+								type="button"
+								class="receipt-button"
+								(click)="openPreview(tra)"
+							>
+								<i class="bi bi-receipt"></i>
+								View receipt
+								<i class="bi bi-arrow-up-right"></i>
+							</button>
+						</div>
+					</div>
+
+					<div
+						*ngIf="
+							tra.status?.toLowerCase() === 'pending' ||
+							(
+								directory === 'Deposit' &&
+								tra.status?.toLowerCase() === 'awaiting'
+							)
+						"
+						class="transaction-actions"
+					>
+						<button
+							type="button"
+							class="decline-button"
+							(click)="TransactionHandler(tra, 'declined')"
+						>
+							<i class="bi bi-x-lg"></i>
+							Decline
+						</button>
+
+						<button
+							type="button"
+							class="confirm-button"
+							(click)="TransactionHandler(tra, 'success')"
+						>
+							<i class="bi bi-check2"></i>
+							Confirm
+						</button>
+					</div>
+				</div>
+			</article>
+		</ng-container>
+
+		<div *ngIf="!transaction?.length" class="transaction-empty">
+			<span><i class="bi bi-inbox"></i></span>
+			<h2>No transactions yet</h2>
+			<p>Transactions will appear here when available.</p>
+		</div>
+	</div>
+
+	<!-- Balance and settlement -->
+	<aside *ngIf="data" class="settlement-card">
+		<header class="settlement-header">
+			<span class="section-icon">
+				<i class="bi bi-pie-chart"></i>
+			</span>
+
+			<div>
+				<h2>Balance summary</h2>
+				<p>Account and settlement overview</p>
+			</div>
+		</header>
+
+		<div class="settlement-balance">
+			<span>Available balance</span>
+			<strong>
+				{{ data.symbol }}{{ data.balance | number:'1.2-2' }}
+			</strong>
+		</div>
+
+		<div class="summary-totals">
+			<div>
+				<span>Deposits</span>
+				<strong>
+					{{ data.symbol }}{{ data.deposit | number:'1.2-2' }}
+				</strong>
+			</div>
+
+			<div>
+				<span>Withdrawals</span>
+				<strong>
+					{{ data.symbol }}{{ data.withdraw | number:'1.2-2' }}
+				</strong>
+			</div>
+		</div>
+
+		<section class="settlement-details">
+			<h3>Settlement details</h3>
+
+			<div class="payment-row">
+				<span>Total settled</span>
+				<strong>
+					{{ data.symbol }}{{ data.total_settled | number:'1.2-2' }}
+				</strong>
+			</div>
+
+			<div class="payment-row">
+				<span>Agent balance</span>
+				<strong>
+					{{ data.symbol }}{{ data.agent_bal | number:'1.2-2' }}
+				</strong>
+			</div>
+
+			<div class="payment-row">
+				<span>Commission</span>
+				<strong class="commission-text">
+					{{ data.symbol }}{{ data.commission | number:'1.2-2' }}
+				</strong>
+			</div>
+
+			<div class="remit-row">
+				<span>Remit amount</span>
+				<strong>
+					{{ data.symbol }}{{ data.remit | number:'1.2-2' }}
+				</strong>
+			</div>
+
+			<div class="payment-row usd-row">
+				<span>USD value</span>
+				<strong>${{ data.usd | number:'1.2-2' }}</strong>
+			</div>
+		</section>
+	</aside>
+</div>
+</section>
+
+<!-- One receipt preview for the entire list -->
+<div
+*ngIf="previewVisible"
+class="receipt-overlay"
+(click)="closePreview()"
+(keydown.escape)="closePreview()"
+>
+<section
+	class="receipt-preview"
+	role="dialog"
+	aria-modal="true"
+	aria-labelledby="receipt-preview-title"
+	(click)="$event.stopPropagation()"
+>
+	<header class="receipt-preview-header">
+		<h2 id="receipt-preview-title">Payment receipt</h2>
+
+		<button
+			type="button"
+			aria-label="Close receipt preview"
+			(click)="closePreview()"
+		>
+			<i class="bi bi-x-lg"></i>
+		</button>
+	</header>
+
+	<div class="receipt-image-wrapper">
+		<img [src]="currentProof" alt="Payment receipt" />
+	</div>
+</section>
+</div>

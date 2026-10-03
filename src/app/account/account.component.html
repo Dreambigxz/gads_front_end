@@ -22,13 +22,14 @@
       class="notification-button"
       type="button"
       aria-label="View notifications"
+      (click)="quickNav.go('notifications/')"
     >
       <i
         class="bi bi-bell"
         aria-hidden="true"
       ></i>
 
-      <span></span>
+      <span *ngIf="quickNav.storeData.store['Totalunread']"></span>
     </button>
   </header>
   <section class="profile-section">
@@ -164,11 +165,11 @@
 
 
 
-    <a routerLink="/plan/activated">
+    <a routerLink="/task/history">
       <span class="quick-icon">
         <i class="bi bi-check2-square"></i>
       </span>
-      <strong>Tasks</strong>
+      <strong>Task History</strong>
     </a>
 
     <a routerLink="/invites">

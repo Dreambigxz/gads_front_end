@@ -22,6 +22,10 @@ import { RewardComponent } from "./invites/reward/reward.component";
 import { AccountComponent } from "./account/account.component";
 import { SecurityCenterComponent } from "./account/security-center/security-center.component";
 
+import { AgentManagementComponent } from "./admin/agent-management/agent-management.component";
+import {PaymentConfirmationComponent} from './admin/payment-confirmation/payment-confirmation.component'
+import { NotificationsComponent } from "./notifications/notifications.component";
+
 export const routes: Routes = [
 
   // auth
@@ -144,6 +148,30 @@ export const routes: Routes = [
 
   },
 
+  // admin
+  {
+      path: 'admin-management',
+      component: AgentManagementComponent,
+      title: 'Agent-management',
+      canActivate: [authGuard]
+
+  },
+    // payment confirmation paths
+    {
+      path: 'confirm',
+      component: PaymentConfirmationComponent,
+      title: 'Confirmation',
+      canActivate: [authGuard]
+
+    },
+
+  // notification
+  {
+    path: 'notifications',
+      component: NotificationsComponent,
+      title:"Notification",
+      canActivate: [authGuard]
+  },
 
 
 ];

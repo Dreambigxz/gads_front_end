@@ -1,4 +1,6 @@
 @if (modal.isOpen()) {
+
+
   <div
     class="how-modal-backdrop"
     role="presentation"
@@ -178,7 +180,7 @@
                   Daily engagement
                 </span>
 
-                <h3>Earn $0.50 – $1.00 daily</h3>
+                <h3>Earn ${{rewardList}} daily</h3>
 
                 <p>
                   Read selected posts and participate through genuine likes,
@@ -210,7 +212,7 @@
 
                 <div class="earning-card__footer">
                   <span>Reward range</span>
-                  <strong>$0.50 – $1.00/day</strong>
+                  <strong>${{rewardList}}/day</strong>
                 </div>
               </article>
             </div>
@@ -401,6 +403,8 @@
               </article>
             </div>
           </section> -->
+          <app-gallery/>
+
 
           <!-- How revenue works -->
           <section class="revenue-section">
@@ -690,7 +694,7 @@
               </p>
             </div>
 
-            <a routerLink="/plan/task" class="cta-button">
+            <a routerLink="/plan/activated" class="cta-button">
               Get Started
               <i class="bi bi-arrow-right"></i>
             </a>

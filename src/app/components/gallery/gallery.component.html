@@ -1,0 +1,97 @@
+<section class="gallery">
+  <header class="gallery-header">
+    <div>
+      <span class="eyebrow">Photo gallery</span>
+      <!-- <h1>Photo gallery</h1> -->
+      <!-- <p>Explore the latest moments from our community.</p> -->
+    </div>
+
+    <span class="photo-count">
+      {{ filteredImages().length }} photos
+    </span>
+  </header>
+
+  <!-- <nav class="gallery-filters" aria-label="Gallery categories">
+    @for (category of categories; track category) {
+      <button
+        type="button"
+        [class.active]="activeCategory() === category"
+        [attr.aria-pressed]="activeCategory() === category"
+        (click)="activeCategory.set(category)"
+      >
+        {{ category }}
+      </button>
+    }
+  </nav> -->
+
+  <div class="gallery-grid">
+    @for (image of filteredImages(); track image.id) {
+      <button
+        type="button"
+        class="gallery-card"
+        [attr.aria-label]="'View ' + image.title"
+        (click)="selectedImage.set(image)"
+      >
+        <div class="image-wrapper">
+          <img
+            [src]="image.src"
+            [alt]="image.title"
+            loading="lazy"
+            decoding="async"
+          />
+
+          <span class="category-badge">{{ image.category }}</span>
+          <span class="expand-icon" aria-hidden="true">↗</span>
+        </div>
+
+        <div class="image-caption">
+          <h2>{{ image.title }}</h2>
+          <span>View photo <span aria-hidden="true">→</span></span>
+        </div>
+      </button>
+    } @empty {
+      <div class="empty-gallery">
+        <h2>No photos yet</h2>
+        <p>Photos in this category will appear here.</p>
+      </div>
+    }
+  </div>
+</section>
+
+@if (selectedImage(); as image) {
+  <!-- Native dialog provides focus containment and keyboard accessibility. -->
+  <dialog
+    #viewer
+    class="image-viewer"
+    [attr.aria-label]="image.title"
+    (cancel)="closePreview()"
+    (click)="$event.target === viewer && closePreview()"
+  >
+    <!-- Open after Angular creates the dialog. -->
+    <img
+      class="dialog-trigger"
+      src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+      alt=""
+      (load)="viewer.showModal()"
+    />
+
+    <button
+      type="button"
+      class="close-viewer"
+      aria-label="Close image preview"
+      autofocus
+      (click)="closePreview()"
+    >
+      ×
+    </button>
+
+    <figure class="preview-content">
+      <img [src]="image.src" [alt]="image.title" />
+
+      <figcaption>
+        <strong>{{ image.title }}</strong>
+        <span>{{ image.category }}</span>
+      </figcaption>
+    </figure>
+  </dialog>
+}

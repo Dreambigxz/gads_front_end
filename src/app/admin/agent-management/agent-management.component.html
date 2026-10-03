@@ -1,0 +1,481 @@
+<app-header></app-header>
+
+<main class="traffix-management">
+  <header class="management-heading">
+    <div>
+      <span class="eyebrow">TRAFFIX MANAGEMENT</span>
+      <h1>User management</h1>
+      <p>Find users, review activity and manage their accounts.</p>
+    </div>
+
+    <span class="management-badge">
+      <i class="bi bi-shield-check"></i>
+      {{ quickNav.storeData.store['is_admin'] ? 'Admin' : 'Staff' }}
+    </span>
+  </header>
+
+  <!-- Platform statistics -->
+  <section
+    *ngIf="
+      quickNav.storeData.store['is_admin'] &&
+      !quickNav.storeData.store['loaded_user']
+    "
+    class="platform-stats"
+    aria-label="Platform statistics"
+  >
+    <article class="stat-card">
+      <span class="stat-icon">
+        <i class="bi bi-people"></i>
+      </span>
+
+      <div>
+        <span class="stat-label">Total users</span>
+        <strong class="stat-value">
+          {{ quickNav.storeData.store['total_users'] || 0 | number }}
+        </strong>
+      </div>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-icon stat-icon--green">
+        <i class="bi bi-person-check"></i>
+      </span>
+
+      <div>
+        <span class="stat-label">Active users</span>
+        <strong class="stat-value">
+          {{ quickNav.storeData.store['active_users'] || 0 | number }}
+        </strong>
+      </div>
+    </article>
+  </section>
+
+  <!-- Find a user -->
+  <section *ngIf="loadNewUser" class="management-card search-card">
+    <div class="section-heading">
+      <span class="section-icon">
+        <i class="bi bi-search"></i>
+      </span>
+
+      <div>
+        <h2>Find a user</h2>
+        <p>Enter their email address or username.</p>
+      </div>
+    </div>
+
+    <form class="search-form-" (ngSubmit)="getuserInfo()">
+      <div class="field">
+        <label for="manage-user">Email or username</label>
+
+        <div class="input-with-icon">
+          <i class="bi bi-person" aria-hidden="true"></i>
+          <input
+            id="manage-user"
+            name="manageUser"
+            [(ngModel)]="manageUser"
+            type="text"
+            placeholder="Enter email or username"
+            autocomplete="off"
+            required
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="primary-button"
+        [disabled]="!manageUser?.trim()"
+      >
+        Load user
+        <i class="bi bi-arrow-right"></i>
+      </button>
+    </form>
+  </section>
+
+  <!-- Loaded user -->
+  <ng-container *ngIf="!loadNewUser">
+    <ng-container *ngIf="quickNav.storeData.store['loaded_user'] as user">
+      <div class="user-toolbar">
+        <span>
+          <i class="bi bi-person-check"></i>
+          Account loaded
+        </span>
+
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="loadNewUser = true"
+        >
+          <i class="bi bi-search"></i>
+          Find another user
+        </button>
+      </div>
+
+      <div
+        class="management-layout"
+        [class.management-layout--single]="!quickNav.storeData.store['is_admin']"
+      >
+        <!-- Account overview -->
+        <section
+          *ngIf="quickNav.storeData.store['is_admin']"
+          class="management-card user-card"
+        >
+          <header class="user-card-header">
+            <div class="user-identity">
+              <div class="user-avatar">
+                {{ (user.username || '?').charAt(0).toUpperCase() }}
+              </div>
+
+              <div class="user-details">
+                <h2>{{ user.username }}</h2>
+                <span
+                  class="role-badge"
+                  [class.role-badge--agent]="user.is_agent"
+                >
+                  {{ user.is_agent ? 'Agent' : 'User' }}
+                </span>
+              </div>
+            </div>
+
+            <span
+              class="account-status"
+              [class.account-status--active]="user.is_active"
+            >
+              <span class="status-dot"></span>
+              {{ user.is_active ? 'Active' : 'Inactive' }}
+            </span>
+          </header>
+
+          <div class="user-card-body">
+            <div class="balance-panel">
+              <span>Available balance</span>
+              <strong>
+                ${{ (user.balance || 0) | number:'1.2-2' }}
+              </strong>
+              <i class="bi bi-wallet2" aria-hidden="true"></i>
+            </div>
+
+            <div class="account-totals">
+              <div>
+                <span>Total deposits</span>
+                <strong>
+                  ${{ (user.history?.deposit || 0) | number:'1.2-2' }}
+                </strong>
+              </div>
+
+              <div>
+                <span>Total withdrawn</span>
+                <strong>
+                  ${{ (user.history?.withdraw || 0) | number:'1.2-2' }}
+                </strong>
+              </div>
+            </div>
+
+            <div class="detail-row joined-row">
+              <span>
+                <i class="bi bi-calendar3"></i>
+                Joined
+              </span>
+              <strong>{{ user.registered | date:'mediumDate' }}</strong>
+            </div>
+
+            <!-- <section class="account-section">
+              <h3>Game activity</h3>
+
+              <div class="detail-row">
+                <span>Company games</span>
+                <div class="detail-value">
+                  <strong>
+                    ${{ (user.bet_history?.records?.true?.won?.amount || 0)
+                        | number:'1.2-2' }}
+                  </strong>
+                  <small>
+                    {{ user.bet_history?.records?.true?.won?.count || 0 }} wins
+                  </small>
+                </div>
+              </div>
+
+              <div class="detail-row">
+                <span>Risk games</span>
+                <div class="detail-value">
+                  <strong>
+                    ${{ (user.bet_history?.records?.false?.won?.amount || 0)
+                        | number:'1.2-2' }}
+                  </strong>
+                  <small>
+                    {{ user.bet_history?.records?.false?.won?.count || 0 }} wins
+                  </small>
+                </div>
+              </div>
+            </section> -->
+
+            <ng-container *ngIf="user.is_agent">
+              <section
+                *ngIf="user.agent_data as agent"
+                class="account-section"
+              >
+                <h3>Agent overview</h3>
+
+                <div class="detail-row">
+                  <span>Leader promotion</span>
+                  <strong>${{ agent.bal | number:'1.2-2' }}</strong>
+                </div>
+
+                <div class="detail-row">
+                  <span>Agent withdrawn</span>
+                  <strong>
+                    ${{ agent.total_withdrawn | number:'1.2-2' }}
+                  </strong>
+                </div>
+
+                <div class="agent-remaining">
+                  <span>Remaining</span>
+                  <strong>
+                    ${{ (agent.bal - agent.total_withdrawn)
+                        | number:'1.2-2' }}
+                  </strong>
+                </div>
+              </section>
+            </ng-container>
+          </div>
+        </section>
+
+        <section *ngIf="user.plan_summary as stats" class="management-card plan-overview">
+          <header class="plan-overview-header">
+            <div class="plan-heading">
+              <span class="plan-icon">
+                <i class="bi bi-bar-chart-line"></i>
+              </span>
+
+              <div>
+                <h2>Plan overview</h2>
+                <p>Capital and earnings summary</p>
+              </div>
+            </div>
+
+            <span class="plan-badge">VIP {{ stats.plan_id }}</span>
+          </header>
+
+          <!-- Capital and daily rate -->
+          <div class="plan-capital">
+            <div>
+              <span class="plan-label">Active capital</span>
+              <strong class="capital-value">
+                {{ stats.active_capital | currency:'USD' }}
+              </strong>
+            </div>
+
+            <div class="daily-rate">
+              <span class="plan-label">Daily rate</span>
+              <strong>{{ stats.total_daily_percent | number:'1.0-2' }}%</strong>
+            </div>
+          </div>
+
+          <!-- Earnings -->
+          <div class="plan-earnings">
+            <div>
+              <span class="plan-label">Today's earnings</span>
+              <strong>{{ stats.todays_earning | currency:'USD' }}</strong>
+            </div>
+
+            <div>
+              <span class="plan-label">Total earned</span>
+              <strong class="earned-value">
+                {{ stats.total_earned | currency:'USD' }}
+              </strong>
+            </div>
+          </div>
+
+          <!-- Profit progress -->
+          <section class="profit-section">
+            <div class="profit-heading">
+              <h3>Profit progress</h3>
+              <span>
+                {{
+                  (stats.total_profit > 0
+                    ? stats.total_earned / stats.total_profit * 100
+                    : 0) | number:'1.0-1'
+                }}% earned
+              </span>
+            </div>
+
+            <progress
+              class="profit-progress"
+              [value]="stats.total_earned"
+              [max]="stats.total_profit > 0 ? stats.total_profit : 1"
+              aria-label="Profit earned"
+            ></progress>
+
+            <div class="profit-caption">
+              <span>
+                Remaining
+                <strong>{{ stats.total_profit_left | currency:'USD' }}</strong>
+              </span>
+
+              <span>
+                Total profit
+                <strong>{{ stats.total_profit | currency:'USD' }}</strong>
+              </span>
+            </div>
+          </section>
+
+          <!-- Completed plans -->
+          <footer class="completed-plans">
+            <span class="completed-heading">
+              <i class="bi bi-check2-circle"></i>
+              Completed plans
+            </span>
+
+            <div class="completed-metrics">
+              <div>
+                <span>Capital</span>
+                <strong>{{ stats.ended_capital | currency:'USD' }}</strong>
+              </div>
+
+              <div>
+                <span>Profit</span>
+                <strong>{{ stats.ended_profit | currency:'USD' }}</strong>
+              </div>
+            </div>
+          </footer>
+        </section>
+
+        <!-- Account actions -->
+        <section class="management-card actions-card">
+          <div class="section-heading">
+            <span class="section-icon">
+              <i class="bi bi-sliders"></i>
+            </span>
+
+            <div>
+              <h2>Manage account</h2>
+              <p>Select an action for {{ user.username }}.</p>
+            </div>
+          </div>
+
+          <form class="action-form" (ngSubmit)="loadUserData()">
+            <div class="field">
+              <label for="account-action">Account action</label>
+
+              <select
+                id="account-action"
+                name="accountAction"
+                [value]="selectedData || ''"
+                (change)="changeSelectedData($event)"
+              >
+                <option value="" disabled>Select an action</option>
+
+                <ng-container *ngIf="quickNav.storeData.store['is_admin']">
+                  <option value="promotion_info">View invites</option>
+                </ng-container>
+
+                <option data-prompt="amount" value="credit_agent">
+                  Credit wallet
+                </option>
+
+                <ng-container *ngIf="quickNav.storeData.store['is_admin']">
+                  <option
+                    data-prompt="amount"
+                    value="increase_agent_withdrawal_limit"
+                  >
+                    Increase withdrawal limit
+                  </option>
+                  <option value="remove_agent_tag">Remove agent tag</option>
+                  <option value="bypass_withdrawal">Bypass withdrawal</option>
+                  <option data-prompt="email" value="change_email">
+                    Change email
+                  </option>
+                  <option data-prompt="change-password" value="change_password">
+                    Change password
+                  </option>
+                  <option value="ban_user">Ban user</option>
+                  <option value="unban_user">Unban user</option>
+                </ng-container>
+              </select>
+            </div>
+
+            <div
+              *ngIf="
+                ['increase_agent_withdrawal_limit', 'credit_agent']
+                  .includes(selectedData)
+              "
+              class="field"
+            >
+              <label for="action-amount">Amount</label>
+              <div class="input-with-icon">
+                <span class="input-prefix">$</span>
+                <input
+                  id="action-amount"
+                  name="actionAmount"
+                  [(ngModel)]="sendingData"
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+            </div>
+
+            <div *ngIf="selectedData === 'change_email'" class="field">
+              <label for="new-email">New email address</label>
+              <input
+                id="new-email"
+                name="newEmail"
+                [(ngModel)]="sendingData"
+                type="email"
+                placeholder="Enter new email address"
+                required
+              />
+            </div>
+
+            <div *ngIf="selectedData === 'change_password'" class="field">
+              <label for="new-password">New password</label>
+
+              <div class="password-field">
+                <input
+                  id="new-password"
+                  name="newPassword"
+                  [(ngModel)]="sendingData"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="Enter new password"
+                  required
+                />
+
+                <button
+                  type="button"
+                  class="generate-button"
+                  (click)="sendingData = quickNav.generatePassword(6)"
+                >
+                  Generate
+                </button>
+              </div>
+            </div>
+
+            <div class="action-note">
+              <i class="bi bi-info-circle"></i>
+              <p>Check the selected account and details before submitting.</p>
+            </div>
+
+            <button
+              type="submit"
+              class="primary-button action-submit"
+              [disabled]="!selectedData || (!sendingData && dataPrompt)"
+            >
+              Submit action
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </form>
+        </section>
+      </div>
+
+      <section
+        *ngIf="selectedData === 'promotion_info'"
+        class="referral-section"
+      >
+        <app-referral-management></app-referral-management>
+      </section>
+    </ng-container>
+  </ng-container>
+</main>

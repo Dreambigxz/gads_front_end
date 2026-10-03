@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 
 import { RouterLink } from '@angular/router';
+import { GalleryComponent } from "../components/gallery/gallery.component";
 
 import {
   UseGuideService
@@ -20,7 +21,8 @@ import {
   selector: 'app-use-guide',
   imports: [
     CommonModule,
-    RouterLink
+    RouterLink,
+    GalleryComponent
   ],
   templateUrl: './use-guide.component.html',
   styleUrl: './use-guide.component.scss'
